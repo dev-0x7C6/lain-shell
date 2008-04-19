@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <CONFIG>
   <ProjectOptions>
-    <PathDelim Value="/"/>
+    <PathDelim Value="\"/>
     <Version Value="6"/>
     <General>
       <MainUnit Value="0"/>
-      <IconPath Value="./"/>
+      <IconPath Value=".\"/>
       <TargetFileExt Value=""/>
       <ActiveEditorIndexAtStart Value="2"/>
     </General>
@@ -16,6 +16,7 @@
     </VersionInfo>
     <PublishOptions>
       <Version Value="2"/>
+      <DestinationDirectory Value="$(TestDir)\publishedproject\"/>
       <IgnoreBinaries Value="False"/>
       <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
       <ExcludeFileFilter Value="*.(bak|ppu|ppw|o|so);*~;backup"/>
@@ -23,7 +24,7 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <LaunchingApplication PathPlusParams="/usr/kde/3.5/bin/konsole -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
+        <LaunchingApplication PathPlusParams="\usr\kde\3.5\bin\konsole -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
     <Units Count="61">
@@ -32,431 +33,461 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uniclient"/>
         <CursorPos X="10" Y="46"/>
-        <TopLine Value="26"/>
+        <TopLine Value="15"/>
         <EditorIndex Value="0"/>
-        <UsageCount Value="129"/>
+        <UsageCount Value="130"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="units/netutils.pas"/>
+        <Filename Value="units\netutils.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="NetUtils"/>
         <CursorPos X="24" Y="273"/>
         <TopLine Value="322"/>
-        <UsageCount Value="129"/>
+        <UsageCount Value="130"/>
       </Unit1>
       <Unit2>
-        <Filename Value="usr/src/fpc/packages/fcl-base/src/custapp.pp"/>
+        <Filename Value="usr\src\fpc\packages\fcl-base\src\custapp.pp"/>
         <UnitName Value="CustApp"/>
         <CursorPos X="15" Y="53"/>
         <TopLine Value="40"/>
         <UsageCount Value="6"/>
       </Unit2>
       <Unit3>
-        <Filename Value="src/main.pas"/>
+        <Filename Value="src\main.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Main"/>
-        <CursorPos X="25" Y="171"/>
-        <TopLine Value="128"/>
+        <CursorPos X="10" Y="73"/>
+        <TopLine Value="61"/>
         <EditorIndex Value="1"/>
-        <UsageCount Value="129"/>
+        <UsageCount Value="130"/>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
-        <Filename Value="usr/src/fpc/rtl/unix/crt.pp"/>
+        <Filename Value="usr\src\fpc\rtl\unix\crt.pp"/>
         <UnitName Value="Crt"/>
         <CursorPos X="6" Y="18"/>
         <TopLine Value="14"/>
         <UsageCount Value="8"/>
       </Unit4>
       <Unit5>
-        <Filename Value="usr/src/fpc/rtl/unix/baseunix.pp"/>
+        <Filename Value="usr\src\fpc\rtl\unix\baseunix.pp"/>
         <UnitName Value="BaseUnix"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="20"/>
         <UsageCount Value="6"/>
       </Unit5>
       <Unit6>
-        <Filename Value="usr/src/fpc/rtl/unix/unix.pp"/>
+        <Filename Value="usr\src\fpc\rtl\unix\unix.pp"/>
         <UnitName Value="Unix"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
         <UsageCount Value="6"/>
       </Unit6>
       <Unit7>
-        <Filename Value="usr/src/fpc/rtl/linux/termio.pp"/>
+        <Filename Value="usr\src\fpc\rtl\linux\termio.pp"/>
         <UnitName Value="termio"/>
         <CursorPos X="21" Y="30"/>
         <TopLine Value="20"/>
         <UsageCount Value="7"/>
       </Unit7>
       <Unit8>
-        <Filename Value="usr/src/fpc/packages/ncurses/src/ncurses.pp"/>
+        <Filename Value="usr\src\fpc\packages\ncurses\src\ncurses.pp"/>
         <UnitName Value="ncurses"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="33"/>
         <UsageCount Value="7"/>
       </Unit8>
       <Unit9>
-        <Filename Value="../../../windows/acmd/acmd.pas"/>
+        <Filename Value="..\..\..\windows\acmd\acmd.pas"/>
         <UnitName Value="ACmd"/>
         <CursorPos X="2" Y="21"/>
         <TopLine Value="2"/>
         <UsageCount Value="7"/>
       </Unit9>
       <Unit10>
-        <Filename Value="src/authorize.pas"/>
+        <Filename Value="src\authorize.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Authorize"/>
         <CursorPos X="32" Y="51"/>
         <TopLine Value="22"/>
-        <UsageCount Value="126"/>
+        <UsageCount Value="127"/>
       </Unit10>
       <Unit11>
-        <Filename Value="usr/src/fpc/rtl/inc/crth.inc"/>
+        <Filename Value="usr\src\fpc\rtl\inc\crth.inc"/>
         <CursorPos X="28" Y="94"/>
         <TopLine Value="69"/>
         <UsageCount Value="6"/>
       </Unit11>
       <Unit12>
-        <Filename Value="src/extensions.pas"/>
+        <Filename Value="src\extensions.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Extensions"/>
         <CursorPos X="37" Y="80"/>
         <TopLine Value="65"/>
-        <UsageCount Value="120"/>
+        <UsageCount Value="121"/>
       </Unit12>
       <Unit13>
-        <Filename Value="src/cconnect.pas"/>
+        <Filename Value="src\cconnect.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="cconnect"/>
         <CursorPos X="41" Y="238"/>
         <TopLine Value="25"/>
-        <UsageCount Value="116"/>
+        <UsageCount Value="117"/>
       </Unit13>
       <Unit14>
-        <Filename Value="src/caddons.pas"/>
+        <Filename Value="src\caddons.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="caddons"/>
         <CursorPos X="33" Y="121"/>
         <TopLine Value="86"/>
-        <UsageCount Value="115"/>
+        <UsageCount Value="116"/>
       </Unit14>
       <Unit15>
-        <Filename Value="C:/lazarus/fpc/2.2.1/source/rtl/win/wininc/redef.inc"/>
+        <Filename Value="C:\lazarus\fpc\2.2.1\source\rtl\win\wininc\redef.inc"/>
         <CursorPos X="21" Y="369"/>
         <TopLine Value="359"/>
         <UsageCount Value="6"/>
       </Unit15>
       <Unit16>
-        <Filename Value="usr/src/fpc/packages/libc/src/netdbh.inc"/>
+        <Filename Value="usr\src\fpc\packages\libc\src\netdbh.inc"/>
         <CursorPos X="58" Y="46"/>
         <TopLine Value="36"/>
         <UsageCount Value="6"/>
       </Unit16>
       <Unit17>
-        <Filename Value="usr/src/fpc/rtl/objpas/classes/classesh.inc"/>
+        <Filename Value="usr\src\fpc\rtl\objpas\classes\classesh.inc"/>
         <CursorPos X="44" Y="1362"/>
         <TopLine Value="1350"/>
         <UsageCount Value="8"/>
       </Unit17>
       <Unit18>
-        <Filename Value="mnt/seagate/sdb1/projekty/multiplatform/unistrike/client/src/cengine.pas"/>
+        <Filename Value="mnt\seagate\sdb1\projekty\multiplatform\unistrike\client\src\cengine.pas"/>
         <UnitName Value="CEngine"/>
         <CursorPos X="15" Y="18"/>
         <TopLine Value="1"/>
         <UsageCount Value="27"/>
       </Unit18>
       <Unit19>
-        <Filename Value="src/cengine.pas"/>
+        <Filename Value="src\cengine.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="CEngine"/>
         <CursorPos X="6" Y="27"/>
         <TopLine Value="1"/>
-        <UsageCount Value="92"/>
+        <UsageCount Value="93"/>
       </Unit19>
       <Unit20>
-        <Filename Value="usr/src/fpc/rtl/linux/system.pp"/>
+        <Filename Value="usr\src\fpc\rtl\linux\system.pp"/>
         <UnitName Value="System"/>
         <CursorPos X="9" Y="46"/>
         <TopLine Value="317"/>
         <UsageCount Value="6"/>
       </Unit20>
       <Unit21>
-        <Filename Value="usr/src/fpc/rtl/unix/sockets.pp"/>
+        <Filename Value="usr\src\fpc\rtl\unix\sockets.pp"/>
         <UnitName Value="Sockets"/>
         <CursorPos X="12" Y="61"/>
         <TopLine Value="56"/>
         <UsageCount Value="6"/>
       </Unit21>
       <Unit22>
-        <Filename Value="usr/src/fpc/rtl/inc/socketsh.inc"/>
+        <Filename Value="usr\src\fpc\rtl\inc\socketsh.inc"/>
         <CursorPos X="11" Y="167"/>
         <TopLine Value="90"/>
         <UsageCount Value="6"/>
       </Unit22>
       <Unit23>
-        <Filename Value="usr/src/fpc/rtl/unix/sysutils.pp"/>
+        <Filename Value="usr\src\fpc\rtl\unix\sysutils.pp"/>
         <UnitName Value="sysutils"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="27"/>
         <UsageCount Value="9"/>
       </Unit23>
       <Unit24>
-        <Filename Value="src/lang.pas"/>
+        <Filename Value="src\lang.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Lang"/>
-        <CursorPos X="73" Y="206"/>
-        <TopLine Value="168"/>
+        <CursorPos X="2" Y="126"/>
+        <TopLine Value="107"/>
         <EditorIndex Value="2"/>
-        <UsageCount Value="96"/>
+        <UsageCount Value="97"/>
         <Loaded Value="True"/>
       </Unit24>
       <Unit25>
-        <Filename Value="src/cserver.pas"/>
+        <Filename Value="src\cserver.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="cserver"/>
         <CursorPos X="47" Y="176"/>
         <TopLine Value="41"/>
-        <UsageCount Value="88"/>
+        <UsageCount Value="89"/>
       </Unit25>
       <Unit26>
-        <Filename Value="usr/src/fpc/rtl/unix/bunxovlh.inc"/>
+        <Filename Value="usr\src\fpc\rtl\unix\bunxovlh.inc"/>
         <CursorPos X="11" Y="50"/>
         <TopLine Value="38"/>
         <UsageCount Value="6"/>
       </Unit26>
       <Unit27>
-        <Filename Value="usr/src/fpc/rtl/inc/textrec.inc"/>
+        <Filename Value="usr\src\fpc\rtl\inc\textrec.inc"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="20"/>
         <UsageCount Value="6"/>
       </Unit27>
       <Unit28>
-        <Filename Value="usr/src/fpc/rtl/linux/termiosproc.inc"/>
+        <Filename Value="usr\src\fpc\rtl\linux\termiosproc.inc"/>
         <CursorPos X="26" Y="72"/>
         <TopLine Value="72"/>
         <UsageCount Value="6"/>
       </Unit28>
       <Unit29>
-        <Filename Value="usr/src/fpc/rtl/unix/serial.pp"/>
+        <Filename Value="usr\src\fpc\rtl\unix\serial.pp"/>
         <UnitName Value="Serial"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="28"/>
         <UsageCount Value="6"/>
       </Unit29>
       <Unit30>
-        <Filename Value="usr/src/fpc/rtl/linux/termios.inc"/>
+        <Filename Value="usr\src\fpc\rtl\linux\termios.inc"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="72"/>
         <UsageCount Value="6"/>
       </Unit30>
       <Unit31>
-        <Filename Value="usr/src/fpc/rtl/unix/termiosh.inc"/>
+        <Filename Value="usr\src\fpc\rtl\unix\termiosh.inc"/>
         <CursorPos X="11" Y="34"/>
         <TopLine Value="9"/>
         <UsageCount Value="6"/>
       </Unit31>
       <Unit32>
-        <Filename Value="usr/src/fpc/packages/ncurses/src/ncrt.pp"/>
+        <Filename Value="usr\src\fpc\packages\ncurses\src\ncrt.pp"/>
         <UnitName Value="nCrt"/>
         <CursorPos X="8" Y="35"/>
         <TopLine Value="18"/>
         <UsageCount Value="6"/>
       </Unit32>
       <Unit33>
-        <Filename Value="usr/src/fpc/packages/ncurses/src/ncrt.inc"/>
+        <Filename Value="usr\src\fpc\packages\ncurses\src\ncrt.inc"/>
         <CursorPos X="31" Y="87"/>
         <TopLine Value="70"/>
         <UsageCount Value="6"/>
       </Unit33>
       <Unit34>
-        <Filename Value="usr/src/fpc/packages/ncurses/src/ocrt.pp"/>
+        <Filename Value="usr\src\fpc\packages\ncurses\src\ocrt.pp"/>
         <UnitName Value="oCrt"/>
         <CursorPos X="43" Y="1696"/>
         <TopLine Value="1692"/>
         <UsageCount Value="6"/>
       </Unit34>
       <Unit35>
-        <Filename Value="usr/src/fpc/rtl/unix/dos.pp"/>
+        <Filename Value="usr\src\fpc\rtl\unix\dos.pp"/>
         <UnitName Value="Dos"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="21"/>
         <UsageCount Value="6"/>
       </Unit35>
       <Unit36>
-        <Filename Value="usr/src/fpc/rtl/inc/charset.pp"/>
+        <Filename Value="usr\src\fpc\rtl\inc\charset.pp"/>
         <UnitName Value="charset"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
         <UsageCount Value="6"/>
       </Unit36>
       <Unit37>
-        <Filename Value="usr/src/fpc/rtl/i386/cpu.pp"/>
+        <Filename Value="usr\src\fpc\rtl\i386\cpu.pp"/>
         <UnitName Value="cpu"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
         <UsageCount Value="6"/>
       </Unit37>
       <Unit38>
-        <Filename Value="usr/src/fpc/rtl/inc/exeinfo.pp"/>
+        <Filename Value="usr\src\fpc\rtl\inc\exeinfo.pp"/>
         <UnitName Value="exeinfo"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="964"/>
         <UsageCount Value="6"/>
       </Unit38>
       <Unit39>
-        <Filename Value="usr/src/fpc/rtl/inc/lineinfo.pp"/>
+        <Filename Value="usr\src\fpc\rtl\inc\lineinfo.pp"/>
         <UnitName Value="lineinfo"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="226"/>
         <UsageCount Value="6"/>
       </Unit39>
       <Unit40>
-        <Filename Value="usr/src/fpc/rtl/objpas/stdconvs.pp"/>
+        <Filename Value="usr\src\fpc\rtl\objpas\stdconvs.pp"/>
         <UnitName Value="stdconvs"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="413"/>
         <UsageCount Value="6"/>
       </Unit40>
       <Unit41>
-        <Filename Value="usr/src/fpc/rtl/unix/syscall.pp"/>
+        <Filename Value="usr\src\fpc\rtl\unix\syscall.pp"/>
         <UnitName Value="syscall"/>
         <CursorPos X="10" Y="7"/>
         <TopLine Value="1"/>
         <UsageCount Value="6"/>
       </Unit41>
       <Unit42>
-        <Filename Value="usr/src/fpc/rtl/linux/i386/sysnr.inc"/>
+        <Filename Value="usr\src\fpc\rtl\linux\i386\sysnr.inc"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
         <UsageCount Value="6"/>
       </Unit42>
       <Unit43>
-        <Filename Value="usr/src/fpc/rtl/linux/i386/syscallh.inc"/>
+        <Filename Value="usr\src\fpc\rtl\linux\i386\syscallh.inc"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="16"/>
         <UsageCount Value="6"/>
       </Unit43>
       <Unit44>
-        <Filename Value="src/ccrt.pas"/>
+        <Filename Value="src\ccrt.pas"/>
         <UnitName Value="CCrt"/>
         <CursorPos X="35" Y="57"/>
         <TopLine Value="24"/>
         <UsageCount Value="34"/>
       </Unit44>
       <Unit45>
-        <Filename Value="C:/lazarus/fpc/2.2.1/source/rtl/win/crt.pp"/>
+        <Filename Value="C:\lazarus\fpc\2.2.1\source\rtl\win\crt.pp"/>
         <UnitName Value="crt"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="835"/>
         <UsageCount Value="10"/>
       </Unit45>
       <Unit46>
-        <Filename Value="usr/src/fpc/rtl/unix/keyboard.pp"/>
+        <Filename Value="usr\src\fpc\rtl\unix\keyboard.pp"/>
         <UnitName Value="keyboard"/>
         <CursorPos X="26" Y="32"/>
         <TopLine Value="5"/>
         <UsageCount Value="10"/>
       </Unit46>
       <Unit47>
-        <Filename Value="usr/src/fpc/rtl/unix/classes.pp"/>
+        <Filename Value="usr\src\fpc\rtl\unix\classes.pp"/>
         <UnitName Value="Classes"/>
         <CursorPos X="10" Y="45"/>
         <TopLine Value="33"/>
         <UsageCount Value="11"/>
       </Unit47>
       <Unit48>
-        <Filename Value="usr/src/fpc/rtl/unix/tthread.inc"/>
+        <Filename Value="usr\src\fpc\rtl\unix\tthread.inc"/>
         <CursorPos X="3" Y="51"/>
         <TopLine Value="304"/>
         <UsageCount Value="10"/>
       </Unit48>
       <Unit49>
-        <Filename Value="usr/src/fpc/rtl/objpas/classes/classes.inc"/>
+        <Filename Value="usr\src\fpc\rtl\objpas\classes\classes.inc"/>
         <CursorPos X="16" Y="81"/>
         <TopLine Value="70"/>
         <UsageCount Value="10"/>
       </Unit49>
       <Unit50>
-        <Filename Value="usr/src/fpc/packages/pthreads/src/pthreads.pp"/>
+        <Filename Value="usr\src\fpc\packages\pthreads\src\pthreads.pp"/>
         <UnitName Value="pthreads"/>
         <CursorPos X="11" Y="29"/>
         <TopLine Value="20"/>
         <UsageCount Value="10"/>
       </Unit50>
       <Unit51>
-        <Filename Value="usr/src/fpc/rtl/unix/cthreads.pp"/>
+        <Filename Value="usr\src\fpc\rtl\unix\cthreads.pp"/>
         <UnitName Value="cthreads"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="37"/>
         <UsageCount Value="10"/>
       </Unit51>
       <Unit52>
-        <Filename Value="usr/src/fpc/packages/pthreads/src/pthrlinux.inc"/>
+        <Filename Value="usr\src\fpc\packages\pthreads\src\pthrlinux.inc"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="5"/>
         <UsageCount Value="10"/>
       </Unit52>
       <Unit53>
-        <Filename Value="usr/src/fpc/rtl/unix/initc.pp"/>
+        <Filename Value="usr\src\fpc\rtl\unix\initc.pp"/>
         <UnitName Value="initc"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="70"/>
         <UsageCount Value="10"/>
       </Unit53>
       <Unit54>
-        <Filename Value="usr/src/fpc/rtl/inc/keybrdh.inc"/>
+        <Filename Value="usr\src\fpc\rtl\inc\keybrdh.inc"/>
         <CursorPos X="11" Y="135"/>
         <TopLine Value="124"/>
         <UsageCount Value="10"/>
       </Unit54>
       <Unit55>
-        <Filename Value="usr/src/fpc/packages/libc/src/libc.pp"/>
+        <Filename Value="usr\src\fpc\packages\libc\src\libc.pp"/>
         <UnitName Value="libc"/>
         <CursorPos X="8" Y="118"/>
         <TopLine Value="93"/>
         <UsageCount Value="10"/>
       </Unit55>
       <Unit56>
-        <Filename Value="usr/src/fpc/rtl/linux/linux.pp"/>
+        <Filename Value="usr\src\fpc\rtl\linux\linux.pp"/>
         <UnitName Value="Linux"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="331"/>
         <UsageCount Value="10"/>
       </Unit56>
       <Unit57>
-        <Filename Value="usr/src/fpc/packages/libc/src/types.inc"/>
+        <Filename Value="usr\src\fpc\packages\libc\src\types.inc"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
         <UsageCount Value="10"/>
       </Unit57>
       <Unit58>
-        <Filename Value="usr/src/fpc/packages/libc/src/kernelioctl.pp"/>
+        <Filename Value="usr\src\fpc\packages\libc\src\kernelioctl.pp"/>
         <UnitName Value="kernelioctl"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
         <UsageCount Value="10"/>
       </Unit58>
       <Unit59>
-        <Filename Value="usr/src/fpc/rtl/inc/threadh.inc"/>
+        <Filename Value="usr\src\fpc\rtl\inc\threadh.inc"/>
         <CursorPos X="10" Y="123"/>
         <TopLine Value="102"/>
         <UsageCount Value="10"/>
       </Unit59>
       <Unit60>
-        <Filename Value="usr/src/fpc/packages/libc/src/bnetdbh.inc"/>
+        <Filename Value="usr\src\fpc\packages\libc\src\bnetdbh.inc"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
         <UsageCount Value="10"/>
       </Unit60>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
+    <JumpHistory Count="7" HistoryIndex="6">
+      <Position1>
+        <Filename Value="src\lang.pas"/>
+        <Caret Line="206" Column="73" TopLine="168"/>
+      </Position1>
+      <Position2>
+        <Filename Value="src\lang.pas"/>
+        <Caret Line="118" Column="22" TopLine="86"/>
+      </Position2>
+      <Position3>
+        <Filename Value="src\lang.pas"/>
+        <Caret Line="111" Column="34" TopLine="93"/>
+      </Position3>
+      <Position4>
+        <Filename Value="src\lang.pas"/>
+        <Caret Line="115" Column="30" TopLine="96"/>
+      </Position4>
+      <Position5>
+        <Filename Value="src\lang.pas"/>
+        <Caret Line="32" Column="1" TopLine="22"/>
+      </Position5>
+      <Position6>
+        <Filename Value="src\lang.pas"/>
+        <Caret Line="33" Column="35" TopLine="14"/>
+      </Position6>
+      <Position7>
+        <Filename Value="src\lang.pas"/>
+        <Caret Line="118" Column="41" TopLine="100"/>
+      </Position7>
+    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
+    <PathDelim Value="\"/>
     <SearchPaths>
-      <OtherUnitFiles Value="units/;src/;lang/"/>
+      <OtherUnitFiles Value="units\;src\;lang\"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>

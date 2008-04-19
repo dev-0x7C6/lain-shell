@@ -28,7 +28,9 @@ uses
 Const
  WindowsCodePageEn :WideString = '437';
  WindowsCodePagePl :WideString = '852';
- WindowsManualCodePageID = 437;
+
+Var
+ WindowsManualCodePageID :Longint = 437;
  WindowsManualCodePage :Boolean = False;
 
 var
@@ -74,7 +76,7 @@ var
  
  function CMD_SetLang(var Params :TParams) :Longint;
  {$ifdef windows}
- // function CMD_SetCodePage(var Params :TParams) :Longint;
+  function CMD_SetConsoleCodePage(var Params :TParams) :Longint;
  // function CMD_SetConsoleCodePage(var Params :TParams) :Longint;
  {$endif}
  
@@ -102,18 +104,26 @@ begin
 end;
 
 {$ifdef windows}
-function CMD_SetConsoleCodePage(var Params :TParams);
-begin
- if Length(Params) < 2 then
+ function CMD_SetConsoleCodePage(var Params :TParams) :Longint;
+ var
+  Value :Longint;
  begin
-  Writeln('Variable: CodePage')
-  Writeln;
-  Exit(CMD_Fail);
+  if Length(Params) < 2 then
+  begin
+   Writeln('Variable: CodePage');
+   Writeln;
+   Exit(CMD_Fail);
+  end;
+  Value := StrToIntDef(Params[2], 0);
+  WindowsManualCodePage := (Value <> 0);
+  WindowsManualCodePageID := Value;
+  if WindowsManualCodePage = True then
+  begin
+   SetConsoleCP(WindowsManualCodePageID);
+   Writeln(Prefix, 'New codepage set');
+  end;
+  Result := CMD_Done;
  end;
- 
- 
- 
-end;
 {$endif}
 
 function TMultiLanguageSupport.GetString(const Value :WideString) :WideString;
@@ -185,8 +195,8 @@ begin
   begin
    if DefaultLang = 'en' then CodePage := '_cp' + WindowsCodePageEn;
    if DefaultLang = 'pl' then CodePage := '_cp' + WindowsCodePagePl;
-  end;
-   CodePage := IntToStr(WindowsManualCodePageID) + '_cp' + DefaultLang;
+  end else
+   CodePage := '_cp' + IntToStr(WindowsManualCodePageID);
    
   LangFile :=  LangDirectory + '\' + DefaultLang + '\' + LangFileName +
               CodePage + '.' + LangFileExt;

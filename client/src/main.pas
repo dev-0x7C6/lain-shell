@@ -135,6 +135,9 @@ begin
  end;
  Cmd := LowerCase(Params[1]);
  if (Cmd = 'lang') then Exit(CMD_SetLang(Params));
+{$ifdef windows}
+ if (Cmd = 'codepage') then Exit(CMD_SetConsoleCodePage(Params));
+{$endif}
  Writeln(Format(MultiLanguageSupport.GetString('MsgCmdSetUnknownVariable'), [Cmd]));
  Writeln;
 end;
