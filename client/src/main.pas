@@ -48,7 +48,7 @@ type
   Password :WideString;
  end;
  
- function Main :Longint;
+ function MainFunc :Longint;
  function CMDCase(var Params :TParams) :Longint;
 
 var
@@ -65,7 +65,7 @@ implementation
 
 uses CConnect, CAddons, Authorize, Extensions, Lang, CServer;
 
-function Main :Longint;
+function MainFunc :Longint;
 var
  Cmd :WideString;
 begin

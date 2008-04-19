@@ -28,7 +28,8 @@ uses
 Const
  WindowsCodePageEn :WideString = '437';
  WindowsCodePagePl :WideString = '852';
-
+ WindowsManualCodePageID = 437;
+ WindowsManualCodePage :Boolean = False;
 
 var
  LangDirectory :WideString = 'lang';
@@ -101,13 +102,18 @@ begin
 end;
 
 {$ifdef windows}
-{function CMD_SetConsoleCodePage(var Params :TParams);
+function CMD_SetConsoleCodePage(var Params :TParams);
 begin
  if Length(Params) < 2 then
  begin
-  Writeln('Using SetConsoleCodePage')
+  Writeln('Variable: CodePage')
+  Writeln;
+  Exit(CMD_Fail);
  end;
-end;     }
+ 
+ 
+ 
+end;
 {$endif}
 
 function TMultiLanguageSupport.GetString(const Value :WideString) :WideString;
@@ -175,10 +181,14 @@ begin
  {$endif}
  {$ifdef windows}
   CodePage := '';
-  if DefaultLang = 'en' then CodePage := '_cp' + WindowsCodePageEn;
-  if DefaultLang = 'pl' then CodePage := '_cp' + WindowsCodePagePl;
-  //if DefaultLang = 'user' then CodePage := ManualCodePage;
-  LangFile := {ExtractFileDir(ParamStr(0)) + '\'} LangDirectory + '\' + DefaultLang + '\' + LangFileName +
+  if WindowsManualCodePage = False then
+  begin
+   if DefaultLang = 'en' then CodePage := '_cp' + WindowsCodePageEn;
+   if DefaultLang = 'pl' then CodePage := '_cp' + WindowsCodePagePl;
+  end;
+   CodePage := IntToStr(WindowsManualCodePageID) + '_cp' + DefaultLang;
+   
+  LangFile :=  LangDirectory + '\' + DefaultLang + '\' + LangFileName +
               CodePage + '.' + LangFileExt;
  {$endif}
  if not FileExists(LangFile) then

@@ -43,7 +43,7 @@ type
 
 procedure TUniStrikeApp.DoRun;
 begin
- Main.Main;
+ MainFunc;
  Terminate;
 end;
 
