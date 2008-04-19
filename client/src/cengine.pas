@@ -21,10 +21,17 @@ unit CEngine;
 
 interface
 
+uses Classes, SysUtils;
+
 Const
+ SendQueryDone = 0;
+ SendQueryFail = 1;
+ 
  Lain_Error = -1;
  Lain_Disconnect = 0;
  Lain_Logoff = 1;
+ 
+ 
  
 type
  TUserIdent = packed record
@@ -32,5 +39,48 @@ type
   Password :Array[0..63] of WideChar;
  end;
 
+var
+ QueryEvent :PRTLEvent;
+
+ function LainClientSendQuery(ID :Word) :Longint;
+ function LainClientQueryLoop :Longint;
+
 implementation
+
+uses Main;
+
+function LainClientSendQuery(ID :Word) :Longint;
+var
+ Query :Word;
+begin
+ if Connection.Connected = True then
+ begin
+  Query := ID;
+  RTLEventWaitFor(QueryEvent);
+  if Connection.Send(Query, SizeOf(Query)) = SizeOf(Query) then
+   RTLEventResetEvent(QueryEvent) else
+   Exit(SendQueryFail);
+  Result := SendQueryDone;
+ end else
+  Result := SendQueryFail;
+end;
+
+function LainClientQueryLoop :Longint;
+begin
+ {code ...}
+
+ RTLEventSetEvent(QueryEvent);
+end;
+
+
+
+initialization
+begin
+ QueryEvent := RTLEventCreate;
+ RTLEventSetEvent(QueryEvent);
+end;
+ 
+finalization
+ RTLEventDestroy(QueryEvent);
+
 end.

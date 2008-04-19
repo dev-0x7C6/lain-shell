@@ -65,6 +65,14 @@ implementation
 
 uses CConnect, CAddons, Authorize, Extensions, Lang, CServer;
 
+procedure PaintConsoleTitle;
+begin
+ TextColor(White);
+ Writeln(format(MultiLanguageSupport.GetString('MsgWelcome'), [ConsoleTitle]));
+ TextColor(LightGray);
+ Writeln;
+end;
+
 function MainFunc :Longint;
 var
  Cmd :WideString;
@@ -76,10 +84,7 @@ begin
  Writeln(ParamStr(0));
  if AnyLanguageSupport then
  begin
-  TextColor(White);
-  Writeln(format(MultiLanguageSupport.GetString('MsgWelcome'), [ConsoleTitle]));
-  TextColor(LightGray);
-  Writeln;
+  PaintConsoleTitle;
   repeat
    TextColor(LightGreen); Write(ConsoleUser, '@', ConsoleHost);
    TextColor(LightBlue); Write(' ~ # ');
@@ -107,6 +112,11 @@ begin
  Cmd := LowerCase(Params[0]);
  
  if (Cmd = 'about') then Exit(CMD_About(Params));
+ if (CMD = 'clear') then begin
+  ClrScr;
+  PaintConsoleTitle;
+  Exit(CMD_Done);
+ end;
  if (Cmd = 'connect') then Exit(CMD_Connect(Params));
  if (Cmd = 'disconnect') then Exit(CMD_Disconnect(Params));
  if (Cmd = 'help') then Exit(CMD_Help(Params));

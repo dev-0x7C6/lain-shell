@@ -16,7 +16,7 @@
   MA 02111-1307, USA.
 }
 
-program UniClient;
+program LainClient;
 
 {$mode objfpc}{$H+}
 

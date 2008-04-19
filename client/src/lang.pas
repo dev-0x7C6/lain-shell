@@ -197,7 +197,7 @@ begin
    if DefaultLang = 'pl' then CodePage := '_cp' + WindowsCodePagePl;
   end else
    CodePage := '_cp' + IntToStr(WindowsManualCodePageID);
-   
+
   LangFile :=  LangDirectory + '\' + DefaultLang + '\' + LangFileName +
               CodePage + '.' + LangFileExt;
  {$endif}

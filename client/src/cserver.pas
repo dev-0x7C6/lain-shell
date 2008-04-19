@@ -17,7 +17,7 @@
 }
 
 
-unit cserver;
+unit CServer;
 
 {$mode objfpc}{$H+}
 
