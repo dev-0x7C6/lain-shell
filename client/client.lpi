@@ -7,7 +7,6 @@
       <MainUnit Value="0"/>
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
-      <ActiveEditorIndexAtStart Value="4"/>
     </General>
     <VersionInfo>
       <ProjectVersion Value=""/>
@@ -33,9 +32,7 @@
         <UnitName Value="uniclient"/>
         <CursorPos X="13" Y="19"/>
         <TopLine Value="6"/>
-        <EditorIndex Value="0"/>
-        <UsageCount Value="131"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="133"/>
       </Unit0>
       <Unit1>
         <Filename Value="units/netutils.pas"/>
@@ -43,7 +40,7 @@
         <UnitName Value="NetUtils"/>
         <CursorPos X="24" Y="273"/>
         <TopLine Value="322"/>
-        <UsageCount Value="131"/>
+        <UsageCount Value="133"/>
       </Unit1>
       <Unit2>
         <Filename Value="usr/src/fpc/packages/fcl-base/src/custapp.pp"/>
@@ -58,9 +55,7 @@
         <UnitName Value="Main"/>
         <CursorPos X="27" Y="164"/>
         <TopLine Value="61"/>
-        <EditorIndex Value="1"/>
-        <UsageCount Value="131"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="133"/>
       </Unit3>
       <Unit4>
         <Filename Value="usr/src/fpc/rtl/unix/crt.pp"/>
@@ -110,9 +105,7 @@
         <UnitName Value="Authorize"/>
         <CursorPos X="16" Y="32"/>
         <TopLine Value="20"/>
-        <EditorIndex Value="4"/>
-        <UsageCount Value="128"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="130"/>
       </Unit10>
       <Unit11>
         <Filename Value="usr/src/fpc/rtl/inc/crth.inc"/>
@@ -126,7 +119,7 @@
         <UnitName Value="Extensions"/>
         <CursorPos X="37" Y="80"/>
         <TopLine Value="65"/>
-        <UsageCount Value="122"/>
+        <UsageCount Value="124"/>
       </Unit12>
       <Unit13>
         <Filename Value="src/cconnect.pas"/>
@@ -134,9 +127,7 @@
         <UnitName Value="cconnect"/>
         <CursorPos X="2" Y="149"/>
         <TopLine Value="137"/>
-        <EditorIndex Value="5"/>
-        <UsageCount Value="118"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="120"/>
       </Unit13>
       <Unit14>
         <Filename Value="src/caddons.pas"/>
@@ -144,9 +135,7 @@
         <UnitName Value="caddons"/>
         <CursorPos X="21" Y="127"/>
         <TopLine Value="88"/>
-        <EditorIndex Value="3"/>
-        <UsageCount Value="117"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="119"/>
       </Unit14>
       <Unit15>
         <Filename Value="C:/lazarus/fpc/2.2.1/source/rtl/win/wininc/redef.inc"/>
@@ -179,9 +168,7 @@
         <UnitName Value="CEngine"/>
         <CursorPos X="4" Y="57"/>
         <TopLine Value="35"/>
-        <EditorIndex Value="2"/>
-        <UsageCount Value="94"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="96"/>
       </Unit19>
       <Unit20>
         <Filename Value="usr/src/fpc/rtl/linux/system.pp"/>
@@ -216,9 +203,7 @@
         <UnitName Value="Lang"/>
         <CursorPos X="13" Y="240"/>
         <TopLine Value="202"/>
-        <EditorIndex Value="7"/>
-        <UsageCount Value="98"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="100"/>
       </Unit24>
       <Unit25>
         <Filename Value="src/cserver.pas"/>
@@ -226,9 +211,7 @@
         <UnitName Value="CServer"/>
         <CursorPos X="8" Y="20"/>
         <TopLine Value="13"/>
-        <EditorIndex Value="6"/>
-        <UsageCount Value="90"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="92"/>
       </Unit25>
       <Unit26>
         <Filename Value="usr/src/fpc/rtl/unix/bunxovlh.inc"/>
