@@ -42,12 +42,36 @@ type
 var
  QueryEvent :PRTLEvent;
 
+{$ifdef unix}
+ type
+  TLainClientQueryLoopThread = class(TThread)
+  protected
+   procedure Execute; override;
+  public
+   constructor Create;
+  end;
+{$endif}
+
  function LainClientSendQuery(ID :Word) :Longint;
  function LainClientQueryLoop :Longint;
 
 implementation
 
 uses Main;
+
+{$ifdef unix}
+ constructor TLainClientQueryLoopThread.Create;
+ begin
+  inherited Create(False);
+  FreeOnTerminate := True; //
+ end;
+ 
+ procedure TLainClientQueryLoopThread.Execute;
+ begin
+  LainClientQueryLoop;
+ end;
+{$endif}
+
 
 function LainClientSendQuery(ID :Word) :Longint;
 var
@@ -66,10 +90,17 @@ begin
 end;
 
 function LainClientQueryLoop :Longint;
+var
+ Value :Word;
 begin
- {code ...}
-
- RTLEventSetEvent(QueryEvent);
+ while Connection.Recv(Value, SizeOf(Value)) = SizeOf(Value) do
+ begin
+  Case Value of
+   0: Break;
+   1: Break;
+  end;
+  RTLEventSetEvent(QueryEvent);
+ end;
 end;
 
 
