@@ -31,7 +31,6 @@ implementation
 
 uses Main, Lang;
 
-
  function OnAuthorize :Longint;
  var
   ControlSum :Longword;

@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <CONFIG>
   <ProjectOptions>
-    <PathDelim Value="\"/>
+    <PathDelim Value="/"/>
     <Version Value="6"/>
     <General>
       <MainUnit Value="0"/>
-      <IconPath Value=".\"/>
+      <IconPath Value="./"/>
       <TargetFileExt Value=""/>
-      <ActiveEditorIndexAtStart Value="0"/>
+      <ActiveEditorIndexAtStart Value="1"/>
     </General>
     <VersionInfo>
       <ProjectVersion Value=""/>
@@ -16,7 +16,6 @@
     </VersionInfo>
     <PublishOptions>
       <Version Value="2"/>
-      <DestinationDirectory Value="$(TestDir)\publishedproject\"/>
       <IgnoreBinaries Value="False"/>
       <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
       <ExcludeFileFilter Value="*.(bak|ppu|ppw|o|so);*~;backup"/>
@@ -24,7 +23,7 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <LaunchingApplication Use="True" PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
+        <LaunchingApplication Use="True" PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
     <RequiredPackages Count="1">
@@ -38,13 +37,13 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uniserver"/>
         <CursorPos X="22" Y="51"/>
-        <TopLine Value="35"/>
-        <EditorIndex Value="2"/>
+        <TopLine Value="18"/>
+        <EditorIndex Value="3"/>
         <UsageCount Value="48"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="units\fsutils.pas"/>
+        <Filename Value="units/fsutils.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="FSUtils"/>
         <CursorPos X="14" Y="3"/>
@@ -52,7 +51,7 @@
         <UsageCount Value="28"/>
       </Unit1>
       <Unit2>
-        <Filename Value="units\netutils.pas"/>
+        <Filename Value="units/netutils.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="NetUtils"/>
         <CursorPos X="25" Y="253"/>
@@ -60,97 +59,69 @@
         <UsageCount Value="28"/>
       </Unit2>
       <Unit3>
-        <Filename Value="src\main.pas"/>
+        <Filename Value="src/main.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Main"/>
         <CursorPos X="50" Y="143"/>
         <TopLine Value="141"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="2"/>
         <UsageCount Value="48"/>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
-        <Filename Value="src\authorize.pas"/>
+        <Filename Value="src/authorize.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Authorize"/>
-        <CursorPos X="9" Y="44"/>
-        <TopLine Value="36"/>
+        <CursorPos X="35" Y="122"/>
+        <TopLine Value="99"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="48"/>
         <Loaded Value="True"/>
       </Unit4>
       <Unit5>
-        <Filename Value="usr\src\fpc\rtl\inc\systemh.inc"/>
+        <Filename Value="usr/src/fpc/rtl/inc/systemh.inc"/>
         <CursorPos X="16" Y="340"/>
         <TopLine Value="340"/>
         <UsageCount Value="12"/>
       </Unit5>
       <Unit6>
-        <Filename Value="..\..\unistrike\server\src\engine.pas"/>
+        <Filename Value="../../unistrike/server/src/engine.pas"/>
         <UnitName Value="Engine"/>
         <CursorPos X="35" Y="54"/>
         <TopLine Value="27"/>
         <UsageCount Value="23"/>
       </Unit6>
       <Unit7>
-        <Filename Value="src\engine.pas"/>
+        <Filename Value="src/engine.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Engine"/>
-        <CursorPos X="22" Y="41"/>
+        <CursorPos X="22" Y="48"/>
         <TopLine Value="9"/>
+        <EditorIndex Value="1"/>
         <UsageCount Value="24"/>
+        <Loaded Value="True"/>
       </Unit7>
       <Unit8>
-        <Filename Value="..\client\src\cengine.pas"/>
+        <Filename Value="../client/src/cengine.pas"/>
         <UnitName Value="CEngine"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
         <UsageCount Value="20"/>
       </Unit8>
       <Unit9>
-        <Filename Value="..\client\client.lpi"/>
+        <Filename Value="../client/client.lpi"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
         <UsageCount Value="10"/>
         <SyntaxHighlighter Value="XML"/>
       </Unit9>
     </Units>
-    <JumpHistory Count="7" HistoryIndex="6">
-      <Position1>
-        <Filename Value="src\main.pas"/>
-        <Caret Line="142" Column="41" TopLine="130"/>
-      </Position1>
-      <Position2>
-        <Filename Value="server.lpr"/>
-        <Caret Line="32" Column="6" TopLine="1"/>
-      </Position2>
-      <Position3>
-        <Filename Value="src\authorize.pas"/>
-        <Caret Line="56" Column="30" TopLine="45"/>
-      </Position3>
-      <Position4>
-        <Filename Value="src\main.pas"/>
-        <Caret Line="142" Column="40" TopLine="131"/>
-      </Position4>
-      <Position5>
-        <Filename Value="src\main.pas"/>
-        <Caret Line="148" Column="26" TopLine="131"/>
-      </Position5>
-      <Position6>
-        <Filename Value="src\main.pas"/>
-        <Caret Line="142" Column="40" TopLine="130"/>
-      </Position6>
-      <Position7>
-        <Filename Value="src\authorize.pas"/>
-        <Caret Line="55" Column="42" TopLine="45"/>
-      </Position7>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
-    <PathDelim Value="\"/>
     <SearchPaths>
-      <OtherUnitFiles Value="src\;units\"/>
+      <OtherUnitFiles Value="src/;units/"/>
     </SearchPaths>
     <CodeGeneration>
       <Generate Value="Faster"/>

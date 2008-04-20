@@ -30,11 +30,11 @@ Const
  CMD_Disconnect = 0;
  CMD_Logoff = 1;
 
- function RecvCommand(Connection :TTcpIpCustomConnection) :Longint;
+ function LainServerQueryEngine(Connection :TTcpIpCustomConnection) :Longint;
 
 implementation
 
- function RecvCommand(Connection :TTcpIpCustomConnection) :Longint;
+ function LainServerQueryEngine(Connection :TTcpIpCustomConnection) :Longint;
  var
   CMD_Value :Word;
  begin
@@ -43,6 +43,8 @@ implementation
    while ((CMD_Value = CMD_Disconnect) or (CMD_Value = CMD_Logoff)) <> True do
    begin
     if Connection.Recv(CMD_Value, SizeOf(CMD_Value)) <> SizeOf(CMD_Value) then
+     Exit(CMD_Error);
+    if Connection.Send(CMD_Value, SizeOf(CMD_Value)) <> SizeOf(CMD_Value) then
      Exit(CMD_Error);
    end;
    Result := CMD_Value;

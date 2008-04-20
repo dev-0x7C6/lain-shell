@@ -41,36 +41,18 @@ type
 
 var
  QueryEvent :PRTLEvent;
+ EngineEvent :PRTLEvent;
 
-{$ifdef unix}
- type
-  TLainClientQueryLoopThread = class(TThread)
-  protected
-   procedure Execute; override;
-  public
-   constructor Create;
-  end;
-{$endif}
+ procedure LainClientInitQueryEngine;
+ procedure LainClientDoneQueryEngine(TimeOut :Longint);
 
  function LainClientSendQuery(ID :Word) :Longint;
  function LainClientQueryLoop :Longint;
 
+
 implementation
 
 uses Main;
-
-{$ifdef unix}
- constructor TLainClientQueryLoopThread.Create;
- begin
-  inherited Create(False);
-  FreeOnTerminate := True; //
- end;
- 
- procedure TLainClientQueryLoopThread.Execute;
- begin
-  LainClientQueryLoop;
- end;
-{$endif}
 
 
 function LainClientSendQuery(ID :Word) :Longint;
@@ -82,9 +64,11 @@ begin
   Query := ID;
   RTLEventWaitFor(QueryEvent);
   if Connection.Send(Query, SizeOf(Query)) = SizeOf(Query) then
-   RTLEventResetEvent(QueryEvent) else
+  begin
+   RTLEventResetEvent(QueryEvent)
+   Exit(SendQueryDone);
+  end; else
    Exit(SendQueryFail);
-  Result := SendQueryDone;
  end else
   Result := SendQueryFail;
 end;
@@ -93,25 +77,34 @@ function LainClientQueryLoop :Longint;
 var
  Value :Word;
 begin
+ RTLEventResetEvent(EngineEvent);
  while Connection.Recv(Value, SizeOf(Value)) = SizeOf(Value) do
  begin
   Case Value of
-   0: Break;
+   0: begin
+       Connection.Disconnect;
+       Break;
+      end;
    1: Break;
   end;
   RTLEventSetEvent(QueryEvent);
  end;
+ RTLEventSetEvent(EngineEvent);
 end;
 
-
-
-initialization
+procedure LainClientInitQueryEngine;
 begin
  QueryEvent := RTLEventCreate;
+ EngineEvent := RTLEventCreate;
  RTLEventSetEvent(QueryEvent);
+ RTLEventSetEvent(EngineEvent);
 end;
- 
-finalization
+
+procedure LainClientDoneQueryEngine(TimeOut :Longint);
+begin
  RTLEventDestroy(QueryEvent);
+ RTLEventWaitFor(EngineEvent, TimeOut);
+ RTLEventDestroy(EngineEvent);
+end;
 
 end.

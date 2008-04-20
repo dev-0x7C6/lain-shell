@@ -7,7 +7,7 @@
       <MainUnit Value="0"/>
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
-      <ActiveEditorIndexAtStart Value="2"/>
+      <ActiveEditorIndexAtStart Value="4"/>
     </General>
     <VersionInfo>
       <ProjectVersion Value=""/>
@@ -23,7 +23,7 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <LaunchingApplication PathPlusParams="/usr/kde/3.5/bin/konsole -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
+        <LaunchingApplication Use="True" PathPlusParams="/usr/kde/3.5/bin/konsole -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
     <Units Count="61">
@@ -57,7 +57,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="Main"/>
         <CursorPos X="27" Y="164"/>
-        <TopLine Value="22"/>
+        <TopLine Value="61"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="131"/>
         <Loaded Value="True"/>
@@ -108,9 +108,11 @@
         <Filename Value="src/authorize.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Authorize"/>
-        <CursorPos X="32" Y="51"/>
-        <TopLine Value="22"/>
+        <CursorPos X="16" Y="32"/>
+        <TopLine Value="20"/>
+        <EditorIndex Value="4"/>
         <UsageCount Value="128"/>
+        <Loaded Value="True"/>
       </Unit10>
       <Unit11>
         <Filename Value="usr/src/fpc/rtl/inc/crth.inc"/>
@@ -130,17 +132,21 @@
         <Filename Value="src/cconnect.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="cconnect"/>
-        <CursorPos X="41" Y="238"/>
-        <TopLine Value="25"/>
+        <CursorPos X="2" Y="149"/>
+        <TopLine Value="137"/>
+        <EditorIndex Value="5"/>
         <UsageCount Value="118"/>
+        <Loaded Value="True"/>
       </Unit13>
       <Unit14>
         <Filename Value="src/caddons.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="caddons"/>
-        <CursorPos X="33" Y="121"/>
-        <TopLine Value="86"/>
+        <CursorPos X="21" Y="127"/>
+        <TopLine Value="88"/>
+        <EditorIndex Value="3"/>
         <UsageCount Value="117"/>
+        <Loaded Value="True"/>
       </Unit14>
       <Unit15>
         <Filename Value="C:/lazarus/fpc/2.2.1/source/rtl/win/wininc/redef.inc"/>
@@ -171,8 +177,8 @@
         <Filename Value="src/cengine.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="CEngine"/>
-        <CursorPos X="25" Y="65"/>
-        <TopLine Value="43"/>
+        <CursorPos X="4" Y="57"/>
+        <TopLine Value="35"/>
         <EditorIndex Value="2"/>
         <UsageCount Value="94"/>
         <Loaded Value="True"/>
@@ -210,7 +216,7 @@
         <UnitName Value="Lang"/>
         <CursorPos X="13" Y="240"/>
         <TopLine Value="202"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="7"/>
         <UsageCount Value="98"/>
         <Loaded Value="True"/>
       </Unit24>
@@ -220,7 +226,7 @@
         <UnitName Value="CServer"/>
         <CursorPos X="8" Y="20"/>
         <TopLine Value="13"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="6"/>
         <UsageCount Value="90"/>
         <Loaded Value="True"/>
       </Unit25>
@@ -455,28 +461,7 @@
         <UsageCount Value="10"/>
       </Unit60>
     </Units>
-    <JumpHistory Count="5" HistoryIndex="4">
-      <Position1>
-        <Filename Value="src/cengine.pas"/>
-        <Caret Line="45" Column="32" TopLine="22"/>
-      </Position1>
-      <Position2>
-        <Filename Value="src/cengine.pas"/>
-        <Caret Line="74" Column="1" TopLine="42"/>
-      </Position2>
-      <Position3>
-        <Filename Value="src/cengine.pas"/>
-        <Caret Line="65" Column="19" TopLine="43"/>
-      </Position3>
-      <Position4>
-        <Filename Value="src/cengine.pas"/>
-        <Caret Line="96" Column="29" TopLine="74"/>
-      </Position4>
-      <Position5>
-        <Filename Value="src/cengine.pas"/>
-        <Caret Line="65" Column="19" TopLine="43"/>
-      </Position5>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>

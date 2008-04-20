@@ -119,7 +119,7 @@ begin
 
   if Verfication then
   begin
-   Result := RecvCommand(Connection);
+   Result := LainServerQueryEngine(Connection);
 
    case Result of
     CMD_Error: Break;
