@@ -71,12 +71,12 @@ procedure RCConnectionAccepted(Connection :TConnection);
 var
  Conn :TTcpIpCustomConnection;
  ID :Longword;
- OutPut :Text;
+ //OutPut :Text;
 begin
  EnterCriticalSection(CriticalSection);
- AssignCrt(OutPut);
- ReWrite(OutPut);
- Writeln(OutPut, 'Localhost <<< ', HostAddrToStr(NetToHost(Connection.Addr.sin_addr)));
+ //AssignCrt(OutPut);
+ //ReWrite(OutPut);
+ //Writeln(OutPut, 'Localhost <<< ', HostAddrToStr(NetToHost(Connection.Addr.sin_addr)));
  SetLength(Connections, Length(Connections) + 1);
  Connections[Length(Connections) - 1] := Connection;
  Conn := TTcpIpCustomConnection.Create;
@@ -85,7 +85,7 @@ begin
 
  ConnectionID += 1;
  Conn.Free;
- CloseFile(OutPut);
+ //CloseFile(OutPut);
  LeaveCriticalSection(CriticalSection);
 end;
 

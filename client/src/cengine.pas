@@ -65,9 +65,9 @@ begin
   RTLEventWaitFor(QueryEvent);
   if Connection.Send(Query, SizeOf(Query)) = SizeOf(Query) then
   begin
-   RTLEventResetEvent(QueryEvent)
+   RTLEventResetEvent(QueryEvent);
    Exit(SendQueryDone);
-  end; else
+  end else
    Exit(SendQueryFail);
  end else
   Result := SendQueryFail;

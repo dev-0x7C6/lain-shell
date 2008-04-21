@@ -7,6 +7,7 @@
       <MainUnit Value="0"/>
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
+      <ActiveEditorIndexAtStart Value="0"/>
     </General>
     <VersionInfo>
       <ProjectVersion Value=""/>
@@ -166,9 +167,11 @@
         <Filename Value="src/cengine.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="CEngine"/>
-        <CursorPos X="4" Y="57"/>
-        <TopLine Value="35"/>
+        <CursorPos X="6" Y="70"/>
+        <TopLine Value="48"/>
+        <EditorIndex Value="0"/>
         <UsageCount Value="96"/>
+        <Loaded Value="True"/>
       </Unit19>
       <Unit20>
         <Filename Value="usr/src/fpc/rtl/linux/system.pp"/>
@@ -209,9 +212,11 @@
         <Filename Value="src/cserver.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="CServer"/>
-        <CursorPos X="8" Y="20"/>
-        <TopLine Value="13"/>
+        <CursorPos X="5" Y="181"/>
+        <TopLine Value="158"/>
+        <EditorIndex Value="1"/>
         <UsageCount Value="92"/>
+        <Loaded Value="True"/>
       </Unit25>
       <Unit26>
         <Filename Value="usr/src/fpc/rtl/unix/bunxovlh.inc"/>
@@ -444,7 +449,32 @@
         <UsageCount Value="10"/>
       </Unit60>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
+    <JumpHistory Count="6" HistoryIndex="5">
+      <Position1>
+        <Filename Value="src/cengine.pas"/>
+        <Caret Line="57" Column="4" TopLine="35"/>
+      </Position1>
+      <Position2>
+        <Filename Value="src/cserver.pas"/>
+        <Caret Line="20" Column="8" TopLine="13"/>
+      </Position2>
+      <Position3>
+        <Filename Value="src/cengine.pas"/>
+        <Caret Line="69" Column="22" TopLine="19"/>
+      </Position3>
+      <Position4>
+        <Filename Value="src/cserver.pas"/>
+        <Caret Line="88" Column="4" TopLine="53"/>
+      </Position4>
+      <Position5>
+        <Filename Value="src/cengine.pas"/>
+        <Caret Line="69" Column="4" TopLine="47"/>
+      </Position5>
+      <Position6>
+        <Filename Value="src/cengine.pas"/>
+        <Caret Line="68" Column="35" TopLine="47"/>
+      </Position6>
+    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
