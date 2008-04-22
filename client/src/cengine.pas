@@ -44,6 +44,7 @@ var
  EngineEvent :PRTLEvent;
 
  procedure LainClientInitQueryEngine;
+ procedure LainClientResetQueryEngine;
  procedure LainClientDoneQueryEngine(TimeOut :Longint);
 
  function LainClientSendQuery(ID :Word) :Longint;
@@ -89,6 +90,7 @@ begin
   end;
   RTLEventSetEvent(QueryEvent);
  end;
+ RTLEventSetEvent(QueryEvent);
  RTLEventSetEvent(EngineEvent);
 end;
 
@@ -96,6 +98,12 @@ procedure LainClientInitQueryEngine;
 begin
  QueryEvent := RTLEventCreate;
  EngineEvent := RTLEventCreate;
+ RTLEventSetEvent(QueryEvent);
+ RTLEventSetEvent(EngineEvent);
+end;
+
+procedure LainClientResetQueryEngine;
+begin
  RTLEventSetEvent(QueryEvent);
  RTLEventSetEvent(EngineEvent);
 end;

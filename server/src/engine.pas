@@ -30,27 +30,24 @@ Const
  CMD_Disconnect = 0;
  CMD_Logoff = 1;
 
- function LainServerQueryEngine(Connection :TTcpIpCustomConnection) :Longint;
+ function LainServerQueryEngine(var Connection :TTcpIpCustomConnection) :Longint;
 
 implementation
 
- function LainServerQueryEngine(Connection :TTcpIpCustomConnection) :Longint;
- var
-  CMD_Value :Word;
+function LainServerQueryEngine(var Connection :TTcpIpCustomConnection) :Longint;
+var
+ CMD_Value :Word;
+begin
+ CMD_Value := 2;
+ while ((CMD_Value = CMD_Disconnect) or (CMD_Value = CMD_Logoff)) <> True do
  begin
-  if Connection.Recv(CMD_Value, SizeOf(CMD_Value)) = SizeOf(CMD_Value) then
-  begin
-   while ((CMD_Value = CMD_Disconnect) or (CMD_Value = CMD_Logoff)) <> True do
-   begin
-    if Connection.Recv(CMD_Value, SizeOf(CMD_Value)) <> SizeOf(CMD_Value) then
-     Exit(CMD_Error);
-    if Connection.Send(CMD_Value, SizeOf(CMD_Value)) <> SizeOf(CMD_Value) then
-     Exit(CMD_Error);
-   end;
-   Result := CMD_Value;
-  end else
-   Result := CMD_Error;
+  if Connection.Recv(CMD_Value, SizeOf(CMD_Value)) <> SizeOf(CMD_Value) then
+   Exit(CMD_Error);
+  if Connection.Send(CMD_Value, SizeOf(CMD_Value)) <> SizeOf(CMD_Value) then
+   Exit(CMD_Error);
  end;
+ Result := CMD_Value;
+end;
 
 end.
 

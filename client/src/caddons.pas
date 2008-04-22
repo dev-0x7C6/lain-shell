@@ -58,14 +58,11 @@ begin
 end;
 
 function CMD_Logout(var Params :TParams) :Longint;
-var
- CMD_Value :Word;
 begin
  if ((LainClientData.Authorized = True) and (Connection.Connected = True)) then
  begin
   Writeln(Prefix, MultiLanguageSupport.GetString('MsgLogoff'));
-  CMD_Value := Lain_Logoff;
-  if Connection.Send(CMD_Value, SizeOf(CMD_Value)) <> SizeOf(CMD_Value) then
+  if  LainClientSendQuery(Lain_Logoff) = SendQueryFail then
   begin
    Writeln(Prefix, MultiLanguageSupport.GetString('MsgCantLogoff'));
    Connection.Disconnect;

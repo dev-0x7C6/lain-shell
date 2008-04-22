@@ -55,8 +55,11 @@ begin
 
 /// at the moment, the server app is only for tests
 {$ifdef unix}
+ AssignFile(NetUtils.STDOutPut, '');
+ ReWrite(NetUtils.STDOutPut);
  Writeln('Press Enter to exit');
  Readln;
+ CloseFile(NetUtils.STDOutPut);
 {$endif}
 {$ifdef windows}
  while true do sleep(100);

@@ -72,8 +72,8 @@
         <Filename Value="src/authorize.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Authorize"/>
-        <CursorPos X="35" Y="122"/>
-        <TopLine Value="99"/>
+        <CursorPos X="5" Y="103"/>
+        <TopLine Value="67"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="48"/>
         <Loaded Value="True"/>
@@ -95,7 +95,7 @@
         <Filename Value="src/engine.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Engine"/>
-        <CursorPos X="22" Y="48"/>
+        <CursorPos X="89" Y="47"/>
         <TopLine Value="9"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="24"/>

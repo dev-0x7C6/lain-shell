@@ -31,14 +31,15 @@ uses
 
 implementation
 
-uses {$ifdef windows} Windows, {$endif} NetUtils, Lang, Extensions, CAddons, Threads;
+uses
+ {$ifdef windows} Windows, {$endif} NetUtils, Lang, Extensions, CAddons, Threads;
 
 var
 {$ifdef unix}
- UnixConnectThread :TUnixThread;
+ UnixThread :TUnixThread;
 {$endif}
 {$ifdef windows}
- WindowsConnectThread :TWindowsThread;
+ WindowsThread :TWindowsThread;
 {$endif}
 
  ThreadEvent :PRTLEvent;
@@ -134,12 +135,12 @@ begin
  ThreadFree := False;
  
 {$ifdef unix}
- UnixConnectThread := TUnixThread.Create(@UnixConnectThreadBind, nil);
- UnixConnectThread.CreateThread;
+ UnixThread := TUnixThread.Create(@UnixConnectThreadBind, nil);
+ UnixThread.CreateThread;
 {$endif}
 {$ifdef windows}
- WindowsConnectThread := TWindowsThread.Create(@WindowsConnectThreadBind, nil);
- WindowsConnectThread.CreateThread;
+ WindowsThread := TWindowsThread.Create(@WindowsConnectThreadBind, nil);
+ WindowsThread.CreateThread;
 {$endif}
 
  InitKeyBoard;
@@ -168,10 +169,10 @@ begin
  RTLEventDestroy(ThreadEvent);
 
 {$ifdef unix}
- UnixConnectThread.Free;
+ UnixThread.Free;
 {$endif}
 {$ifdef windows}
- WindowsConnectThread.Free;
+ WindowsThread.Free;
 {$endif}
 
  if (Connection.Connected = True) then

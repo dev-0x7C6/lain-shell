@@ -29,7 +29,29 @@ uses
 
 implementation
 
-uses Main, Lang;
+uses Main, Lang, Threads, CEngine;
+
+var
+{$ifdef unix}
+ UnixThread :TUnixThread;
+{$endif}
+{$ifdef windows}
+ WindowsThread :TWindowsThread;
+{$endif}
+
+{$ifdef unix}
+ function UnixLainClientQueryLoopBind(P :Pointer) :Longint;
+ begin
+  LainClientQueryLoop;
+ end;
+{$endif}
+
+{$ifdef windows}
+ function WindowsLainClientQueryLoopBind(P :Pointer) :Longint; stdcall;
+ begin
+  LainClientQueryLoop;
+ end;
+{$endif}
 
  function OnAuthorize :Longint;
  var
@@ -53,6 +75,17 @@ uses Main, Lang;
    begin
     LainClientData.Authorized := True;
     Writeln(Prefix, MultiLanguageSupport.GetString('MsgAuthorized'));
+    LainClientResetQueryEngine;
+   {$ifdef unix}
+    UnixThread := TUnixThread.Create(@UnixLainClientQueryLoopBind, nil);
+    UnixThread.CreateThread;
+    UnixThread.Free;
+   {$endif}
+   {$ifdef windows}
+    WindowsThread := TWindowsThread.Create(@WindowsLainClientQueryLoopBind, nil);
+    WindowsThread.CreateThread;
+    WindowsThread.Free;
+   {$endif}
     Exit(CMD_Done);
    end else
    begin

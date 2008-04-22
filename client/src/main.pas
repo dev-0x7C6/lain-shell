@@ -29,7 +29,7 @@ uses
 
 
 Const
- ConsoleTitle :WideString = 'LainShell Client v0.00.40.8';
+ ConsoleTitle :WideString = 'LainShell Client v0.00.40.9';
  Prefix = ' >>> ';
  
 Const
@@ -100,6 +100,7 @@ begin
   Result := CMD_Done;
   writeln;
  end;
+
 end;
 
 function CMDSetCase(var Params :TParams) :Longint; forward;
@@ -157,6 +158,9 @@ var
  
 initialization
 begin
+ Crt.AssignCrt(NetUtils.STDOutPut);
+ ReWrite(NetUtils.STDOutPut);
+ LainClientInitQueryEngine;
  InitCriticalSection(CriticalSection);
  Connection := TTcpIpCustomConnection.Create;
  FillChar(UserIdent, SizeOf(UserIdent), 0);
@@ -177,7 +181,9 @@ finalization
 begin
  Connection.Disconnect;
  Connection.Free;
+ LainClientDoneQueryEngine(10000);
  DoneCriticalSection(CriticalSection);
+ CloseFile(NetUtils.STDOutPut);
 end;
 
 end.
