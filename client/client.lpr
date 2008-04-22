@@ -28,7 +28,7 @@ uses
  Windows,
 {$endif}
  Classes, SysUtils, CustApp, NetUtils, Main, Authorize, Extensions, CConnect,
- CAddons, lang, CEngine, cserver, Crt;
+ CAddons, lang, CEngine, cserver, Crt, threads;
 
 type
  TUniStrikeApp = class(TCustomApplication)

@@ -16,7 +16,7 @@
   MA 02111-1307, USA.
 }
 
-unit cconnect;
+unit CConnect;
 
 {$mode objfpc}{$H+}
 
