@@ -4,20 +4,20 @@ WindowsConsoleCodePage: 852
 // Messages
 MsgWelcome: Witaj w %s , życzymy udanej pracy
 MsgCmdFail: Polecenie nie powiodło się
-MsgLogoff: Wylogowywanie się, proszę czekać
-MsgCantLogoff: Nie można się wylogować, rozłaczanie...
-MsgCmdNotFound: Polecenie '%s' jest nieznane, proszę sprawdzić pomoc
+MsgLogoff: Wylogowywanie, proszę czekać...
+MsgCantLogoff: Nie można ukończyć operacji wylogowywania, następi rozłączenie...
+MsgCmdNotFound: Polecenie '%s' jest nieznane
 MsgSetUsername: Podaj nazwę użydkownika:
 MsgSetPassword: Podaj hasło:
 MsgLongUsername: Nazwa użytkownika jest zadługa
 MsgLongPassword: Hasło jest zadługie
-MsgPreparAuthorize: Przygotowywanie się, do autoryzacji
+MsgPreparAuthorize: Przygotowywanie do autoryzacji
 MsgCantAuthorize: Nie można autoryzować połączenia
-MsgAuthorized: Połączenie autoryzowane
+MsgAuthorized: Połączenie zostało autoryzowane
 MsgAlreadyConnected: Jesteś już połączony
-MsgDisconnectConnection: Rozłanczanie
+MsgDisconnectConnection: Rozłanczanie...
 MsgCantFindHostname: Nie można znaleźć hosta
-MsgCancelConnect: Naciśnij Esc, aby przerwać
+MsgCancelConnect: Naciśnij Enter, aby przerwać
 MsgCloseSocket: Zamykanie gniazda...
 MsgConnected: Jesteś połączony
 MsgCantConnect: Nie można połączyć się
