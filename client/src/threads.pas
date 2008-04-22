@@ -37,27 +37,25 @@ type
   AThreadID :THandle;
   APointer :Pointer;
  protected
-  procedure CreateThread;
  public
+  procedure CreateThread;
   property ThreadID :THandle read AThreadID;
   constructor Create(WinThreadProc :TWinThreadProc; AMem :Pointer);
  end;
 {$endif}
 
 {$ifdef unix}
-Type
- TUnixThreadProc = function(P :Pointer) :Longint; cdecl;
 
 type
- TUnixThread = class(TThread)
+ TUnixThread = class
  private
-  AUnixThreadProc :TUnixThreadProc;
-  AThreadID :Longint;
+  AUnixThreadProc :TThreadFunc;
+  AThreadID :TThreadID;
   APointer :Pointer;
  protected
-  procedure Execute; override;
  public
-  constructor Create(UnixThreadProc :TUnixThreadProc; AMem :Pointer; ACanSuspend :Boolean; AFreeOnTerminate :Boolean);
+  procedure CreateThread;
+  constructor Create(UnixThreadProc :TThreadFunc; AMem :Pointer);
  end;
 {$endif}
 
@@ -79,17 +77,16 @@ end;
 
 {$ifdef unix}
 
-constructor TUnixThread.Create(UnixThreadProc :TUnixThreadProc; AMem :Pointer; ACanSuspend :Boolean; AFreeOnTerminate :Boolean);
+constructor TUnixThread.Create(UnixThreadProc :TThreadFunc; AMem :Pointer);
 begin
- inherited Create(ACanSuspend);
- APointer := AMem;
- FreeOnTerminate := AFreeOnTerminate;
  AUnixThreadProc := UnixThreadProc;
+ APointer := AMem;
+ inherited Create;
 end;
 
-procedure TUnixThread.Execute;
+procedure TUnixThread.CreateThread;
 begin
- AUnixThreadProc(APointer);
+ BeginThread(AUnixThreadProc, APointer, AThreadID);
 end;
 {$endif}
 

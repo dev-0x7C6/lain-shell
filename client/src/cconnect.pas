@@ -25,28 +25,22 @@ interface
 uses
   Classes, SysUtils, Main, Crt, Keyboard;
 
-{$ifdef unix}
- type
-  TUnixConnectThread = class(TThread)
-  protected
-   procedure Execute; override;
-  public
-   constructor Create;
-  end;
-{$endif}
-
  function CMD_Connect(var Params :TParams) :Longint;
  function CMD_Disconnect(var Params :TParams) :Longint;
  function CMD_Status(var Params :TParams) :Longint;
 
 implementation
 
-uses {$ifdef windows} Windows, {$endif} NetUtils, Lang, Extensions, CAddons;
+uses {$ifdef windows} Windows, {$endif} NetUtils, Lang, Extensions, CAddons, Threads;
 
 var
 {$ifdef unix}
- UnixConnectThread :TUnixConnectThread;
+ UnixConnectThread :TUnixThread;
 {$endif}
+{$ifdef windows}
+ WindowsConnectThread :TWindowsThread;
+{$endif}
+
  ThreadEvent :PRTLEvent;
  ConnectionAccept :Boolean = False;
  ThreadFree :Boolean = False;
@@ -79,13 +73,14 @@ begin
 end;
 
 {$ifdef unix}
- constructor TUnixConnectThread.Create;
+ function UnixConnectThreadBind(P :Pointer) :Longint;
  begin
-  inherited Create(False);
-  FreeOnTerminate := False;
+  ConnectThread;
  end;
- 
- procedure TUnixConnectThread.Execute;
+{$endif}
+
+{$ifdef windows}
+ function WindowsConnectThreadBind(P :Pointer) :Longint; stdcall;
  begin
   ConnectThread;
  end;
@@ -95,10 +90,6 @@ function CMD_Connect(var Params :TParams) :Longint;
 var
  X, Offset :Longint;
  Key :TKeyEvent;
-
-{$ifdef windows}
- Handle :THandle;
-{$endif}
 
 begin
  if Length(Params) < 2 then
@@ -143,10 +134,12 @@ begin
  ThreadFree := False;
  
 {$ifdef unix}
- UnixConnectThread := TUnixConnectThread.Create;
+ UnixConnectThread := TUnixThread.Create(@UnixConnectThreadBind, nil);
+ UnixConnectThread.CreateThread;
 {$endif}
 {$ifdef windows}
- CreateThread(nil, 0, @ConnectThread, nil, 0, Handle);
+ WindowsConnectThread := TWindowsThread.Create(@WindowsConnectThreadBind, nil);
+ WindowsConnectThread.CreateThread;
 {$endif}
 
  InitKeyBoard;
@@ -158,10 +151,12 @@ begin
    Key := TranslateKeyEvent(Key);
    if GetKeyEventChar(Key) = kbdReturn then
    begin
+    EnterCriticalSection(CriticalSection);
     Write(Prefix, MultiLanguageSupport.GetString('MsgCloseSocket') + ' ');
     if Main.Connection.Disconnect then
      Writeln(MultiLanguageSupport.GetString('FieldDone')) else
      Writeln(MultiLanguageSupport.GetString('FieldFail'));
+    LeaveCriticalSection(CriticalSection);
     RTLEventWaitFor(ThreadEvent);
     Break;
    end;
@@ -171,8 +166,12 @@ begin
 
  DoneKeyBoard;
  RTLEventDestroy(ThreadEvent);
+
 {$ifdef unix}
  UnixConnectThread.Free;
+{$endif}
+{$ifdef windows}
+ WindowsConnectThread.Free;
 {$endif}
 
  if (Connection.Connected = True) then
