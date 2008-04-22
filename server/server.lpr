@@ -53,9 +53,9 @@ begin
  if MainThreads[0].Created = True then MainThreads[0].Event := RTLEventCreate;
  if MainThreads[1].Created = True then MainThreads[1].Event := RTLEventCreate;
 
-
+/// at the moment, the server app is only for tests
 {$ifdef unix}
- Writeln('Press Esc to exit');
+ Writeln('Press Enter to exit');
  Readln;
 {$endif}
 {$ifdef windows}
