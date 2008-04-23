@@ -16,7 +16,7 @@
   MA 02111-1307, USA.
 }
 
-program UniServer;
+program LainServer;
 
 {$mode objfpc}{$H+}
 

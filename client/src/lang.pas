@@ -77,7 +77,6 @@ var
  function CMD_SetLang(var Params :TParams) :Longint;
  {$ifdef windows}
   function CMD_SetConsoleCodePage(var Params :TParams) :Longint;
- // function CMD_SetConsoleCodePage(var Params :TParams) :Longint;
  {$endif}
  
 implementation

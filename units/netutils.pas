@@ -244,7 +244,7 @@ uses {$ifdef linux} LibC {$endif}{$ifdef windows} WinSock {$endif};
  end;
 
  {$ifdef unix}
-  {$define debug}
+ // {$define debug}
  {$endif}
  
  function TTcpIpSocketClient.Recv(var Buffer; Size :Longint) :Longint;

@@ -7,7 +7,7 @@
       <MainUnit Value="0"/>
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
-      <ActiveEditorIndexAtStart Value="1"/>
+      <ActiveEditorIndexAtStart Value="3"/>
     </General>
     <VersionInfo>
       <ProjectVersion Value=""/>
@@ -36,8 +36,8 @@
         <Filename Value="server.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uniserver"/>
-        <CursorPos X="22" Y="51"/>
-        <TopLine Value="18"/>
+        <CursorPos X="13" Y="19"/>
+        <TopLine Value="6"/>
         <EditorIndex Value="3"/>
         <UsageCount Value="48"/>
         <Loaded Value="True"/>
@@ -95,8 +95,8 @@
         <Filename Value="src/engine.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Engine"/>
-        <CursorPos X="89" Y="47"/>
-        <TopLine Value="9"/>
+        <CursorPos X="118" Y="24"/>
+        <TopLine Value="3"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="24"/>
         <Loaded Value="True"/>

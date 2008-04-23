@@ -25,7 +25,7 @@ interface
 uses
  {$ifdef windows}
   Windows,
- {$endif} Classes, SysUtils, NetUtils, Crt, CEngine;
+ {$endif} Classes, SysUtils, NetUtils, Crt;
 
 
 Const
@@ -35,6 +35,13 @@ Const
 Const
  CMD_Done = 0;
  CMD_Fail = 1;
+
+type
+ TUserIdent = packed record
+  Username :Array[0..63] of WideChar;
+  Password :Array[0..63] of WideChar;
+ end;
+
  
 type
  TParams = Array of WideString;
@@ -48,8 +55,10 @@ type
   Password :WideString;
  end;
  
- function MainFunc :Longint;
  function CMDCase(var Params :TParams) :Longint;
+ function MainFunc :Longint;
+ procedure PaintConsoleTitle;
+
 
 var
  Connection :TTcpIpCustomConnection;
@@ -63,10 +72,11 @@ var
 
 implementation
 
-uses CConnect, CAddons, Authorize, Extensions, Lang, CServer;
+uses Addons, Engine, Extensions, Lang, Network;
 
 procedure PaintConsoleTitle;
 begin
+ Writeln(ParamStr(0));
  TextColor(White);
  Writeln(format(MultiLanguageSupport.GetString('MsgWelcome'), [ConsoleTitle]));
  TextColor(LightGray);
@@ -81,7 +91,6 @@ begin
  Windows.SetConsoleTitle(PChar(String(ConsoleTitle)));
 {$endif}
  ClrScr;
- Writeln(ParamStr(0));
  if AnyLanguageSupport then
  begin
   PaintConsoleTitle;
@@ -112,20 +121,16 @@ begin
  if Length(Params) <= 0 then Exit(CMD_Fail);
  Cmd := LowerCase(Params[0]);
  
- if (Cmd = 'about') then Exit(CMD_About(Params));
- if (CMD = 'clear') then begin
-  ClrScr;
-  PaintConsoleTitle;
-  Exit(CMD_Done);
- end;
- if (Cmd = 'connect') then Exit(CMD_Connect(Params));
- if (Cmd = 'disconnect') then Exit(CMD_Disconnect(Params));
- if (Cmd = 'help') then Exit(CMD_Help(Params));
- if (Cmd = 'login') then Exit(CMD_Login(Params));
- if (Cmd = 'logout') then Exit(CMD_Logout(Params));
- if (Cmd = 'rconnect') then Exit(CMD_RCConnect(Params));
- if (Cmd = 'set') then Exit(CMDSetCase(Params));
- if (Cmd = 'status') then Exit(CMD_Status(Params));
+ if (Cmd = 'about') then Exit(CMD_About(Params)); // CAddons
+ if (CMD = 'clear') then Exit(CMD_Clear(Params)); // CAddons
+ if (Cmd = 'connect') then Exit(CMD_Connect(Params)); // CNetwork
+ if (Cmd = 'disconnect') then Exit(CMD_Disconnect(Params)); // CNetwork
+ if (Cmd = 'help') then Exit(CMD_Help(Params)); // CAddons
+ if (Cmd = 'login') then Exit(CMD_Login(Params)); // CAddons
+ if (Cmd = 'logout') then Exit(CMD_Logout(Params)); // CAddons
+ if (Cmd = 'rconnect') then Exit(CMD_RCConnect(Params)); // CNetwork
+ if (Cmd = 'set') then Exit(CMDSetCase(Params)); // Main
+ if (Cmd = 'status') then Exit(CMD_Status(Params)); // CAddons
  
  if Length(Params[0]) > 0 then
  begin
