@@ -25,18 +25,15 @@ MsgUnknownProto: Unknown server protocol
 MsgDisconnect: Disconnect
 MsgDisconnected: Disconnected
 MsgNotConnected: Not connected
-MsgRConnectUsage: RConnect (port) (max connections)
 MsgRConnectPressEnter: Press enter to cancel operation
 MsgRConnectWaiting: Waiting for connections...
 MsgRConnectThreadEnd: Waiting for thread terminate...
 MsgRConnectChose: Chose connection by id :
 MsgRConnectUnknownID: Unknown ID
 
-MsgCmdSetUnknownVariable: Unknown variable '%s' to SET
-MsgCmdSetUsing: Variables: Lang
-MsgSetLangUsing: Options: EN/PL
-MsgSetLangDone: Set %s lang
-MsgSetLangFail: Failed to set %s lang
+MsgSetVariableDone: Variable set successful
+MsgSetVariableFail: Variable set failed
+MsgSetVariableUnknown: Unknown variable '%s' to set
 
 // Help
 HelpAbout: Show about page
@@ -48,6 +45,7 @@ HelpHelp: Show help page
 HelpLogin: login
 HelpLogout: logout
 HelpRConnect: Reverse connection mode (waiting for connections)
+HelpSet: Set some variables
 HelpStatus: Show status page
 HelpQuit: Alians for exit
 
@@ -55,6 +53,7 @@ HelpQuit: Alians for exit
 StatusAuthorized: Authorized
 StatusConnected: Connected
 StatusHostname: Hostname
+
 StatusPort: Port
 StatusUsername: Username
 StatusPassword: Password
@@ -66,6 +65,13 @@ WordUsername: Username
 WordPassword: Password
 WordPort: Port
 WordHostname: Hostname
+
+// Using
+UsingConnect: Connect [hostname(:port)]
+UsingRConnect: RConnect [localport] [maxconnections]
+UsingSet: Set variables [%s]
+UsingSetLang: Set Lang [package]
+UsingSetCodePage: Set CodePage [number]
 
 // Field
 FieldDone: [done]

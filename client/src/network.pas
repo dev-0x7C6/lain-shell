@@ -112,18 +112,16 @@ var
  Key :TKeyEvent;
 
 begin
- if Length(Params) < 2 then
- begin
-  Writeln('');
-  Writeln;
-  Exit(CMD_Fail);
- end;
-
  if Connection.Connected = True then
  begin
-  Writeln(Prefix, MultiLanguageSupport.GetString('MsgAlreadyConnected'));
-  Writeln(Prefix, MultiLanguageSupport.GetString('MsgDisconnectConnection'));
-  Writeln;
+  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgAlreadyConnected'));
+  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgDisconnectConnection'));
+  Exit(CMD_Fail);
+ end;
+ 
+ if Length(Params) < 2 then
+ begin
+  Writeln(OutPut, MultiLanguageSupport.GetString('UsingConnect'));
   Exit(CMD_Fail);
  end;
 
@@ -142,13 +140,12 @@ begin
 
  if Connection.Hostname = '' then
  begin
-  Writeln(Prefix, MultiLanguageSupport.GetString('MsgCantFindHostname'));
-  Writeln;
+  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgCantFindHostname'));
   Exit(CMD_Fail);
  end;
 
  Connection.Port := StrToIntDef(LainClientData.Port, 9896);
- Writeln(Prefix, MultiLanguageSupport.GetString('MsgCancelConnect'));
+ Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgCancelConnect'));
 
  ThreadEvent := RTLEventCreate;
  ThreadFree := False;
@@ -172,10 +169,10 @@ begin
    if GetKeyEventChar(Key) = kbdReturn then
    begin
     EnterCriticalSection(CriticalSection);
-    Write(Prefix, MultiLanguageSupport.GetString('MsgCloseSocket') + ' ');
+    Write(OutPut, Prefix, MultiLanguageSupport.GetString('MsgCloseSocket') + ' ');
     if Main.Connection.Disconnect then
-     Writeln(MultiLanguageSupport.GetString('FieldDone')) else
-     Writeln(MultiLanguageSupport.GetString('FieldFail'));
+     Writeln(OutPut, MultiLanguageSupport.GetString('FieldDone')) else
+     Writeln(OutPut, MultiLanguageSupport.GetString('FieldFail'));
     LeaveCriticalSection(CriticalSection);
     RTLEventWaitFor(ThreadEvent);
     Break;
@@ -197,24 +194,21 @@ begin
  if (Connection.Connected = True) then
  begin
   ConsoleHost := LainClientData.Hostname;
-  Writeln(Prefix, MultiLanguageSupport.GetString('MsgConnected') + ' ', ConsoleHost);
+  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgConnected') + ' ', ConsoleHost);
   Result := CMD_Done;
  end else
  begin
-  Writeln(Prefix, MultiLanguageSupport.GetString('MsgCantConnect'));
-  Writeln;
+  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgCantConnect'));
   Exit(CMD_Fail);
  end;
  
  if (ConnectionAccept = False) then
  begin
   Connection.Disconnect;
-  Writeln(Prefix, MultiLanguageSupport.GetString('MsgUnknownProto'));
-  Writeln(Prefix, MultiLanguageSupport.GetString('MsgDisconnect'));
+  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgUnknownProto'));
+  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgDisconnect'));
   Result := CMD_Fail;
  end;
-
- Writeln;
 end;
 
 function CMD_Disconnect(var Params :TParams) :Longint;
@@ -228,10 +222,9 @@ begin
   LainClientData.Authorized := False;
   ConsoleUser := MultiLanguageSupport.GetString('FieldUsername');
   ConsoleHost := MultiLanguageSupport.GetString('FieldLocation');
-  Writeln(Prefix, MultiLanguageSupport.GetString('MsgDisconnected'));
+  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgDisconnected'));
  end else
-  Writeln(Prefix, MultiLanguageSupport.GetString('MsgNotConnected'));
- Writeln;
+  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgNotConnected'));
  Result := CMD_Done;
 end;
 
@@ -256,12 +249,9 @@ procedure RCConnectionAccepted(Connection :TConnection);
 var
  Conn :TTcpIpCustomConnection;
  ID :Longword;
- //OutPut :Text;
 begin
  EnterCriticalSection(CriticalSection);
- //AssignCrt(OutPut);
- //ReWrite(OutPut);
- //Writeln(OutPut, 'Localhost <<< ', HostAddrToStr(NetToHost(Connection.Addr.sin_addr)));
+ Writeln(OutPut, 'Localhost <<< ', HostAddrToStr(NetToHost(Connection.Addr.sin_addr)));
  SetLength(Connections, Length(Connections) + 1);
  Connections[Length(Connections) - 1] := Connection;
  Conn := TTcpIpCustomConnection.Create;
@@ -270,7 +260,6 @@ begin
 
  ConnectionID += 1;
  Conn.Free;
- //CloseFile(OutPut);
  LeaveCriticalSection(CriticalSection);
 end;
 
@@ -297,10 +286,15 @@ var
  ThreadID :LongWord;
 {$endif}
 begin
+ if Connection.Connected = True then
+ begin
+  Writeln(OutPut, MultiLanguageSupport.GetString('MsgAlreadyConnected'));
+  Exit(CMD_Fail);
+ end;
+ 
  if Length(Params) < 3 then
  begin
-  Writeln(MultiLanguageSupport.GetString('MsgRConnectUsage'));
-  Writeln;
+  Writeln(OutPut, MultiLanguageSupport.GetString('UsingRConnect'));
   Exit(CMD_Fail);
  end;
 
@@ -311,8 +305,8 @@ begin
  ConnectionID := 1;
  Connections := nil;
 
- Writeln(Prefix, MultiLanguageSupport.GetString('MsgRConnectPressEnter'));
- Writeln(Prefix, MultiLanguageSupport.GetString('MsgRConnectWaiting'));
+ Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgRConnectPressEnter'));
+ Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgRConnectWaiting'));
  RCConnectThreadEvent := RTLEventCreate;
 
 {$ifdef unix}
@@ -330,9 +324,9 @@ begin
   begin
    RCConnection.Shutdown;
    RCConnection.CloseSocket;
-   Write(Prefix, MultiLanguageSupport.GetString('MsgRConnectThreadEnd'));
+   Write(OutPut, Prefix, MultiLanguageSupport.GetString('MsgRConnectThreadEnd'));
    RTLEventWaitFor(RCConnectThreadEvent);
-   Writeln(MultiLanguageSupport.GetString('FieldDone'));
+   Writeln(OutPut, MultiLanguageSupport.GetString('FieldDone'));
    Break;
   end;
  until False;
@@ -347,16 +341,18 @@ begin
  if Length(Connections) > 0 then
  begin
   repeat
-   Write(MultiLanguageSupport.GetString('MsgRConnectChose') + ' ');
+   Write(OutPut, MultiLanguageSupport.GetString('MsgRConnectChose') + ' ');
    Str := GetTextln;
    ID := StrToIntDef(Str, -1);
    if ((ID = -1) or (ID > Length(Connections))) then
    begin
-    Writeln(MultiLanguageSupport.GetString('MsgRConnectUnknownID'));
+    Writeln(OutPut, MultiLanguageSupport.GetString('MsgRConnectUnknownID'));
     Continue;
    end;
    Connection.SetConnection(Connections[ID - 1]);
-   LainClientData.Hostname := HostAddrToStr(NetToHost(Connections[ID - 1].Addr.Sin_addr));
+   Connection.Hostname := HostAddrToStr(NetToHost(Connections[ID - 1].Addr.Sin_addr));
+   Connection.Port := StrToIntDef(Params[1], 9897);
+   LainClientData.Hostname := Connection.Hostname;
    LainClientData.Port := Params[1];
    ConsoleHost := LainClientData.Hostname;
   until True;

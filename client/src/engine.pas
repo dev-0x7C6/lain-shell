@@ -35,7 +35,7 @@ var
  QueryEvent :PRTLEvent;
  EngineEvent :PRTLEvent;
 
-function CMD_Login(var Params :TParams) :Longint;
+ function CMD_Login(var Params :TParams) :Longint;
  function CMD_Logout(var Params :TParams) :Longint;
  
  function OnAuthorize :Longint;
@@ -56,16 +56,15 @@ function CMD_Logout(var Params :TParams) :Longint;
 begin
  if ((LainClientData.Authorized = True) and (Connection.Connected = True)) then
  begin
-  Writeln(Prefix, MultiLanguageSupport.GetString('MsgLogoff'));
+  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgLogoff'));
   if  LainClientSendQuery(Lain_Logoff) = SendQueryFail then
   begin
-   Writeln(Prefix, MultiLanguageSupport.GetString('MsgCantLogoff'));
+   Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgCantLogoff'));
    Connection.Disconnect;
    LainClientData.Authorized := False;
    Exit(CMD_Fail);
   end else
    LainClientData.Authorized := False;
-  Writeln;
   Result := CMD_Done;
  end else
   Exit(CMD_Fail);
@@ -76,26 +75,24 @@ var
  X :Longint;
 begin
  CMD_Logout(Params);
- Write(Prefix, MultiLanguageSupport.GetString('MsgSetUsername') + ' '); LainClientData.Username := Extensions.GetText;
+ Write(OutPut, Prefix, MultiLanguageSupport.GetString('MsgSetUsername') + ' '); LainClientData.Username := Extensions.GetText;
  if LainClientData.Username = '' then
-  Writeln(MultiLanguageSupport.GetString('FieldEmpty')) else
-  Writeln;
- Write(Prefix, MultiLanguageSupport.GetString('MsgSetPassword') + ' '); LainClientData.Password := GetPasswd('*');
+  Writeln(OutPut, MultiLanguageSupport.GetString('FieldEmpty')) else
+  Writeln(OutPut);
+ Write(OutPut, Prefix, MultiLanguageSupport.GetString('MsgSetPassword') + ' '); LainClientData.Password := GetPasswd('*');
  if LainClientData.Password = '' then
-  Writeln(MultiLanguageSupport.GetString('FieldEmpty')) else
-  Writeln;
+  Writeln(OutPut, MultiLanguageSupport.GetString('FieldEmpty')) else
+  Writeln(OutPut);
 
  if (Length(LainClientData.Username) > SizeOf(UserIdent.Username)) then
  begin
-  Writeln(Prefix, MultiLanguageSupport.GetString('MsgLongUsername'));
-  Writeln;
+  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgLongUsername'));
   Exit(CMD_Fail);
  end;
 
  if (Length(LainClientData.Password) > SizeOf(UserIdent.Password)) then
  begin
-  Writeln(Prefix, MultiLanguageSupport.GetString('MsgLongPassword'));
-  Writeln;
+  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgLongPassword'));
   Exit(CMD_Fail);
  end;
 
@@ -114,12 +111,10 @@ begin
 
  if Connection.Connected = True then
  begin
-  Writeln;
-  Writeln(Prefix, MultiLanguageSupport.GetString('MsgPreparAuthorize'));
+  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgPreparAuthorize'));
   Result := OnAuthorize;
  end;
 
- Writeln;
  Exit;
 end;
 

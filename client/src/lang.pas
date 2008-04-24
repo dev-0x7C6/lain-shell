@@ -54,7 +54,7 @@ Type
  TCmdHint = Array[0..1] of WideString;
 
 var
- HelpList :Array[0..10] of TCmdHint =
+ HelpList :Array[0..11] of TCmdHint =
   (('About     ', ''),
    ('Connect   ', ''),
    ('Clear     ', ''),
@@ -64,6 +64,7 @@ var
    ('Login     ', ''),
    ('Logout    ', ''),
    ('RConnect  ', ''),
+   ('Set       ', ''),
    ('Status    ', ''),
    ('Quit      ', '')
   );
@@ -89,17 +90,15 @@ function CMD_SetLang(var Params :TParams) :Longint;
 begin
  if Length(Params) < 3 then
  begin
-  Writeln(MultiLanguageSupport.GetString('MsgSetLangUsing'));
-  Writeln;
+  Writeln(OutPut, MultiLanguageSupport.GetString('UsingSetLang'));
   Exit(CMD_Fail);
  end;
  
  DefaultLang := LowerCase(Params[2]);
  Result := MultiLanguageInit;
  if Result = CMD_Done then
-  Writeln(Prefix, Format(MultiLanguageSupport.GetString('MsgSetLangDone'), [UpperCase(Params[2])])) else
-  Writeln(Prefix, Format(MultiLanguageSupport.GetString('MsgSetLangFail'), [UpperCase(Params[2])]));
- Writeln; 
+  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgSetVariableDone')) else
+  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgSetVariableFail'));
 end;
 
 {$ifdef windows}
@@ -109,8 +108,7 @@ end;
  begin
   if Length(Params) < 2 then
   begin
-   Writeln('Variable: CodePage');
-   Writeln;
+   Writeln(OutPut, MultiLanguageSupport.GetString('UsingSetCodePage'));
    Exit(CMD_Fail);
   end;
   Value := StrToIntDef(Params[2], 0);
@@ -119,7 +117,7 @@ end;
   if WindowsManualCodePage = True then
   begin
    SetConsoleCP(WindowsManualCodePageID);
-   Writeln(Prefix, 'New codepage set');
+   Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgSetVariableDone'));
   end;
   Result := CMD_Done;
  end;
@@ -202,8 +200,8 @@ begin
  {$endif}
  if not FileExists(LangFile) then
  begin
-  Writeln('Can''t find language file: ', LangFile, ' Not Found');
-  Writeln;
+  Writeln(OutPut, 'Can''t find language file: ', LangFile, ' Not Found');
+  Writeln(OutPut);
   if MultiLanguageSupport = nil then AnyLanguageSupport := False;
   Result := CMD_Fail;
   Readln;
@@ -223,8 +221,9 @@ begin
   HelpList[06][1] := MultiLanguageSupport.GetString('HelpLogin');
   HelpList[07][1] := MultiLanguageSupport.GetString('HelpLogout');
   HelpList[08][1] := MultiLanguageSupport.GetString('HelpRConnect');
-  HelpList[09][1] := MultiLanguageSupport.GetString('HelpStatus');
-  HelpList[10][1] := MultiLanguageSupport.GetString('HelpQuit');
+  HelpList[09][1] := MultiLanguageSupport.GetString('HelpSet');
+  HelpList[10][1] := MultiLanguageSupport.GetString('HelpStatus');
+  HelpList[11][1] := MultiLanguageSupport.GetString('HelpQuit');
   if ConsoleUser = '' then
    ConsoleUser := MultiLanguageSupport.GetString('FieldUsername');
   if ConsoleHost = '' then

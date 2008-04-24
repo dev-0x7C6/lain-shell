@@ -86,7 +86,7 @@ end;
 function GetPasswdln(Show :Char) :WideString;
 begin
  Result := GetPasswd(Show);
- Writeln;
+ Writeln(OutPut);
 end;
 
 function GetPasswd(Show :Char) :WideString;
@@ -109,15 +109,15 @@ begin
    if (GetKeyEventChar(Key) <> kbdBSpace) then
    begin
     Result := Result + GetKeyEventChar(Key);
-    Write(Show);
+    Write(OutPut, Show);
    end else
    begin
     if Length(Result) > 0 then
     begin
      SetLength(Result, Length(Result) - 1);
-     Write(kbdBSpace);
-     Write(kbdSpace);
-     Write(kbdBSpace);
+     Write(OutPut, kbdBSpace);
+     Write(OutPut, kbdSpace);
+     Write(OutPut, kbdBSpace);
     end;
    end;
   end;
@@ -128,7 +128,7 @@ end;
 function GetTextln :WideString;
 begin
  Result := GetText;
- Writeln;
+ Writeln(OutPut);
 end;
 
 function GetText :WideString;
@@ -151,15 +151,15 @@ begin
    if (GetKeyEventChar(Key) <> kbdBSpace) then
    begin
     Result := Result + GetKeyEventChar(Key);
-    Write(GetKeyEventChar(Key));
+    Write(OutPut, GetKeyEventChar(Key));
    end else
    begin
     if Length(Result) > 0 then
     begin
      SetLength(Result, Length(Result) - 1);
-     Write(kbdBSpace);
-     Write(kbdSpace);
-     Write(kbdBSpace);
+     Write(OutPut, kbdBSpace);
+     Write(OutPut, kbdSpace);
+     Write(OutPut, kbdBSpace);
     end;
    end;
   end;

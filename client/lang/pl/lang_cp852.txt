@@ -31,11 +31,13 @@ MsgRConnectWaiting: Oczekiwanie poˆ¥czeä...
 MsgRConnectThreadEnd: Zamykanie w¥tku...
 MsgRConnectChose: Wybierz poˆ¥czenie :
 MsgRConnectUnknownID: Nieznane ID poˆ¥czenia
-MsgCmdSetUnknownVariable: Nieznana zmienna '%s' do ustawienia
-MsgCmdSetUsing: Zmienne: LANG
-MsgSetLangUsing: Warto˜ci: EN/PL
-MsgSetLangDone: Warto˜† LANG zostaˆa zmieniona na %s
-MsgSetLangFail: Nie mo¾na zmieni† warto˜ci LANG na %s 
+
+
+MsgSetVariableDone: Zmienna zostaˆa ustawiona pomy˜lnie
+MsgSetVariableFail: Zmienna nie zostaˆa zmieniona
+MsgSetVariableUnknown: Nieznana zmienna '%s' do ustawienia
+
+
 
 // Help
 HelpAbout: Strona o autorach
@@ -47,6 +49,7 @@ HelpHelp: Poka¾ stron© pomocy
 HelpLogin: Logowanie
 HelpLogout: Wylogowywanie
 HelpRConnect: Poˆ¥czenie odwrotne (oczekiwanie poˆ¥czeä)
+HelpSet: Ustaw zmienn¥
 HelpStatus: Poka¾ status
 HelpQuit: To samo co Exit
 
@@ -65,6 +68,13 @@ WordUsername: U¾ytkownik
 WordPassword: Hasˆo
 WordPort: Port
 WordHostname: Host
+
+// Using
+UsingConnect: Connect [hostname(:port)]
+UsingRConnect: RConnect [localport] [maxconnections]
+UsingSet: Ustaw zmienn¥ [%s]
+UsingSetLang: Ustaw j©zyk [paczka]
+UsingSetCodePage: Zmieä kodowanie [numer]
 
 // Field
 FieldDone: [zrobione]

@@ -29,12 +29,15 @@ uses
 
 
 Const
- ConsoleTitle :WideString = 'LainShell Client v0.00.40.9';
+ ConsoleTitle :WideString = 'LainShell Client v0.00.40.91';
  Prefix = ' >>> ';
  
 Const
  CMD_Done = 0;
  CMD_Fail = 1;
+ 
+var
+ Variables :WideString = 'Lang';
 
 type
  TUserIdent = packed record
@@ -61,6 +64,9 @@ type
 
 
 var
+ OutPut :Text;
+
+var
  Connection :TTcpIpCustomConnection;
  ConsoleHost :WideString = '';
  ConsoleUser :WideString = '';
@@ -76,11 +82,10 @@ uses Addons, Engine, Extensions, Lang, Network;
 
 procedure PaintConsoleTitle;
 begin
- Writeln(ParamStr(0));
+ Writeln(OutPut, ParamStr(0));
  TextColor(White);
- Writeln(format(MultiLanguageSupport.GetString('MsgWelcome'), [ConsoleTitle]));
+ Writeln(OutPut, format(MultiLanguageSupport.GetString('MsgWelcome'), [ConsoleTitle]));
  TextColor(LightGray);
- Writeln;
 end;
 
 function MainFunc :Longint;
@@ -94,20 +99,25 @@ begin
  if AnyLanguageSupport then
  begin
   PaintConsoleTitle;
+  Writeln(OutPut);
   repeat
-   TextColor(LightGreen); Write(ConsoleUser, '@', ConsoleHost);
-   TextColor(LightBlue); Write(' ~ # ');
+   TextColor(LightGreen); Write(OutPut, ConsoleUser, '@', ConsoleHost);
+   TextColor(LightBlue); Write(OutPut, ' ~ # ');
    TextColor(White);
    Cmd := Extensions.GetTextln;
    TextColor(LightGray);
    CmdToParams(Cmd, Params);
    if (LowerCase(Cmd) <> 'exit') and (LowerCase(Cmd) <> 'quit') and
-      (LowerCase(Cmd) <> '')  then CMDCase(Params);
+      (LowerCase(Cmd) <> '')  then
+   begin
+    CMDCase(Params);
+    if Length(Cmd) <> 0 then Writeln(OutPut);
+   end;
    SetLength(Params, 0);
   until ((LowerCase(Cmd) = 'exit') or (LowerCase(Cmd) = 'quit'));
   SetLength(Params, 0);
   Result := CMD_Done;
-  writeln;
+  writeln(OutPut);
  end;
 
 end;
@@ -121,21 +131,20 @@ begin
  if Length(Params) <= 0 then Exit(CMD_Fail);
  Cmd := LowerCase(Params[0]);
  
- if (Cmd = 'about') then Exit(CMD_About(Params)); // CAddons
- if (CMD = 'clear') then Exit(CMD_Clear(Params)); // CAddons
- if (Cmd = 'connect') then Exit(CMD_Connect(Params)); // CNetwork
- if (Cmd = 'disconnect') then Exit(CMD_Disconnect(Params)); // CNetwork
- if (Cmd = 'help') then Exit(CMD_Help(Params)); // CAddons
- if (Cmd = 'login') then Exit(CMD_Login(Params)); // CAddons
- if (Cmd = 'logout') then Exit(CMD_Logout(Params)); // CAddons
- if (Cmd = 'rconnect') then Exit(CMD_RCConnect(Params)); // CNetwork
- if (Cmd = 'set') then Exit(CMDSetCase(Params)); // Main
- if (Cmd = 'status') then Exit(CMD_Status(Params)); // CAddons
+ if (Cmd = 'about') then Exit(CMD_About(Params));
+ if (CMD = 'clear') then Exit(CMD_Clear(Params));
+ if (Cmd = 'connect') then Exit(CMD_Connect(Params));
+ if (Cmd = 'disconnect') then Exit(CMD_Disconnect(Params));
+ if (Cmd = 'help') then Exit(CMD_Help(Params));
+ if (Cmd = 'login') then Exit(CMD_Login(Params));
+ if (Cmd = 'logout') then Exit(CMD_Logout(Params));
+ if (Cmd = 'rconnect') then Exit(CMD_RCConnect(Params));
+ if (Cmd = 'set') then Exit(CMDSetCase(Params));
+ if (Cmd = 'status') then Exit(CMD_Status(Params));
  
  if Length(Params[0]) > 0 then
  begin
-  Writeln(Prefix, format(MultiLanguageSupport.GetString('MsgCmdNotFound'), [Params[0]]));
-  Writeln;
+  Writeln(OutPut, Prefix, format(MultiLanguageSupport.GetString('MsgCmdNotFound'), [Params[0]]));
  end;
 end;
 
@@ -145,8 +154,7 @@ var
 begin
  if Length(Params) < 2 then
  begin
-  Writeln(MultiLanguageSupport.GetString('MsgCmdSetUsing'));
-  Writeln;
+  Writeln(OutPut, Format(MultiLanguageSupport.GetString('UsingSet'), [Variables]));
   Exit(CMD_Fail);
  end;
  Cmd := LowerCase(Params[1]);
@@ -154,8 +162,7 @@ begin
 {$ifdef windows}
  if (Cmd = 'codepage') then Exit(CMD_SetConsoleCodePage(Params));
 {$endif}
- Writeln(Format(MultiLanguageSupport.GetString('MsgCmdSetUnknownVariable'), [Cmd]));
- Writeln;
+ Writeln(OutPut, Format(MultiLanguageSupport.GetString('MsgSetVariableUnknown'), [Cmd]));
 end;
  
 var
@@ -163,8 +170,12 @@ var
  
 initialization
 begin
- Crt.AssignCrt(NetUtils.STDOutPut);
- ReWrite(NetUtils.STDOutPut);
+{$ifdef windows}
+ Variables := Variables + '\CodePage';
+{$endif}
+ AssignCrt(OutPut);
+ ReWrite(OutPut);
+ STDOutPut := OutPut;
  LainClientInitQueryEngine;
  InitCriticalSection(CriticalSection);
  Connection := TTcpIpCustomConnection.Create;
@@ -188,7 +199,7 @@ begin
  Connection.Free;
  LainClientDoneQueryEngine(10000);
  DoneCriticalSection(CriticalSection);
- CloseFile(NetUtils.STDOutPut);
+ CloseFile(OutPut);
 end;
 
 end.
