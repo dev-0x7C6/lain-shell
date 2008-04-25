@@ -81,6 +81,7 @@ var
 
 var
  TerminateApp :Boolean = False;
+ OutPut :Text;
 
 implementation
 

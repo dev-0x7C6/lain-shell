@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <CONFIG>
   <ProjectOptions>
-    <PathDelim Value="\"/>
+    <PathDelim Value="/"/>
     <Version Value="6"/>
     <General>
       <MainUnit Value="0"/>
-      <IconPath Value=".\"/>
+      <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <ActiveEditorIndexAtStart Value="3"/>
     </General>
@@ -16,7 +16,6 @@
     </VersionInfo>
     <PublishOptions>
       <Version Value="2"/>
-      <DestinationDirectory Value="$(TestDir)\publishedproject\"/>
       <IgnoreBinaries Value="False"/>
       <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
       <ExcludeFileFilter Value="*.(bak|ppu|ppw|o|so);*~;backup"/>
@@ -24,7 +23,7 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
+        <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
     <RequiredPackages Count="1">
@@ -32,127 +31,143 @@
         <PackageName Value="LCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="12">
+    <Units Count="13">
       <Unit0>
         <Filename Value="server.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uniserver"/>
-        <CursorPos X="32" Y="139"/>
-        <TopLine Value="120"/>
+        <CursorPos X="39" Y="193"/>
+        <TopLine Value="169"/>
         <EditorIndex Value="3"/>
-        <UsageCount Value="57"/>
+        <UsageCount Value="58"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="units\fsutils.pas"/>
+        <Filename Value="units/fsutils.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="FSUtils"/>
         <CursorPos X="14" Y="3"/>
         <TopLine Value="3"/>
-        <UsageCount Value="37"/>
+        <UsageCount Value="38"/>
       </Unit1>
       <Unit2>
-        <Filename Value="units\netutils.pas"/>
+        <Filename Value="units/netutils.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="NetUtils"/>
         <CursorPos X="25" Y="253"/>
         <TopLine Value="291"/>
-        <UsageCount Value="37"/>
+        <UsageCount Value="38"/>
       </Unit2>
       <Unit3>
-        <Filename Value="src\main.pas"/>
+        <Filename Value="src/main.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Main"/>
-        <CursorPos X="6" Y="170"/>
-        <TopLine Value="136"/>
+        <CursorPos X="2" Y="84"/>
+        <TopLine Value="61"/>
         <EditorIndex Value="2"/>
-        <UsageCount Value="57"/>
+        <UsageCount Value="58"/>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
-        <Filename Value="src\authorize.pas"/>
+        <Filename Value="src/authorize.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Authorize"/>
         <CursorPos X="43" Y="144"/>
-        <TopLine Value="108"/>
+        <TopLine Value="96"/>
         <EditorIndex Value="0"/>
-        <UsageCount Value="57"/>
+        <UsageCount Value="58"/>
         <Loaded Value="True"/>
       </Unit4>
       <Unit5>
-        <Filename Value="usr\src\fpc\rtl\inc\systemh.inc"/>
+        <Filename Value="usr/src/fpc/rtl/inc/systemh.inc"/>
         <CursorPos X="16" Y="340"/>
         <TopLine Value="340"/>
         <UsageCount Value="11"/>
       </Unit5>
       <Unit6>
-        <Filename Value="..\..\unistrike\server\src\engine.pas"/>
+        <Filename Value="../../unistrike/server/src/engine.pas"/>
         <UnitName Value="Engine"/>
         <CursorPos X="35" Y="54"/>
         <TopLine Value="27"/>
         <UsageCount Value="22"/>
       </Unit6>
       <Unit7>
-        <Filename Value="src\engine.pas"/>
+        <Filename Value="src/engine.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Engine"/>
         <CursorPos X="38" Y="53"/>
-        <TopLine Value="15"/>
+        <TopLine Value="3"/>
         <EditorIndex Value="1"/>
-        <UsageCount Value="33"/>
+        <UsageCount Value="34"/>
         <Loaded Value="True"/>
       </Unit7>
       <Unit8>
-        <Filename Value="..\client\src\cengine.pas"/>
+        <Filename Value="../client/src/cengine.pas"/>
         <UnitName Value="CEngine"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
         <UsageCount Value="19"/>
       </Unit8>
       <Unit9>
-        <Filename Value="..\client\client.lpi"/>
+        <Filename Value="../client/client.lpi"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
         <UsageCount Value="9"/>
         <SyntaxHighlighter Value="XML"/>
       </Unit9>
       <Unit10>
-        <Filename Value="C:\lazarus\fpc\2.2.1\source\rtl\inc\systemh.inc"/>
+        <Filename Value="C:/lazarus/fpc/2.2.1/source/rtl/inc/systemh.inc"/>
         <CursorPos X="11" Y="785"/>
         <TopLine Value="766"/>
-        <EditorIndex Value="5"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
       </Unit10>
       <Unit11>
-        <Filename Value="C:\lazarus\fpc\2.2.1\source\rtl\win\wininc\redef.inc"/>
+        <Filename Value="C:/lazarus/fpc/2.2.1/source/rtl/win/wininc/redef.inc"/>
         <CursorPos X="10" Y="800"/>
         <TopLine Value="781"/>
+        <UsageCount Value="11"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="/usr/src/fpc/rtl/unix/ipc.pp"/>
+        <UnitName Value="ipc"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="148"/>
         <EditorIndex Value="4"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
-      </Unit11>
+      </Unit12>
     </Units>
-    <JumpHistory Count="3" HistoryIndex="2">
+    <JumpHistory Count="6" HistoryIndex="5">
       <Position1>
         <Filename Value="server.lpr"/>
-        <Caret Line="84" Column="10" TopLine="59"/>
+        <Caret Line="25" Column="14" TopLine="1"/>
       </Position1>
       <Position2>
         <Filename Value="server.lpr"/>
-        <Caret Line="82" Column="30" TopLine="55"/>
+        <Caret Line="86" Column="131" TopLine="61"/>
       </Position2>
       <Position3>
         <Filename Value="server.lpr"/>
-        <Caret Line="58" Column="26" TopLine="25"/>
+        <Caret Line="26" Column="14" TopLine="63"/>
       </Position3>
+      <Position4>
+        <Filename Value="server.lpr"/>
+        <Caret Line="34" Column="30" TopLine="11"/>
+      </Position4>
+      <Position5>
+        <Filename Value="server.lpr"/>
+        <Caret Line="89" Column="28" TopLine="66"/>
+      </Position5>
+      <Position6>
+        <Filename Value="server.lpr"/>
+        <Caret Line="86" Column="18" TopLine="63"/>
+      </Position6>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
-    <PathDelim Value="\"/>
     <SearchPaths>
-      <OtherUnitFiles Value="src\;units\"/>
+      <OtherUnitFiles Value="src/;units/"/>
     </SearchPaths>
     <CodeGeneration>
       <Generate Value="Faster"/>

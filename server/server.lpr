@@ -22,15 +22,29 @@ program LainServer;
 
 uses
 {$ifdef unix}
-  CThreads,
+  CThreads, IPC,
 {$endif}
 {$ifdef windows}
   Windows, Registry,
 {$endif}
   Main, SysUtils, authorize, FSUtils, NetUtils, Engine, Sockets;
-  
+
+{$ifdef unix}
+ const
+  AccessMode = SHM_R or SHM_W;
+  SegmentSize = SizeOf(LongWord);
+  IdentValue = $F3D8;
+{$endif}
+
 var
- Param :WideString;
+ X :Longint;
+ Item :TConnectionThread;
+ Param :String;
+{$ifdef unix}
+ shmid :Integer;
+ pMemory :Pointer;
+ MemLongWord :^Longword;
+{$endif}
 {$ifdef windows}
  Handle :THandle;
  Window :TWNDClass;
@@ -39,6 +53,7 @@ var
  WindowHandle :THandle;
  ShareMemory :THandle;
 {$endif}
+
   
 {$ifdef windows}
  function WndProc(wnd :hwnd; umsg :uint; wpar :wparam; lpar :lparam) :lresult; stdcall;
@@ -52,11 +67,6 @@ var
  end;
 {$endif}
   
-
-var
- X :Longint;
- Item :TConnectionThread;
-  
 begin
  InitCriticalSection(CriticalSection);
  if ParamCount > 0 then
@@ -64,8 +74,36 @@ begin
   Param := '';
 
 {$ifdef unix}
- AssignFile(NetUtils.STDOutPut, '');
- ReWrite(NetUtils.STDOutPut);
+ AssignFile(OutPut, '');
+ ReWrite(OutPut);
+ NetUtils.STDOutPut := OutPut;
+ 
+ if Param = 'stop' then
+ begin
+  shmid := shmget(IdentValue, 0, 0);
+  if shmid =-1 then
+  begin
+   Writeln(OutPut, 'nothing to stop');
+   CloseFile(OutPut);
+   Exit;
+  end;
+  
+  pMemory := shmat(shmid, nil, 0);
+
+  if Integer(pMemory) = -1 then
+  begin
+   Writeln(OutPut, 'access denided');
+   CloseFile(OutPut);
+   Exit;
+  end;
+  
+  MemLongWord := pMemory;
+  MemLongWord^ := $FF;
+  Writeln(OutPut, 'Done');
+  CloseFile(OutPut);
+  Exit;
+ end;
+ 
 {$endif}
 
 {$ifdef windows}
@@ -133,10 +171,29 @@ begin
 
 /// at the moment, the server app is only for tests
 {$ifdef unix}
+ shmid := shmget(IdentValue, SegmentSize, IPC_CREAT or AccessMode);
+ if shmid =-1 then
+ begin
+  Writeln(OutPut, 'Can''t create shared memory');
+  CloseFile(OutPut);
+  Exit;
+ end;
+ 
+ pMemory := shmat(shmid, nil, 0);
+ if Integer(pMemory) = -1 then
+  begin
+  Writeln(OutPut, 'Can''t include shared memory');
+  CloseFile(OutPut);
+  Exit;
+ end;
+ 
+ MemLongWord := pMemory;
+ MemLongWord^ := 0;
+ 
+ while MemLongWord^ <> $FF do sleep(10);
 
- Writeln('Press Enter to exit');
- Readln;
- CloseFile(NetUtils.STDOutPut);
+ CloseFile(OutPut);
+ shmdt(pMemory);
 {$endif}
 
 {$ifdef windows}
