@@ -161,63 +161,13 @@ begin
  RTLEventSetEvent(MainThreads[1].Event);
 end;
 
-var
- X :Longint;
- Item :TConnectionThread;
  
 initialization
 begin
- InitCriticalSection(CriticalSection);
 end;
 
 finalization
 begin
- EnterCriticalSection(CriticalSection);
- TerminateApp := True;
- ClientConnection.Disconnect;
- ServerConnection.Shutdown;
- ServerConnection.CloseSocket;
- LeaveCriticalSection(CriticalSection);
- 
- if MainThreads[0].Created = True then
- begin
-  RTLEventWaitFor(MainThreads[0].Event);
-  RTLEventDestroy(MainThreads[0].Event);
- end;
- 
- if MainThreads[1].Created = True then
- begin
-  RTLEventWaitFor(MainThreads[1].Event);
-  RTLEventDestroy(MainThreads[1].Event);
- end;
- 
- ClientConnection.Free;
- ServerConnection.Free;
- 
- if Length(CThreadList) > 0 then
- begin
-  for x := 0 to Length(CThreadList) - 1 do
-  begin
-   EnterCriticalSection(CriticalSection);
-   Item := CThreadList[x];
-   LeaveCriticalSection(CriticalSection);
-   
-   if Item.ThreadInfo.Created = True then
-   begin
-    EnterCriticalSection(CriticalSection);
-    Shutdown(Item.Connection.Sock, 2);
-    CloseSocket(Item.Connection.Sock);
-    LeaveCriticalSection(CriticalSection);
-   
-    RTLEventWaitFor(Item.ThreadInfo.Event);
-    RTLEventDestroy(Item.ThreadInfo.Event);
-   end;
-
-  end;
- end;
- 
- CThreadList := nil;
- DoneCriticalSection(CriticalSection);
 end;
 
 end.

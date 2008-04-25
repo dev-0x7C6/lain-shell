@@ -24,7 +24,7 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <LaunchingApplication Use="True" PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
+        <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
     <RequiredPackages Count="1">
@@ -32,15 +32,15 @@
         <PackageName Value="LCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="10">
+    <Units Count="12">
       <Unit0>
         <Filename Value="server.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uniserver"/>
-        <CursorPos X="1" Y="34"/>
-        <TopLine Value="18"/>
+        <CursorPos X="32" Y="139"/>
+        <TopLine Value="120"/>
         <EditorIndex Value="3"/>
-        <UsageCount Value="54"/>
+        <UsageCount Value="57"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
@@ -49,7 +49,7 @@
         <UnitName Value="FSUtils"/>
         <CursorPos X="14" Y="3"/>
         <TopLine Value="3"/>
-        <UsageCount Value="34"/>
+        <UsageCount Value="37"/>
       </Unit1>
       <Unit2>
         <Filename Value="units\netutils.pas"/>
@@ -57,26 +57,26 @@
         <UnitName Value="NetUtils"/>
         <CursorPos X="25" Y="253"/>
         <TopLine Value="291"/>
-        <UsageCount Value="34"/>
+        <UsageCount Value="37"/>
       </Unit2>
       <Unit3>
         <Filename Value="src\main.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Main"/>
-        <CursorPos X="50" Y="143"/>
-        <TopLine Value="141"/>
+        <CursorPos X="6" Y="170"/>
+        <TopLine Value="136"/>
         <EditorIndex Value="2"/>
-        <UsageCount Value="54"/>
+        <UsageCount Value="57"/>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="src\authorize.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Authorize"/>
-        <CursorPos X="5" Y="103"/>
-        <TopLine Value="67"/>
+        <CursorPos X="43" Y="144"/>
+        <TopLine Value="108"/>
         <EditorIndex Value="0"/>
-        <UsageCount Value="54"/>
+        <UsageCount Value="57"/>
         <Loaded Value="True"/>
       </Unit4>
       <Unit5>
@@ -96,10 +96,10 @@
         <Filename Value="src\engine.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Engine"/>
-        <CursorPos X="118" Y="24"/>
-        <TopLine Value="3"/>
+        <CursorPos X="38" Y="53"/>
+        <TopLine Value="15"/>
         <EditorIndex Value="1"/>
-        <UsageCount Value="30"/>
+        <UsageCount Value="33"/>
         <Loaded Value="True"/>
       </Unit7>
       <Unit8>
@@ -116,8 +116,37 @@
         <UsageCount Value="9"/>
         <SyntaxHighlighter Value="XML"/>
       </Unit9>
+      <Unit10>
+        <Filename Value="C:\lazarus\fpc\2.2.1\source\rtl\inc\systemh.inc"/>
+        <CursorPos X="11" Y="785"/>
+        <TopLine Value="766"/>
+        <EditorIndex Value="5"/>
+        <UsageCount Value="12"/>
+        <Loaded Value="True"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="C:\lazarus\fpc\2.2.1\source\rtl\win\wininc\redef.inc"/>
+        <CursorPos X="10" Y="800"/>
+        <TopLine Value="781"/>
+        <EditorIndex Value="4"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit11>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
+    <JumpHistory Count="3" HistoryIndex="2">
+      <Position1>
+        <Filename Value="server.lpr"/>
+        <Caret Line="84" Column="10" TopLine="59"/>
+      </Position1>
+      <Position2>
+        <Filename Value="server.lpr"/>
+        <Caret Line="82" Column="30" TopLine="55"/>
+      </Position2>
+      <Position3>
+        <Filename Value="server.lpr"/>
+        <Caret Line="58" Column="26" TopLine="25"/>
+      </Position3>
+    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>

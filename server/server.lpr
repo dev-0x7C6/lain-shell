@@ -25,11 +25,89 @@ uses
   CThreads,
 {$endif}
 {$ifdef windows}
-  Windows,
+  Windows, Registry,
 {$endif}
-  Main, SysUtils, authorize, FSUtils, NetUtils, Engine;
+  Main, SysUtils, authorize, FSUtils, NetUtils, Engine, Sockets;
+  
+var
+ Param :WideString;
+{$ifdef windows}
+ Handle :THandle;
+ Window :TWNDClass;
+ WindowControl :HWND;
+ Msg :TMsg;
+ WindowHandle :THandle;
+ ShareMemory :THandle;
+{$endif}
+  
+{$ifdef windows}
+ function WndProc(wnd :hwnd; umsg :uint; wpar :wparam; lpar :lparam) :lresult; stdcall;
+ begin
+ Result := 0;
+  case UMsg of
+   wm_destroy: PostQuitMessage(0);
+   wm_queryendsession: PostQuitMessage(0);
+   else Result := DefWindowProc(wnd, umsg, wpar, lpar);
+  end;
+ end;
+{$endif}
+  
 
+var
+ X :Longint;
+ Item :TConnectionThread;
+  
 begin
+ InitCriticalSection(CriticalSection);
+ if ParamCount > 0 then
+  Param := ParamStr(1) else
+  Param := '';
+
+{$ifdef unix}
+ AssignFile(NetUtils.STDOutPut, '');
+ ReWrite(NetUtils.STDOutPut);
+{$endif}
+
+{$ifdef windows}
+ if Param = 'stop' then
+ begin
+  WindowHandle := FindWindow('lainshell-server', 'lainshell');
+  if WindowHandle <> 0 then
+   SendMessage(WindowHandle, WM_DESTROY, 0, 0);
+  DoneCriticalSection(CriticalSection);
+  Halt;
+ end;
+ 
+ ShareMemory := CreateFileMapping(INVALID_HANDLE_VALUE, nil, PAGE_READONLY, 0, 4, 'lainshell-server');
+ if GetLastError = ERROR_ALREADY_EXISTS then
+ begin
+  WindowHandle := FindWindow('lainshell-server', 'lainshell');
+  if WindowHandle <> 0 then
+  begin
+   SendMessage(WindowHandle, WM_DESTROY, 0, 0);
+   Handle := $FFFF;
+   while Handle <> 0 do
+   begin
+    Handle := OpenFileMapping(FILE_MAP_ALL_ACCESS, True, 'lainshell-server'); sleep(1);
+   end;
+   Sleep(1000);
+  end;
+ end;
+ 
+ with Window do
+ begin
+  lpfnwndproc := @wndproc;
+  hinstance := hinstance;
+  lpszclassname := 'lainshell-server';
+  hbrBackground := color_window;
+ end;
+
+ RegisterClass(Window);
+ WindowControl := CreateWindow('lainshell-server', 'lainshell', 0, 100, 100, 100,
+                               100, 0, 0, system.HINSTANCE, nil);
+ 
+{$endif}
+
  ClientConnection := TTcpIpSocketClient.Create;
  ServerConnection := TTcpIpSocketServer.Create;
  
@@ -55,14 +133,64 @@ begin
 
 /// at the moment, the server app is only for tests
 {$ifdef unix}
- AssignFile(NetUtils.STDOutPut, '');
- ReWrite(NetUtils.STDOutPut);
+
  Writeln('Press Enter to exit');
  Readln;
  CloseFile(NetUtils.STDOutPut);
 {$endif}
+
 {$ifdef windows}
- while true do sleep(100);
+ while getmessage(msg, 0, 0, 0) do dispatchmessage(msg);
+ 
+ if ShareMemory <> 0 then CloseHandle(ShareMemory);
 {$endif}
+
+ EnterCriticalSection(CriticalSection);
+ TerminateApp := True;
+ ClientConnection.Disconnect;
+ ServerConnection.Shutdown;
+ ServerConnection.CloseSocket;
+ LeaveCriticalSection(CriticalSection);
+
+ if MainThreads[0].Created = True then
+ begin
+  RTLEventWaitFor(MainThreads[0].Event);
+  RTLEventDestroy(MainThreads[0].Event);
+ end;
+
+ if MainThreads[1].Created = True then
+ begin
+  RTLEventWaitFor(MainThreads[1].Event);
+  RTLEventDestroy(MainThreads[1].Event);
+ end;
+
+ ClientConnection.Free;
+ ServerConnection.Free;
+
+ if Length(CThreadList) > 0 then
+ begin
+  for x := 0 to Length(CThreadList) - 1 do
+  begin
+   EnterCriticalSection(CriticalSection);
+   Item := CThreadList[x];
+   LeaveCriticalSection(CriticalSection);
+
+   if Item.ThreadInfo.Created = True then
+   begin
+    EnterCriticalSection(CriticalSection);
+    Shutdown(Item.Connection.Sock, 2);
+    CloseSocket(Item.Connection.Sock);
+    LeaveCriticalSection(CriticalSection);
+
+    RTLEventWaitFor(Item.ThreadInfo.Event);
+    RTLEventDestroy(Item.ThreadInfo.Event);
+   end;
+
+  end;
+ end;
+
+ CThreadList := nil;
+
+ DoneCriticalSection(CriticalSection);
 end.
 

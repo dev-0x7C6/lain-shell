@@ -50,7 +50,7 @@ var
 implementation
 
 uses
- Main, Engine, Dialogs;
+ Main, Engine;
 
 
 {$ifdef windows}
