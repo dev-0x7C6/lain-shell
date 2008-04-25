@@ -41,6 +41,7 @@ var
  Item :TConnectionThread;
  Param :String;
 {$ifdef unix}
+ Dump :LongWord;
  shmid :Integer;
  pMemory :Pointer;
  MemLongWord :^Longword;
@@ -53,6 +54,14 @@ var
  WindowHandle :THandle;
  ShareMemory :THandle;
 {$endif}
+
+procedure ExitProcedure;
+begin
+{$ifdef unix}
+ CloseFile(OutPut);
+{$endif}
+  DoneCriticalSection(CriticalSection);
+end;
 
   
 {$ifdef windows}
@@ -69,6 +78,8 @@ var
   
 begin
  InitCriticalSection(CriticalSection);
+ AddExitProc(@ExitProcedure);
+
  if ParamCount > 0 then
   Param := ParamStr(1) else
   Param := '';
@@ -77,14 +88,13 @@ begin
  AssignFile(OutPut, '');
  ReWrite(OutPut);
  NetUtils.STDOutPut := OutPut;
- 
+
  if Param = 'stop' then
  begin
   shmid := shmget(IdentValue, 0, 0);
   if shmid =-1 then
   begin
    Writeln(OutPut, 'nothing to stop');
-   CloseFile(OutPut);
    Exit;
   end;
   
@@ -92,15 +102,15 @@ begin
 
   if Integer(pMemory) = -1 then
   begin
+   shmdt(pMemory);
    Writeln(OutPut, 'access denided');
-   CloseFile(OutPut);
    Exit;
   end;
   
   MemLongWord := pMemory;
   MemLongWord^ := $FF;
   Writeln(OutPut, 'Done');
-  CloseFile(OutPut);
+  shmdt(pMemory);
   Exit;
  end;
  
@@ -153,7 +163,7 @@ begin
  ClientServiceSettings.Port := 9897;
  ServerServiceSettings.MaxConnections := 0;
  ServerServiceSettings.Port := 9896;
- 
+EnterCriticalSection(CriticalSection);
 {$ifdef unix}
  MainThreads[0].Created := (BeginThread(@ClientServiceThread, nil, MainThreads[0].Handle) <> 0);
  MainThreads[1].Created := (BeginThread(@ServerServiceThread, nil, MainThreads[1].Handle) <> 0);
@@ -168,32 +178,35 @@ begin
 
  if MainThreads[0].Created = True then MainThreads[0].Event := RTLEventCreate;
  if MainThreads[1].Created = True then MainThreads[1].Event := RTLEventCreate;
+LeaveCriticalSection(CriticalSection);
 
 /// at the moment, the server app is only for tests
 {$ifdef unix}
  shmid := shmget(IdentValue, SegmentSize, IPC_CREAT or AccessMode);
- if shmid =-1 then
+ if shmid <> -1 then
  begin
-  Writeln(OutPut, 'Can''t create shared memory');
-  CloseFile(OutPut);
-  Exit;
- end;
- 
- pMemory := shmat(shmid, nil, 0);
- if Integer(pMemory) = -1 then
+  pMemory := shmat(shmid, nil, 0);
+  if Integer(pMemory) <> -1 then
   begin
-  Writeln(OutPut, 'Can''t include shared memory');
-  CloseFile(OutPut);
-  Exit;
- end;
- 
- MemLongWord := pMemory;
- MemLongWord^ := 0;
- 
- while MemLongWord^ <> $FF do sleep(10);
+   MemLongWord := pMemory;
+   EnterCriticalSection(CriticalSection);
+   MemLongWord^ := 0;
+   Dump := MemLongWord^;
+   LeaveCriticalSection(CriticalSection);
+   while Dump <> $FF do
+   begin
+    EnterCriticalSection(CriticalSection);
+    Dump := MemLongWord^;
+    LeaveCriticalSection(CriticalSection);
+    sleep(10);
+   end;
+  end else
+   Writeln(OutPut, 'Can''t include shared memory');
+  shmdt(pMemory);
+ end else
+  Writeln(OutPut, 'Can''t create shared memory');
 
- CloseFile(OutPut);
- shmdt(pMemory);
+
 {$endif}
 
 {$ifdef windows}
@@ -248,6 +261,5 @@ begin
 
  CThreadList := nil;
 
- DoneCriticalSection(CriticalSection);
 end.
 
