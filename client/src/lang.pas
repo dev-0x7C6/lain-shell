@@ -75,6 +75,7 @@ var
 {$ifdef windows}
 {$endif}
  
+ function MultiLanguageInit :Longint;
  function CMD_SetLang(var Params :TParams) :Longint;
  {$ifdef windows}
   function CMD_SetConsoleCodePage(var Params :TParams) :Longint;
@@ -83,8 +84,6 @@ var
 implementation
 
 {$ifdef windows} uses Windows; {$endif}
-
-function MultiLanguageInit :Longint; forward;
 
 function CMD_SetLang(var Params :TParams) :Longint;
 begin
@@ -230,17 +229,6 @@ begin
    ConsoleHost := MultiLanguageSupport.GetString('FieldLocation');
   Result := CMD_Done;
  end;
-end;
-
-initialization
-begin
- MultiLanguageSupport := nil;
- MultiLanguageInit;
-end;
-
-finalization
-begin
- MultiLanguageSupport.Free;
 end;
 
 end.

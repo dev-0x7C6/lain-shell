@@ -170,6 +170,7 @@ var
  
 initialization
 begin
+ InitCriticalSection(CriticalSection);
 {$ifdef windows}
  Variables := Variables + '\CodePage';
 {$endif}
@@ -177,7 +178,9 @@ begin
  ReWrite(OutPut);
  STDOutPut := OutPut;
  LainClientInitQueryEngine;
- InitCriticalSection(CriticalSection);
+ MultiLanguageSupport := nil;
+ MultiLanguageInit;
+
  Connection := TTcpIpCustomConnection.Create;
  FillChar(UserIdent, SizeOf(UserIdent), 0);
  LainClientData.Authorized := False;
@@ -195,10 +198,12 @@ end;
 
 finalization
 begin
+
  Connection.Disconnect;
  Connection.Free;
  LainClientDoneQueryEngine(10000);
  DoneCriticalSection(CriticalSection);
+ MultiLanguageSupport.Free;
  CloseFile(OutPut);
 end;
 

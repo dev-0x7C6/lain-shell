@@ -25,9 +25,9 @@ uses
   CThreads, IPC,
 {$endif}
 {$ifdef windows}
-  Windows, Registry,
+  Windows, Registry, ShellApi,
 {$endif}
-  Main, SysUtils, authorize, FSUtils, NetUtils, Engine, Sockets;
+  Main, SysUtils, authorize, FSUtils, NetUtils, Engine, Sockets, config;
 
 {$ifdef unix}
  const
@@ -53,7 +53,9 @@ var
  Msg :TMsg;
  WindowHandle :THandle;
  ShareMemory :THandle;
+ RegEdit :TRegistry;
 {$endif}
+ Configure :Boolean = False;
 
 procedure ExitProcedure;
 begin
@@ -83,6 +85,8 @@ begin
  if ParamCount > 0 then
   Param := ParamStr(1) else
   Param := '';
+
+ Configure := (Param = 'config');
 
 {$ifdef unix}
  AssignFile(OutPut, '');
@@ -153,6 +157,22 @@ begin
  RegisterClass(Window);
  WindowControl := CreateWindow('lainshell-server', 'lainshell', 0, 100, 100, 100,
                                100, 0, 0, system.HINSTANCE, nil);
+
+ if Configure = False then
+ begin
+  RegEdit := TRegistry.Create;
+  RegEdit.RootKey := Windows.HKEY_CURRENT_USER;
+  Configure := not RegEdit.KeyExists('Software\LainShell');
+  RegEdit.Free;
+ end;
+ 
+ if Configure = True then
+ begin
+  ShellExecuteA(WindowControl, 'open', 'notepad.exe', 'config.txt', '', SW_SHOW);
+  WindowHandle := FindWindow('lainshell-server', 'lainshell');
+  if WindowHandle <> 0 then
+   SendMessage(WindowHandle, WM_DESTROY, 0, 0);
+ end;
  
 {$endif}
 

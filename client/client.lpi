@@ -7,7 +7,7 @@
       <MainUnit Value="0"/>
       <IconPath Value=".\"/>
       <TargetFileExt Value=""/>
-      <ActiveEditorIndexAtStart Value="7"/>
+      <ActiveEditorIndexAtStart Value="3"/>
     </General>
     <VersionInfo>
       <ProjectVersion Value=""/>
@@ -52,8 +52,8 @@
         <Filename Value="src\main.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Main"/>
-        <CursorPos X="54" Y="32"/>
-        <TopLine Value="13"/>
+        <CursorPos X="19" Y="182"/>
+        <TopLine Value="163"/>
         <EditorIndex Value="7"/>
         <UsageCount Value="229"/>
         <Loaded Value="True"/>
@@ -107,8 +107,8 @@
         <Filename Value="src\lang.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Lang"/>
-        <CursorPos X="57" Y="111"/>
-        <TopLine Value="197"/>
+        <CursorPos X="40" Y="86"/>
+        <TopLine Value="69"/>
         <EditorIndex Value="3"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
