@@ -273,16 +273,7 @@
         <Loaded Value="True"/>
       </Unit32>
     </Units>
-    <JumpHistory Count="2" HistoryIndex="1">
-      <Position1>
-        <Filename Value="src\main.pas"/>
-        <Caret Line="202" Column="3" TopLine="172"/>
-      </Position1>
-      <Position2>
-        <Filename Value="src\main.pas"/>
-        <Caret Line="209" Column="39" TopLine="174"/>
-      </Position2>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>

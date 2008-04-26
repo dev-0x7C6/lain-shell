@@ -52,7 +52,9 @@ var
  WindowControl :HWND;
  Msg :TMsg;
  WindowHandle :THandle;
- ShareMemory :THandle;
+ ShareMemory :THandle = 0;
+ ExecuteBlock :THandle = 0;
+ RestartBlock :THandle = 0;
  RegEdit :TRegistry;
 {$endif}
  Configure :Boolean = False;
@@ -61,6 +63,10 @@ procedure ExitProcedure;
 begin
 {$ifdef unix}
  CloseFile(OutPut);
+{$endif}
+{$ifdef windows}
+ if ShareMemory <> 0 then CloseHandle(ShareMemory);
+ if ExecuteBlock <> 0 then CloseHandle(ExecuteBlock);
 {$endif}
   DoneCriticalSection(CriticalSection);
 end;
@@ -79,17 +85,46 @@ end;
 {$endif}
   
 begin
+ if ParamCount > 0 then
+  Param := LowerCase(ParamStr(1)) else
+  Param := '';
+  
+{$ifdef windows} //block multi run
+ if ((Param <> 'stop') and (Param <> 'restart')) then
+ begin
+  ExecuteBlock := CreateFileMapping(INVALID_HANDLE_VALUE, nil, PAGE_READONLY, 0, 4, 'lainshell-block');
+  if GetLastError = ERROR_ALREADY_EXISTS then
+   Exit;
+ end else
+ begin
+  if Param = 'restart' then
+  begin
+   RestartBlock := CreateFileMapping(INVALID_HANDLE_VALUE, nil, PAGE_READONLY, 0, 4, 'lainshell-restart-block');
+   if GetLastError = ERROR_ALREADY_EXISTS then
+    Exit;
+
+  end;
+  WindowHandle := FindWindow('lainshell-server', 'lainshell');
+  if WindowHandle <> 0 then
+   SendMessage(WindowHandle, WM_DESTROY, 0, 0);
+  if Param = 'stop' then Exit;
+  Sleep(1000);
+    
+  repeat
+   ExecuteBlock := CreateFileMapping(INVALID_HANDLE_VALUE, nil, PAGE_READONLY, 0, 4, 'lainshell-block');
+  until ExecuteBlock <> 0;
+
+  if Param = 'restart' then CloseHandle(RestartBlock);
+ end;
+{$endif}
+
  InitCriticalSection(CriticalSection);
  AddExitProc(@ExitProcedure);
 
  ClientServiceSettings.Hostname := '127.0.0.1';
  ClientServiceSettings.Port := 9897;
  ServerServiceSettings.MaxConnections := 0;
- ServerServiceSettings.Port := 9896;
-
- if ParamCount > 0 then
-  Param := ParamStr(1) else
-  Param := '';
+ ServerServiceSettings.Port := 6883;
 
  Configure := (Param = 'config');
 
@@ -126,15 +161,6 @@ begin
 {$endif}
 
 {$ifdef windows}
- if Param = 'stop' then
- begin
-  WindowHandle := FindWindow('lainshell-server', 'lainshell');
-  if WindowHandle <> 0 then
-   SendMessage(WindowHandle, WM_DESTROY, 0, 0);
-  DoneCriticalSection(CriticalSection);
-  Halt;
- end;
- 
  ShareMemory := CreateFileMapping(INVALID_HANDLE_VALUE, nil, PAGE_READONLY, 0, 4, 'lainshell-server');
  if GetLastError = ERROR_ALREADY_EXISTS then
  begin
@@ -142,13 +168,17 @@ begin
   if WindowHandle <> 0 then
   begin
    SendMessage(WindowHandle, WM_DESTROY, 0, 0);
-   Handle := $FFFF;
-   while Handle <> 0 do
+
+   while true do
    begin
-    Handle := OpenFileMapping(FILE_MAP_ALL_ACCESS, True, 'lainshell-server'); sleep(1);
+    Sleep(1);
+   // Handle := OpenFileMapping(FILE_MAP_ALL_ACCESS, True, 'lainshell-server');
+    WindowHandle := FindWindow('lainshell-server', 'lainshell');
+    if ((WindowHandle = 0)) then break;
    end;
    Sleep(1000);
   end;
+  ShareMemory := CreateFileMapping(INVALID_HANDLE_VALUE, nil, PAGE_READONLY, 0, 4, 'lainshell-server');
  end;
  
  with Window do
@@ -180,6 +210,7 @@ begin
    ConfigFile.SaveConfig('config.txt');
    ConfigFile.Free;
    ShellExecuteA(WindowControl, 'open', 'notepad.exe', 'config.txt', '', SW_SHOW);
+   if ShareMemory <> 0 then CloseHandle(ShareMemory);
    Exit;
   end else
   begin
@@ -275,8 +306,6 @@ LeaveCriticalSection(CriticalSection);
 
 {$ifdef windows}
  while getmessage(msg, 0, 0, 0) do dispatchmessage(msg);
- 
- if ShareMemory <> 0 then CloseHandle(ShareMemory);
 {$endif}
 
  EnterCriticalSection(CriticalSection);
