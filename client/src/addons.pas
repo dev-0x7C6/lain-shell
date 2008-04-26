@@ -39,6 +39,7 @@ begin
  Writeln(OutPut, '  ', MultiLanguageSupport.GetString('MainProgramer'));
  Writeln(OutPut);
  Writeln(OutPut, '  ', MultiLanguageSupport.GetString('EnLang'));
+ Writeln(OutPut, '  ', MultiLanguageSupport.GetString('EsLang'));
  Writeln(OutPut, '  ', MultiLanguageSupport.GetString('PlLang'));
  Result := CMD_Done;
 end;

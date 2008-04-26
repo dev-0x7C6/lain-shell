@@ -84,6 +84,8 @@ FieldUsername: "domy˜lny"
 FieldLocation: "nigdzie"
 
 //Authors
-MainProgramer: "Gˆ¢wny programista: Bartlomiej Burdukiewicz"
-PlLang: "Polska wersja j©zykowa: Bartlomiej Burdukiewicz"
-EnLang: "Angielska wersja j©zykowa: Pawel Parcianko"
+MainProgramer: "Main Programer: Bartlomiej Burdukiewicz <strikeu@poczta.linux.pl>"
+
+EnLang: "English language support: Pawel Parcianko <pawelparcianko@wp.pl>, Main Programer"
+EsLang: "Spanish language support: Jose Ruben <ruben_balea@hotmail.com>"
+PlLang: "Polisch language support: Main Programer"

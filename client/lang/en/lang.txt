@@ -81,6 +81,8 @@ FieldUsername: "default"
 FieldLocation: "nowhere"
 
 //Authors
-MainProgramer: "Main Programer: Bartlomiej Burdukiewicz"
-PlLang: "Polisch language support: Bartlomiej Burdukiewicz"
-EnLang: "English language support: Pawel Parcianko"
+MainProgramer: "Main Programer: Bartlomiej Burdukiewicz <strikeu@poczta.linux.pl>"
+
+EnLang: "English language support: Pawel Parcianko <pawelparcianko@wp.pl>, Main Programer"
+EsLang: "Spanish language support: Jose Ruben <ruben_balea@hotmail.com>"
+PlLang: "Polisch language support: Main Programer"
