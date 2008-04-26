@@ -29,11 +29,21 @@ Type
  TDoubleString = Array[0..1] of String;
   
 Const
- DefaultConfigVariables :Array[0..3]of TDoubleString =
+ ConfigVariablesCount = 3;
+
+Var
+ DefaultConfigVariables :Array[0..ConfigVariablesCount]of TDoubleString =
  (('ServerPort','9896'),
   ('ServerMaxConnections', '0'),
   ('ReverseConnectHostname', '127.0.0.1'),
   ('ReverseConnectPort', '9897'));
+
+ DefaultComments :Array[0..ConfigVariablesCount]of String =
+ (('# ServerPort is a number variable, define lisining port'),
+  ('# ServerMaxConnections is a nubmer variable, limited incoming connections (unlimited=0)'),
+  ('# ReverseConnectHostname is a string variable, connect to hostname'),
+  ('# ReverseConnectPort is a number variable, connect to hostname at port'));
+ 
 
 type TConfigFile = class
  private
@@ -47,6 +57,9 @@ type TConfigFile = class
   function OpenConfig(Source :WideString) :Boolean;
   function SaveConfig(Dest :WideString) :Boolean;
 end;
+
+var
+ ConfigFile : TConfigFile;
 
 implementation
 
@@ -63,8 +76,16 @@ implementation
  end;
  
  procedure TConfigFile.GenerateConfig;
+ var
+  X :Longint;
  begin
-  //
+  FConfig.Clear;
+  for X := 0 to ConfigVariablesCount do
+  begin
+   FConfig.Add(DefaultComments[X]);
+   FConfig.Add(DefaultConfigVariables[X][0] + '=' + DefaultConfigVariables[X][1]);
+   FConfig.Add('');
+  end;
  end;
  
  function TConfigFile.OpenConfig(Source :WideString) :Boolean;

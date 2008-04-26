@@ -168,10 +168,12 @@ begin
  
  if Configure = True then
  begin
+  ConfigFile := TConfigFile.Create;
+  ConfigFile.GenerateConfig;
+  ConfigFile.SaveConfig('config.txt');
+  ConfigFile.Free;
   ShellExecuteA(WindowControl, 'open', 'notepad.exe', 'config.txt', '', SW_SHOW);
-  WindowHandle := FindWindow('lainshell-server', 'lainshell');
-  if WindowHandle <> 0 then
-   SendMessage(WindowHandle, WM_DESTROY, 0, 0);
+  Exit;
  end;
  
 {$endif}

@@ -1,86 +1,86 @@
 // Operating System
-WindowsConsoleCodePage: 437
+WindowsConsoleCodePage: "437"
 
 // Messages
-MsgWelcome: Welcome in %s Have nice day :)
-MsgCmdFail: Command set result failed
-MsgLogoff: Logoff, please wait...
-MsgCantLogoff: Can't logoff, disconnecting...
-MsgCmdNotFound: Command '%s' not found, check help page
-MsgSetUsername: Set Username:
-MsgSetPassword: Set Password:
-MsgLongUsername: Username's too long
-MsgLongPassword: Password's too long
-MsgPreparAuthorize: Preparing to authorization
-MsgCantAuthorize: Can't authorize connection
-MsgAuthorized: Connection's authorized
-MsgAlreadyConnected: You're already connected
-MsgDisconnectConnection: Disconnect your connection
-MsgCantFindHostname: Can't find hostname
-MsgCancelConnect: Press Enter to cancel connecting
-MsgCloseSocket: Close socket...
-MsgConnected: You're connected
-MsgCantConnect: Can't connect
-MsgUnknownProto: Unknown server protocol
-MsgDisconnect: Disconnect
-MsgDisconnected: Disconnected
-MsgNotConnected: Not connected
-MsgRConnectPressEnter: Press enter to cancel operation
-MsgRConnectWaiting: Waiting for connections...
-MsgRConnectThreadEnd: Waiting for thread terminate...
-MsgRConnectChose: Chose connection by id :
-MsgRConnectUnknownID: Unknown ID
+MsgWelcome: "Welcome in %s Have nice day :)"
+MsgCmdFail: "Command set result failed"
+MsgLogoff: "Logoff, please wait..."
+MsgCantLogoff: "Can't logoff, disconnecting..."
+MsgCmdNotFound: "Command '%s' not found, check help page"
+MsgSetUsername: "Set Username:"
+MsgSetPassword: "Set Password:"
+MsgLongUsername: "Username's too long"
+MsgLongPassword: "Password's too long"
+MsgPreparAuthorize: "Preparing to authorization"
+MsgCantAuthorize: "Can't authorize connection"
+MsgAuthorized: "Connection's authorized"
+MsgAlreadyConnected: "You're already connected"
+MsgDisconnectConnection: "Disconnect your connection"
+MsgCantFindHostname: "Can't find hostname"
+MsgCancelConnect: "Press Enter to cancel connecting"
+MsgCloseSocket: "Close socket..."
+MsgConnected: "You're connected"
+MsgCantConnect: "Can't connect"
+MsgUnknownProto: "Unknown server protocol"
+MsgDisconnect: "Disconnect"
+MsgDisconnected: "Disconnected"
+MsgNotConnected: "Not connected"
+MsgRConnectPressEnter: "Press enter to cancel operation"
+MsgRConnectWaiting: "Waiting for connections..."
+MsgRConnectThreadEnd: "Waiting for thread terminate..."
+MsgRConnectChose: "Chose connection by id :"
+MsgRConnectUnknownID: "Unknown ID"
 
-MsgSetVariableDone: Variable set successful
-MsgSetVariableFail: Variable set failed
-MsgSetVariableUnknown: Unknown variable '%s' to set
+MsgSetVariableDone: "Variable set successful"
+MsgSetVariableFail: "Variable set failed"
+MsgSetVariableUnknown: "Unknown variable '%s' to set"
 
 // Help
-HelpAbout: Show about page
-HelpConnect: Connect with LainShell server
-HelpClear: Clear console
-HelpDisconnect: Disconnect any connections
-HelpExit: Close application
-HelpHelp: Show help page
-HelpLogin: login
-HelpLogout: logout
-HelpRConnect: Reverse connection mode (waiting for connections)
-HelpSet: Set some variables
-HelpStatus: Show status page
-HelpQuit: Alians for exit
+HelpAbout: "Show about page"
+HelpConnect: "Connect with LainShell server"
+HelpClear: "Clear console"
+HelpDisconnect: "Disconnect any connections"
+HelpExit: "Close application"
+HelpHelp: "Show help page"
+HelpLogin: "login"
+HelpLogout: "logout"
+HelpRConnect: "Reverse connection mode (waiting for connections)"
+HelpSet: "Set some variables"
+HelpStatus: "Show status page"
+HelpQuit: "Alians for exit"
 
 // Status
-StatusAuthorized: Authorized
-StatusConnected: Connected
-StatusHostname: Hostname
+StatusAuthorized: "Authorized"
+StatusConnected: "Connected"
+StatusHostname: "Hostname"
 
-StatusPort: Port
-StatusUsername: Username
-StatusPassword: Password
+StatusPort: "Port"
+StatusUsername: "Username"
+StatusPassword: "Password"
 
 // Words
-BoolTrue: Yes
-BoolFalse: No
-WordUsername: Username
-WordPassword: Password
-WordPort: Port
-WordHostname: Hostname
+BoolTrue: "Yes"
+BoolFalse: "No"
+WordUsername: "Username"
+WordPassword: "Password"
+WordPort: "Port"
+WordHostname: "Hostname"
 
 // Using
-UsingConnect: Connect [hostname(:port)]
-UsingRConnect: RConnect [localport] [maxconnections]
-UsingSet: Set variables [%s]
-UsingSetLang: Set Lang [package]
-UsingSetCodePage: Set CodePage [number]
+UsingConnect: "Connect [hostname(:port)]"
+UsingRConnect: "RConnect [localport] [maxconnections]"
+UsingSet: "Set variables [%s]"
+UsingSetLang: "Set Lang [package]"
+UsingSetCodePage: "Set CodePage [number]"
 
 // Field
-FieldDone: [done]
-FieldFail: [fail]
-FieldEmpty: <empty>
-FieldUsername: default
-FieldLocation: nowhere
+FieldDone: "[done]"
+FieldFail: "[fail]"
+FieldEmpty: "<empty>"
+FieldUsername: "default"
+FieldLocation: "nowhere"
 
 //Authors
-MainProgramer: Main Programer: Bartlomiej Burdukiewicz
-PlLang: Polisch language support: Bartlomiej Burdukiewicz
-EnLang: English language support: Pawel Parcianko
+MainProgramer: "Main Programer: Bartlomiej Burdukiewicz"
+PlLang: "Polisch language support: Bartlomiej Burdukiewicz"
+EnLang: "English language support: Pawel Parcianko"

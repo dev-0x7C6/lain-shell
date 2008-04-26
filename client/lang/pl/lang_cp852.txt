@@ -1,89 +1,89 @@
 // Operating System
-WindowsConsoleCodePage: 852
+WindowsConsoleCodePage: "852"
 
 // Messages
-MsgWelcome: Witaj w %s , ¾yczymy udanej pracy
-MsgCmdFail: Polecenie nie powiodˆo si©
-MsgLogoff: Wylogowywanie, prosz© czeka†...
-MsgCantLogoff: Nie mo¾na ukoäczy† operacji wylogowywania, nast©pi rozˆ¥czenie...
-MsgCmdNotFound: Polecenie '%s' jest nieznane
-MsgSetUsername: Podaj nazw© u¾ydkownika:
-MsgSetPassword: Podaj hasˆo:
-MsgLongUsername: Nazwa u¾ytkownika jest zadˆuga
-MsgLongPassword: Hasˆo jest zadˆugie
-MsgPreparAuthorize: Przygotowywanie do autoryzacji
-MsgCantAuthorize: Nie mo¾na autoryzowa† poˆ¥czenia
-MsgAuthorized: Poˆ¥czenie zostaˆo autoryzowane
-MsgAlreadyConnected: Jeste˜ ju¾ poˆ¥czony
-MsgDisconnectConnection: Rozˆanczanie...
-MsgCantFindHostname: Nie mo¾na znale«† hosta
-MsgCancelConnect: Naci˜nij Enter, aby przerwa†
-MsgCloseSocket: Zamykanie gniazda...
-MsgConnected: Jeste˜ poˆ¥czony
-MsgCantConnect: Nie mo¾na poˆ¥czy† si©
-MsgUnknownProto: Nieznany protok¢ˆ
-MsgDisconnect: Rozˆ¥czenie
-MsgDisconnected: Rozˆ¥czono
-MsgNotConnected: Nie poˆ¥czono
-MsgRConnectUsage: RConnect (port) (max connections)
-MsgRConnectPressEnter: Naci˜nij enter aby przerwa†
-MsgRConnectWaiting: Oczekiwanie poˆ¥czeä...
-MsgRConnectThreadEnd: Zamykanie w¥tku...
-MsgRConnectChose: Wybierz poˆ¥czenie :
-MsgRConnectUnknownID: Nieznane ID poˆ¥czenia
+MsgWelcome: "Witaj w %s , ¾yczymy udanej pracy"
+MsgCmdFail: "Polecenie nie powiodˆo si©"
+MsgLogoff: "Wylogowywanie, prosz© czeka†..."
+MsgCantLogoff: "Nie mo¾na ukoäczy† operacji wylogowywania, nast©pi rozˆ¥czenie..."
+MsgCmdNotFound: "Polecenie '%s' jest nieznane"
+MsgSetUsername: "Podaj nazw© u¾ydkownika:"
+MsgSetPassword: "Podaj hasˆo:"
+MsgLongUsername: "Nazwa u¾ytkownika jest zadˆuga"
+MsgLongPassword: "Hasˆo jest zadˆugie"
+MsgPreparAuthorize: "Przygotowywanie do autoryzacji"
+MsgCantAuthorize: "Nie mo¾na autoryzowa† poˆ¥czenia"
+MsgAuthorized: "Poˆ¥czenie zostaˆo autoryzowane"
+MsgAlreadyConnected: "Jeste˜ ju¾ poˆ¥czony"
+MsgDisconnectConnection: "Rozˆanczanie..."
+MsgCantFindHostname: "Nie mo¾na znale«† hosta"
+MsgCancelConnect: "Naci˜nij Enter, aby przerwa†"
+MsgCloseSocket: "Zamykanie gniazda..."
+MsgConnected: "Jeste˜ poˆ¥czony"
+MsgCantConnect: Nie mo¾na poˆ¥czy† si©"
+MsgUnknownProto: "Nieznany protok¢ˆ"
+MsgDisconnect: "Rozˆ¥czenie"
+MsgDisconnected: "Rozˆ¥czono"
+MsgNotConnected: "Nie poˆ¥czono"
+MsgRConnectUsage: "RConnect (port) (max connections)"
+MsgRConnectPressEnter: "Naci˜nij enter aby przerwa†"
+MsgRConnectWaiting: "Oczekiwanie poˆ¥czeä..."
+MsgRConnectThreadEnd: "Zamykanie w¥tku..."
+MsgRConnectChose: "Wybierz poˆ¥czenie :"
+MsgRConnectUnknownID: "Nieznane ID poˆ¥czenia"
 
 
-MsgSetVariableDone: Zmienna zostaˆa ustawiona pomy˜lnie
-MsgSetVariableFail: Zmienna nie zostaˆa zmieniona
-MsgSetVariableUnknown: Nieznana zmienna '%s' do ustawienia
+MsgSetVariableDone: "Zmienna zostaˆa ustawiona pomy˜lnie"
+MsgSetVariableFail: "Zmienna nie zostaˆa zmieniona"
+MsgSetVariableUnknown: "Nieznana zmienna '%s' do ustawienia"
 
 
 
 // Help
-HelpAbout: Strona o autorach
-HelpConnect: Poˆ¥cz si© z serwerem
-HelpClear: Czy˜† konsole
-HelpDisconnect: Rozˆ¥cz wszystkie poˆ¥czenia
-HelpExit: Zamknij aplicakcje
-HelpHelp: Poka¾ stron© pomocy
-HelpLogin: Logowanie
-HelpLogout: Wylogowywanie
-HelpRConnect: Poˆ¥czenie odwrotne (oczekiwanie poˆ¥czeä)
-HelpSet: Ustaw zmienn¥
-HelpStatus: Poka¾ status
-HelpQuit: To samo co Exit
+HelpAbout: "Strona o autorach"
+HelpConnect: "Poˆ¥cz si© z serwerem"
+HelpClear: "Czy˜† konsole"
+HelpDisconnect: "Rozˆ¥cz wszystkie poˆ¥czenia"
+HelpExit: "Zamknij aplicakcje"
+HelpHelp: "Poka¾ stron© pomocy"
+HelpLogin: "Logowanie"
+HelpLogout: "Wylogowywanie"
+HelpRConnect: "Poˆ¥czenie odwrotne (oczekiwanie poˆ¥czeä)"
+HelpSet: "Ustaw zmienn¥"
+HelpStatus: "Poka¾ status"
+HelpQuit: "To samo co Exit"
 
 // Status
-StatusAuthorized: Autoryzowano
-StatusConnected: Poˆ¥czono
-StatusHostname: Nazwa Hosta
-StatusPort: Port
-StatusUsername: U¾ytkownik
-StatusPassword: Hasˆo
+StatusAuthorized: "Autoryzowano"
+StatusConnected: "Poˆ¥czono"
+StatusHostname: "Nazwa Hosta"
+StatusPort: "Port"
+StatusUsername: "U¾ytkownik"
+StatusPassword: "Hasˆo"
 
 // Words
-BoolTrue: Tak
-BoolFalse: Nie
-WordUsername: U¾ytkownik
-WordPassword: Hasˆo
-WordPort: Port
-WordHostname: Host
+BoolTrue: "Tak"
+BoolFalse: "Nie"
+WordUsername: "U¾ytkownik"
+WordPassword: "Hasˆo"
+WordPort: "Port"
+WordHostname: "Host"
 
 // Using
-UsingConnect: Connect [hostname(:port)]
-UsingRConnect: RConnect [localport] [maxconnections]
-UsingSet: Ustaw zmienn¥ [%s]
-UsingSetLang: Ustaw j©zyk [paczka]
-UsingSetCodePage: Zmieä kodowanie [numer]
+UsingConnect: "Connect [hostname(:port)]"
+UsingRConnect: "RConnect [localport] [maxconnections]"
+UsingSet: "Ustaw zmienn¥ [%s]"
+UsingSetLang: "Ustaw j©zyk [paczka]"
+UsingSetCodePage: "Zmieä kodowanie [numer]"
 
 // Field
-FieldDone: [zrobione]
-FieldFail: [bˆ¥d]
-FieldEmpty: <puste>
-FieldUsername: domy˜lny
-FieldLocation: nigdzie
+FieldDone: "[zrobione]"
+FieldFail: "[bˆ¥d]"
+FieldEmpty: "<puste>"
+FieldUsername: "domy˜lny"
+FieldLocation: "nigdzie"
 
 //Authors
-MainProgramer: Gˆ¢wny programista: Bartlomiej Burdukiewicz
-PlLang: Polska wersja j©zykowa: Bartlomiej Burdukiewicz
-EnLang: Angielska wersja j©zykowa: Pawel Parcianko
+MainProgramer: "Gˆ¢wny programista: Bartlomiej Burdukiewicz"
+PlLang: "Polska wersja j©zykowa: Bartlomiej Burdukiewicz"
+EnLang: "Angielska wersja j©zykowa: Pawel Parcianko"

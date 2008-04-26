@@ -142,8 +142,23 @@ end;
 
 constructor TMultiLanguageSupport.Create(const Value :WideString);
 var
- X, Y, Offset :Longint;
+ X, Y, Offset, Segment :Longint;
  Lang :TStringList;
+
+function DelSpaces(Source :WideString) :WideString;
+var
+ X :Longint;
+begin
+ if Length(Source) > 0 then
+ begin
+  Result := '';
+  for X := 1 to length(Source) do
+   if Source[x] <> ' ' then
+    Result := Result + Source[X];
+ end else
+  Result := '';
+end;
+
 begin
  inherited Create;
  Lang := TStringList.Create;
@@ -154,14 +169,25 @@ begin
   Lang.LoadFromFile(Value);
   for X := 0 to Lang.Count - 1 do
   begin
+   Offset := -1;
+   Segment := -1;
    for Y := 1 to Length(Lang.Strings[X]) do
-   if Lang.Strings[X][Y] = ' ' then
    begin
-    Offset := Y;
-    Break;
+    if Lang.Strings[X][Y] = '"' then
+    begin
+     if Offset <> -1 then
+     begin
+      Segment := Y;
+      Break;
+     end else
+      Offset := Y;
+    end;
    end;
-   Index.Add(Copy(Lang.Strings[X], 1, Offset - 1));
-   Source.Add(Copy(Lang.Strings[X], Offset + 1, Length(Lang.Strings[X]) - Offset));
+   if ((Offset <> -1) and (Segment <> -1)) then
+   begin
+    Index.Add(DelSpaces(Copy(Lang.Strings[X], 1, Offset - 1)));
+    Source.Add(Copy(Lang.Strings[X], Offset + 1, Segment - Offset - 1));
+   end;
   end;
  end;
  Lang.Free;
