@@ -27,8 +27,12 @@ uses
 
 Const
  WindowsCodePageEn :WideString = '437';
+ WindowsCodePageEs :WideString = '850';
  WindowsCodePagePl :WideString = '852';
 
+Const
+ SupportLangs :WideString = 'en/es/pl';
+ 
 Var
  WindowsManualCodePageID :Longint = 437;
  WindowsManualCodePage :Boolean = False;
@@ -89,7 +93,7 @@ function CMD_SetLang(var Params :TParams) :Longint;
 begin
  if Length(Params) < 3 then
  begin
-  Writeln(OutPut, MultiLanguageSupport.GetString('UsingSetLang'));
+  Writeln(OutPut, MultiLanguageSupport.GetString(Format('UsingSetLang', [SupportLangs])));
   Exit(CMD_Fail);
  end;
  
@@ -216,6 +220,7 @@ begin
   if WindowsManualCodePage = False then
   begin
    if DefaultLang = 'en' then CodePage := '_cp' + WindowsCodePageEn;
+   if DefaultLang = 'es' then CodePage := '_cp' + WindowsCodePageEs;
    if DefaultLang = 'pl' then CodePage := '_cp' + WindowsCodePagePl;
   end else
    CodePage := '_cp' + IntToStr(WindowsManualCodePageID);

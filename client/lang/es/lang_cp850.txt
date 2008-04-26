@@ -1,0 +1,86 @@
+// Operating System
+WindowsConsoleCodePage: "850"
+
+// Messages
+MsgWelcome: "Bienvenido a %s Que tengas un buen d¡a :)"
+MsgCmdFail: "El resultado de establecer comando fall¢"
+MsgLogoff: "Cerrando sesi¢n, espere por favor..."
+MsgCantLogoff: "No se puede cerrar la sesi¢n, desconectando..."
+MsgCmdNotFound: "Comando '%s' no encontrado, comprueba la p gina de ayuda"
+MsgSetUsername: "Establecer Usuario:"
+MsgSetPassword: "Establecer Password:"
+MsgLongUsername: "Nombre de usuario demasiado largo"
+MsgLongPassword: "Password demasiado larga"
+MsgPreparAuthorize: "Preparando para la  autorizaci¢n"
+MsgCantAuthorize: "No se puede autorizar la conexi¢n"
+MsgAuthorized: "Conexi¢n autorizada"
+MsgAlreadyConnected: "Ya est  conectado"
+MsgDisconnectConnection: "Desconecte su conexi¢n"
+MsgCantFindHostname: "No se encuentra el nombre del host"
+MsgCancelConnect: "Presiona Intro para cancelar la conexi¢n"
+MsgCloseSocket: "Socket cerrado..."
+MsgConnected: "Est  conectado"
+MsgCantConnect: "No se pudo conectar"
+MsgUnknownProto: "Protocolo del servidor desconocido"
+MsgDisconnect: "Desconectado"
+MsgDisconnected: "Desconectado"
+MsgNotConnected: "No conectado"
+MsgRConnectPressEnter: "Presiona Intro para cancelar la operaci¢n"
+MsgRConnectWaiting: "Esperando las conexiones..."
+MsgRConnectThreadEnd: "Esperando a que termine el hilo..."
+MsgRConnectChose: "Elige conexi¢n por id :"
+MsgRConnectUnknownID: "ID desconocida"
+
+MsgSetVariableDone: "Variable establecida correctamente"
+MsgSetVariableFail: "Variable no establecida correctamente"
+MsgSetVariableUnknown: "Variable desconocida para establecer '%s'"
+
+// Help
+HelpAbout: "Muestra la p gina Acerca de..."
+HelpConnect: "Conecta con el servidor LainShell"
+HelpClear: "Limpia la consola"
+HelpDisconnect: "Desconecta cualquier conexi¢n"
+HelpExit: "Al igual que Quit cierra la aplicaci¢n"
+HelpHelp: "Muestra la p gina de Ayuda"
+HelpLogin: "login"
+HelpLogout: "logout"
+HelpRConnect: "Modo de conexi¢n inversa (esperando por conexiones)"
+HelpSet: "Establece variables"
+HelpStatus: "Muestra la p gina de Estado"
+HelpQuit: "Al igual que Exit cierra la aplicaci¢n"
+
+// Status
+StatusAuthorized: "Autorizado"
+StatusConnected: "Conectado"
+StatusHostname: "Hostname"
+
+StatusPort: "Puerto"
+StatusUsername: "Usuario"
+StatusPassword: "Password"
+
+// Words
+BoolTrue: "Yes"
+BoolFalse: "No"
+WordUsername: "Usuario"
+WordPassword: "Password"
+WordPort: "Port"
+WordHostname: "Hostname"
+
+// Using
+UsingConnect: "Connect [hostname(:puerto)]"
+UsingRConnect: "RConnect [puerto_local] [max_conexiones]"
+UsingSet: "Set variables [%s]"
+UsingSetLang: "Set Lang [paquete]"
+UsingSetCodePage: "Set CodePage [n£mero]"
+
+// Field
+FieldDone: "[hecho]"
+FieldFail: "[fallo]"
+FieldEmpty: "<vac¡o>"
+FieldUsername: "default"
+FieldLocation: "nowhere"
+
+//Authors
+MainProgramer: "Main Programer: Bartlomiej Burdukiewicz"
+PlLang: "Polisch language support: Bartlomiej Burdukiewicz"
+EnLang: "English language support: Pawel Parcianko"
