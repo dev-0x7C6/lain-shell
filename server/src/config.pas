@@ -48,11 +48,14 @@ Var
 type TConfigFile = class
  private
   FConfig :TStringList;
+  FIndex :TStringList;
+  FSource :TStringList;
  protected
  public
   constructor Create;
   destructor Destroy; override;
  
+  function GetString(const Value :WideString) :WideString;
   procedure GenerateConfig;
   function OpenConfig(Source :WideString) :Boolean;
   function SaveConfig(Dest :WideString) :Boolean;
@@ -63,46 +66,110 @@ var
 
 implementation
 
- constructor TConfigFile.Create;
+constructor TConfigFile.Create;
+begin
+ inherited Create;
+ FConfig := TStringList.Create;
+ FIndex := TStringList.Create;
+ FSource := TStringList.Create;
+end;
+
+destructor TConfigFile.Destroy;
+begin
+ FConfig.Free;
+ FSource.Free;
+ FIndex.Free;
+ inherited Destroy;
+end;
+
+function TConfigFile.GetString(const Value :WideString) :WideString;
+var
+ X, Offset :Longint;
+begin
+ Offset := -1;
+ for X := 0 to FIndex.Count - 1 do
  begin
-  inherited Create;
-  FConfig := TStringList.Create;
+  if LowerCase(FIndex.Strings[X]) = (LowerCase(Value) + '=') then
+  begin
+   Offset := X;
+   Break;
+  end;
  end;
+ if Offset <> -1 then
+  Result := FSource.Strings[Offset] else
+  Result := '';
+end;
  
- destructor TConfigFile.Destroy;
+procedure TConfigFile.GenerateConfig;
+var
+ X :Longint;
+begin
+ FConfig.Clear;
+ for X := 0 to ConfigVariablesCount do
  begin
-  FConfig.Free;
-  inherited Destroy;
+  FConfig.Add(DefaultComments[X]);
+  FConfig.Add(DefaultConfigVariables[X][0] + '= "' + DefaultConfigVariables[X][1] + '"');
+  FConfig.Add('');
  end;
- 
- procedure TConfigFile.GenerateConfig;
+end;
+
+function TConfigFile.OpenConfig(Source :WideString) :Boolean;
+var
+ Offset, Segment, X, Y :Longint;
+
+ function DelSpaces(Source :WideString) :WideString;
  var
   X :Longint;
  begin
-  FConfig.Clear;
-  for X := 0 to ConfigVariablesCount do
+  if Length(Source) > 0 then
   begin
-   FConfig.Add(DefaultComments[X]);
-   FConfig.Add(DefaultConfigVariables[X][0] + '=' + DefaultConfigVariables[X][1]);
-   FConfig.Add('');
+   Result := '';
+   for X := 1 to length(Source) do
+    if Source[x] <> ' ' then
+     Result := Result + Source[X];
+  end else
+   Result := '';
+ end;
+ 
+begin
+ FConfig.Clear;
+ Result := FileExists(Source);
+ if Result = True then
+  FConfig.LoadFromFile(Source);
+ if Result then
+ begin
+  for X := 0 to FConfig.Count - 1 do
+  begin
+   Offset := -1;
+   Segment := -1;
+   for Y := 1 to Length(FConfig.Strings[X]) do
+   begin
+    if FConfig.Strings[X][Y] = '"' then
+    begin
+     if Offset <> -1 then
+     begin
+      Segment := Y;
+      Break;
+     end else
+      Offset := Y;
+    end;
+   end;
+   if ((Offset <> -1) and (Segment <> -1)) then
+   begin
+    FIndex.Add(DelSpaces(Copy(FConfig.Strings[X], 1, Offset - 1)));
+    FSource.Add(Copy(FConfig.Strings[X], Offset + 1, Segment - Offset - 1));
+   end;
   end;
  end;
- 
- function TConfigFile.OpenConfig(Source :WideString) :Boolean;
- begin
-  FConfig.Clear;
-  Result := FileExists(Source);
-  if Result = True then
-   FConfig.LoadFromFile(Source);
- end;
- 
- function TConfigFile.SaveConfig(Dest :WideString) :Boolean;
- begin
- {$I-}
-  FConfig.SaveToFile(Dest);
- {$I+}
-  Result := (IOResult = 0);
- end;
+end;
+
+function TConfigFile.SaveConfig(Dest :WideString) :Boolean;
+begin
+{$I-}
+ FConfig.SaveToFile(Dest);
+{$I+}
+ Result := (IOResult = 0);
+end;
 
 end.
 

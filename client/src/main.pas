@@ -198,13 +198,15 @@ end;
 
 finalization
 begin
-
- Connection.Disconnect;
- Connection.Free;
+ if LainClientData.Authorized = True then
+  CMD_Logout(Params);
+ if Connection.Connected = True then
+  CMD_Disconnect(Params);
  LainClientDoneQueryEngine(10000);
- DoneCriticalSection(CriticalSection);
  MultiLanguageSupport.Free;
+ Connection.Free;
  CloseFile(OutPut);
+ DoneCriticalSection(CriticalSection);
 end;
 
 end.

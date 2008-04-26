@@ -234,7 +234,9 @@ uses {$ifdef linux} LibC {$endif}{$ifdef windows} WinSock {$endif};
   if FConnected or FConnecting or FSocketOpen then
   begin
    Shutdown(Sock, 2);
-   Result := (CloseSocket(Sock) = 0);
+   if CloseSocket(Sock) = 0 then
+    Result := True else
+    Result := False;
    FConnected := False;
    FConnecting := False;
    FSocketOpen := False;

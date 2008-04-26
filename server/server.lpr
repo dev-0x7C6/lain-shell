@@ -82,6 +82,11 @@ begin
  InitCriticalSection(CriticalSection);
  AddExitProc(@ExitProcedure);
 
+ ClientServiceSettings.Hostname := '127.0.0.1';
+ ClientServiceSettings.Port := 9897;
+ ServerServiceSettings.MaxConnections := 0;
+ ServerServiceSettings.Port := 9896;
+
  if ParamCount > 0 then
   Param := ParamStr(1) else
   Param := '';
@@ -169,22 +174,59 @@ begin
  if Configure = True then
  begin
   ConfigFile := TConfigFile.Create;
-  ConfigFile.GenerateConfig;
-  ConfigFile.SaveConfig('config.txt');
-  ConfigFile.Free;
-  ShellExecuteA(WindowControl, 'open', 'notepad.exe', 'config.txt', '', SW_SHOW);
-  Exit;
+  if not FileExists('config.txt') then
+  begin
+   ConfigFile.GenerateConfig;
+   ConfigFile.SaveConfig('config.txt');
+   ConfigFile.Free;
+   ShellExecuteA(WindowControl, 'open', 'notepad.exe', 'config.txt', '', SW_SHOW);
+   Exit;
+  end else
+  begin
+   ConfigFile.OpenConfig('config.txt');
+   DefaultConfigVariables[0][1] := ConfigFile.GetString(DefaultConfigVariables[0][0]);
+   DefaultConfigVariables[1][1] := ConfigFile.GetString(DefaultConfigVariables[1][0]);
+   DefaultConfigVariables[2][1] := ConfigFile.GetString(DefaultConfigVariables[2][0]);
+   DefaultConfigVariables[3][1] := ConfigFile.GetString(DefaultConfigVariables[3][0]);
+   ConfigFile.Free;
+   
+   RegEdit := TRegistry.Create;
+   RegEdit.RootKey := Windows.HKEY_CURRENT_USER;
+   RegEdit.OpenKey('Software\LainShell', True);
+   RegEdit.WriteString(DefaultConfigVariables[0][0], DefaultConfigVariables[0][1]);
+   RegEdit.WriteString(DefaultConfigVariables[1][0], DefaultConfigVariables[1][1]);
+   RegEdit.WriteString(DefaultConfigVariables[2][0], DefaultConfigVariables[2][1]);
+   RegEdit.WriteString(DefaultConfigVariables[3][0], DefaultConfigVariables[3][1]);
+   RegEdit.Free;
+
+   ClientServiceSettings.Hostname := DefaultConfigVariables[2][1];
+   ClientServiceSettings.Port := StrToIntDef(DefaultConfigVariables[3][1], 9897);
+   ServerServiceSettings.MaxConnections := StrToIntDef(DefaultConfigVariables[1][1], 0);;
+   ServerServiceSettings.Port := StrToIntDef(DefaultConfigVariables[0][1], 9896);
+  end;
+
+ end else
+ begin
+  RegEdit := TRegistry.Create;
+  RegEdit.RootKey := Windows.HKEY_CURRENT_USER;
+  RegEdit.OpenKey('Software\LainShell', True);
+  DefaultConfigVariables[0][1] := RegEdit.ReadString(DefaultConfigVariables[0][0]);
+  DefaultConfigVariables[1][1] := RegEdit.ReadString(DefaultConfigVariables[1][0]);
+  DefaultConfigVariables[2][1] := RegEdit.ReadString(DefaultConfigVariables[2][0]);
+  DefaultConfigVariables[3][1] := RegEdit.ReadString(DefaultConfigVariables[3][0]);
+  RegEdit.Free;
+  
+  ClientServiceSettings.Hostname := DefaultConfigVariables[2][1];
+  ClientServiceSettings.Port := StrToIntDef(DefaultConfigVariables[3][1], 9897);
+  ServerServiceSettings.MaxConnections := StrToIntDef(DefaultConfigVariables[1][1], 0);;
+  ServerServiceSettings.Port := StrToIntDef(DefaultConfigVariables[0][1], 9896);
  end;
  
 {$endif}
 
  ClientConnection := TTcpIpSocketClient.Create;
  ServerConnection := TTcpIpSocketServer.Create;
- 
- ClientServiceSettings.Hostname := '127.0.0.1';
- ClientServiceSettings.Port := 9897;
- ServerServiceSettings.MaxConnections := 0;
- ServerServiceSettings.Port := 9896;
+
 EnterCriticalSection(CriticalSection);
 {$ifdef unix}
  MainThreads[0].Created := (BeginThread(@ClientServiceThread, nil, MainThreads[0].Handle) <> 0);
