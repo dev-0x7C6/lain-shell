@@ -119,14 +119,14 @@ begin
 
   if Verfication then
   begin
-   Result := LainServerQueryEngine(Connection);
-
+   Result := LainServerRecvQuery(Connection);
    case Result of
     CMD_Error: Break;
     CMD_Disconnect: Break;
     CMD_Logoff: Continue;
+   else
+    LainServerQueryEngine(Connection, Result);
    end;
-   
   end;
   
  until ((Connection.Connected = False) or (TerminateApp));

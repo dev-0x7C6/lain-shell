@@ -26,27 +26,39 @@ uses
   Classes, SysUtils, NetUtils;
 
 Const
- CMD_Error = -1;
- CMD_Disconnect = 0;
- CMD_Logoff = 1;
+ Lain_Error = -1;
+ Lain_Disconnect = 0;
+ Lain_Logoff = 1;
+ Lain_Ok;
 
- function LainServerQueryEngine(var Connection :TTcpIpCustomConnection) :Longint;
 
+function LainServerRecvQuery(var Connection :TTcpIpCustomConnection) :Longint;
+function LainServerQueryEngine(var Connection :TTcpIpCustomConnection; Value :Word) :Longint;
+ 
 implementation
 
-function LainServerQueryEngine(var Connection :TTcpIpCustomConnection) :Longint;
+uses Shell;
+
+function LainServerRecvQuery(var Connection :TTcpIpCustomConnection) :Longint;
 var
- CMD_Value :Word;
+ Value :Word;
 begin
- CMD_Value := 2;
- while ((CMD_Value = CMD_Disconnect) or (CMD_Value = CMD_Logoff)) <> True do
+ Value := 2;
+ while ((Value = Lain_Disconnect) or (Value = Lain_Logoff)) <> True do
  begin
-  if Connection.Recv(CMD_Value, SizeOf(CMD_Value)) <> SizeOf(CMD_Value) then
-   Exit(CMD_Error);
-  if Connection.Send(CMD_Value, SizeOf(CMD_Value)) <> SizeOf(CMD_Value) then
-   Exit(CMD_Error);
+  if Connection.Recv(Value, SizeOf(Value)) <> SizeOf(Value) then
+   Exit(Lain_Error);
+  if Connection.Send(Value, SizeOf(Value)) <> SizeOf(Value) then
+   Exit(Lain_Error);
  end;
- Result := CMD_Value;
+ Result := Value;
+end;
+
+function LainServerQueryEngine(var Connection :TTcpIpCustomConnection; Value :Word) :Longint;
+begin
+ case Value of
+  Lain_Shell_List: Result := LainShellList(Connection);
+ end;
 end;
 
 end.
