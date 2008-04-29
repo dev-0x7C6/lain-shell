@@ -29,7 +29,7 @@ Const
  Lain_Error = -1;
  Lain_Disconnect = 0;
  Lain_Logoff = 1;
- Lain_Ok;
+ Lain_Ok = 2;
 
 
 function LainServerRecvQuery(var Connection :TTcpIpCustomConnection) :Longint;

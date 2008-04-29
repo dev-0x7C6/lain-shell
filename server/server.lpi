@@ -7,7 +7,7 @@
       <MainUnit Value="0"/>
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
-      <ActiveEditorIndexAtStart Value="2"/>
+      <ActiveEditorIndexAtStart Value="0"/>
     </General>
     <VersionInfo>
       <ProjectVersion Value=""/>
@@ -62,8 +62,8 @@
         <Filename Value="src/main.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Main"/>
-        <CursorPos X="27" Y="157"/>
-        <TopLine Value="125"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
         <EditorIndex Value="3"/>
         <UsageCount Value="70"/>
         <Loaded Value="True"/>
@@ -72,7 +72,7 @@
         <Filename Value="src/authorize.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Authorize"/>
-        <CursorPos X="45" Y="128"/>
+        <CursorPos X="9" Y="126"/>
         <TopLine Value="100"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="70"/>
@@ -95,8 +95,8 @@
         <Filename Value="src/engine.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Engine"/>
-        <CursorPos X="16" Y="16"/>
-        <TopLine Value="16"/>
+        <CursorPos X="13" Y="32"/>
+        <TopLine Value="9"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="46"/>
         <Loaded Value="True"/>
@@ -155,46 +155,22 @@
         <Filename Value="src/shell.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Shell"/>
-        <CursorPos X="30" Y="98"/>
-        <TopLine Value="56"/>
+        <CursorPos X="26" Y="59"/>
+        <TopLine Value="40"/>
         <EditorIndex Value="2"/>
         <UsageCount Value="21"/>
         <Loaded Value="True"/>
       </Unit15>
     </Units>
-    <JumpHistory Count="8" HistoryIndex="7">
+    <JumpHistory Count="2" HistoryIndex="1">
       <Position1>
-        <Filename Value="src/engine.pas"/>
-        <Caret Line="50" Column="62" TopLine="13"/>
+        <Filename Value="src/shell.pas"/>
+        <Caret Line="59" Column="28" TopLine="49"/>
       </Position1>
       <Position2>
-        <Filename Value="src/engine.pas"/>
-        <Caret Line="54" Column="36" TopLine="16"/>
+        <Filename Value="src/authorize.pas"/>
+        <Caret Line="128" Column="45" TopLine="96"/>
       </Position2>
-      <Position3>
-        <Filename Value="src/engine.pas"/>
-        <Caret Line="44" Column="51" TopLine="16"/>
-      </Position3>
-      <Position4>
-        <Filename Value="src/engine.pas"/>
-        <Caret Line="51" Column="12" TopLine="16"/>
-      </Position4>
-      <Position5>
-        <Filename Value="src/shell.pas"/>
-        <Caret Line="60" Column="13" TopLine="19"/>
-      </Position5>
-      <Position6>
-        <Filename Value="src/shell.pas"/>
-        <Caret Line="26" Column="30" TopLine="15"/>
-      </Position6>
-      <Position7>
-        <Filename Value="src/shell.pas"/>
-        <Caret Line="59" Column="3" TopLine="19"/>
-      </Position7>
-      <Position8>
-        <Filename Value="src/shell.pas"/>
-        <Caret Line="60" Column="97" TopLine="19"/>
-      </Position8>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
@@ -221,6 +197,12 @@
     </Other>
   </CompilerOptions>
   <Debugging>
+    <BreakPoints Count="1">
+      <Item1>
+        <Source Value="src/main.pas"/>
+        <Line Value="14"/>
+      </Item1>
+    </BreakPoints>
     <Exceptions Count="2">
       <Item1>
         <Name Value="ECodetoolError"/>

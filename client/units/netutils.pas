@@ -1,1 +1,1 @@
-/mnt/seagate/sdb1/projekty/multiplatform/lainshell/units/netutils.pas
+/mnt/seagate/sdb1/lainshell/lainshell/units/netutils.pas

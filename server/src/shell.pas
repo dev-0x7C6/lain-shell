@@ -56,7 +56,7 @@ var
 
 implementation
 
-uses {$ifdef unix} UnixBase {$endif} Engine;
+uses {$ifdef unix} Unix, BaseUnix, {$endif} Engine;
 
 function LainShellList(var Connection :TTcpIpCustomConnection) :Longint;
 var

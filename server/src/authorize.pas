@@ -121,9 +121,9 @@ begin
   begin
    Result := LainServerRecvQuery(Connection);
    case Result of
-    CMD_Error: Break;
-    CMD_Disconnect: Break;
-    CMD_Logoff: Continue;
+    Lain_Error: Break;
+    Lain_Disconnect: Break;
+    Lain_Logoff: Continue;
    else
     LainServerQueryEngine(Connection, Result);
    end;

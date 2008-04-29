@@ -1,0 +1,13 @@
+@echo off
+rm client.exe
+rm client
+rm *.compiled
+rm *.ppu
+rm *.bak
+rm *.o
+rm units\*.ppu
+rm units\*.bak
+rm units\*.o
+rm src\*.ppu
+rm src\*.bak
+rm src\*.o
