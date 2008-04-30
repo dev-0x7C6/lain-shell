@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <CONFIG>
   <ProjectOptions>
-    <PathDelim Value="/"/>
+    <PathDelim Value="\"/>
     <Version Value="6"/>
     <General>
       <MainUnit Value="0"/>
-      <IconPath Value="./"/>
+      <IconPath Value=".\"/>
       <TargetFileExt Value=""/>
-      <ActiveEditorIndexAtStart Value="0"/>
+      <ActiveEditorIndexAtStart Value="6"/>
     </General>
     <VersionInfo>
       <ProjectVersion Value=""/>
@@ -16,6 +16,7 @@
     </VersionInfo>
     <PublishOptions>
       <Version Value="2"/>
+      <DestinationDirectory Value="$(TestDir)\publishedproject\"/>
       <IgnoreBinaries Value="False"/>
       <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
       <ExcludeFileFilter Value="*.(bak|ppu|ppw|o|so);*~;backup"/>
@@ -23,7 +24,7 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
+        <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
     <RequiredPackages Count="1">
@@ -31,152 +32,154 @@
         <PackageName Value="LCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="16">
+    <Units Count="17">
       <Unit0>
         <Filename Value="server.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uniserver"/>
-        <CursorPos X="79" Y="30"/>
-        <TopLine Value="30"/>
-        <EditorIndex Value="4"/>
-        <UsageCount Value="70"/>
+        <CursorPos X="8" Y="115"/>
+        <TopLine Value="92"/>
+        <EditorIndex Value="6"/>
+        <UsageCount Value="74"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="units/fsutils.pas"/>
+        <Filename Value="units\fsutils.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="FSUtils"/>
         <CursorPos X="14" Y="3"/>
         <TopLine Value="3"/>
-        <UsageCount Value="50"/>
+        <EditorIndex Value="2"/>
+        <UsageCount Value="54"/>
+        <Loaded Value="True"/>
       </Unit1>
       <Unit2>
-        <Filename Value="units/netutils.pas"/>
+        <Filename Value="units\netutils.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="NetUtils"/>
         <CursorPos X="25" Y="253"/>
         <TopLine Value="291"/>
-        <UsageCount Value="50"/>
+        <EditorIndex Value="4"/>
+        <UsageCount Value="54"/>
+        <Loaded Value="True"/>
       </Unit2>
       <Unit3>
-        <Filename Value="src/main.pas"/>
+        <Filename Value="src\main.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Main"/>
-        <CursorPos X="1" Y="1"/>
-        <TopLine Value="1"/>
+        <CursorPos X="18" Y="92"/>
+        <TopLine Value="140"/>
         <EditorIndex Value="3"/>
-        <UsageCount Value="70"/>
+        <UsageCount Value="74"/>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
-        <Filename Value="src/authorize.pas"/>
+        <Filename Value="src\authorize.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Authorize"/>
         <CursorPos X="9" Y="126"/>
-        <TopLine Value="100"/>
+        <TopLine Value="9"/>
         <EditorIndex Value="0"/>
-        <UsageCount Value="70"/>
+        <UsageCount Value="74"/>
         <Loaded Value="True"/>
       </Unit4>
       <Unit5>
-        <Filename Value="usr/src/fpc/rtl/inc/systemh.inc"/>
+        <Filename Value="usr\src\fpc\rtl\inc\systemh.inc"/>
         <CursorPos X="16" Y="340"/>
         <TopLine Value="340"/>
         <UsageCount Value="11"/>
       </Unit5>
       <Unit6>
-        <Filename Value="../../unistrike/server/src/engine.pas"/>
+        <Filename Value="..\..\unistrike\server\src\engine.pas"/>
         <UnitName Value="Engine"/>
         <CursorPos X="35" Y="54"/>
         <TopLine Value="27"/>
         <UsageCount Value="22"/>
       </Unit6>
       <Unit7>
-        <Filename Value="src/engine.pas"/>
+        <Filename Value="src\engine.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Engine"/>
-        <CursorPos X="13" Y="32"/>
-        <TopLine Value="9"/>
+        <CursorPos X="10" Y="19"/>
+        <TopLine Value="30"/>
         <EditorIndex Value="1"/>
-        <UsageCount Value="46"/>
+        <UsageCount Value="50"/>
         <Loaded Value="True"/>
       </Unit7>
       <Unit8>
-        <Filename Value="../client/src/cengine.pas"/>
+        <Filename Value="..\client\src\cengine.pas"/>
         <UnitName Value="CEngine"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
         <UsageCount Value="19"/>
       </Unit8>
       <Unit9>
-        <Filename Value="../client/client.lpi"/>
+        <Filename Value="..\client\client.lpi"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
         <UsageCount Value="9"/>
         <SyntaxHighlighter Value="XML"/>
       </Unit9>
       <Unit10>
-        <Filename Value="C:/lazarus/fpc/2.2.1/source/rtl/inc/systemh.inc"/>
+        <Filename Value="C:\lazarus\fpc\2.2.1\source\rtl\inc\systemh.inc"/>
         <CursorPos X="11" Y="785"/>
         <TopLine Value="766"/>
         <UsageCount Value="12"/>
       </Unit10>
       <Unit11>
-        <Filename Value="C:/lazarus/fpc/2.2.1/source/rtl/win/wininc/redef.inc"/>
+        <Filename Value="C:\lazarus\fpc\2.2.1\source\rtl\win\wininc\redef.inc"/>
         <CursorPos X="10" Y="800"/>
         <TopLine Value="781"/>
         <UsageCount Value="11"/>
       </Unit11>
       <Unit12>
-        <Filename Value="usr/src/fpc/rtl/unix/ipc.pp"/>
+        <Filename Value="usr\src\fpc\rtl\unix\ipc.pp"/>
         <UnitName Value="ipc"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="148"/>
         <UsageCount Value="11"/>
       </Unit12>
       <Unit13>
-        <Filename Value="C:/lazarus/fpc/2.2.1/source/packages/winunits-base/src/shellapi.pp"/>
+        <Filename Value="C:\lazarus\fpc\2.2.1\source\packages\winunits-base\src\shellapi.pp"/>
         <UnitName Value="ShellApi"/>
         <CursorPos X="2" Y="1053"/>
         <TopLine Value="1053"/>
         <UsageCount Value="13"/>
       </Unit13>
       <Unit14>
-        <Filename Value="src/config.pas"/>
+        <Filename Value="src\config.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Config"/>
-        <CursorPos X="22" Y="101"/>
-        <TopLine Value="125"/>
-        <EditorIndex Value="5"/>
-        <UsageCount Value="30"/>
+        <CursorPos X="11" Y="156"/>
+        <TopLine Value="140"/>
+        <EditorIndex Value="7"/>
+        <UsageCount Value="34"/>
         <Loaded Value="True"/>
       </Unit14>
       <Unit15>
-        <Filename Value="src/shell.pas"/>
+        <Filename Value="src\shell.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Shell"/>
-        <CursorPos X="26" Y="59"/>
-        <TopLine Value="40"/>
-        <EditorIndex Value="2"/>
-        <UsageCount Value="21"/>
+        <CursorPos X="28" Y="87"/>
+        <TopLine Value="67"/>
+        <EditorIndex Value="5"/>
+        <UsageCount Value="25"/>
         <Loaded Value="True"/>
       </Unit15>
+      <Unit16>
+        <Filename Value="C:\lazarus\fpc\2.2.1\source\rtl\inc\mathh.inc"/>
+        <CursorPos X="14" Y="64"/>
+        <TopLine Value="45"/>
+        <UsageCount Value="10"/>
+      </Unit16>
     </Units>
-    <JumpHistory Count="2" HistoryIndex="1">
-      <Position1>
-        <Filename Value="src/shell.pas"/>
-        <Caret Line="59" Column="28" TopLine="49"/>
-      </Position1>
-      <Position2>
-        <Filename Value="src/authorize.pas"/>
-        <Caret Line="128" Column="45" TopLine="96"/>
-      </Position2>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
+    <PathDelim Value="\"/>
     <SearchPaths>
-      <OtherUnitFiles Value="src/;units/"/>
+      <OtherUnitFiles Value="src\;units\"/>
     </SearchPaths>
     <CodeGeneration>
       <Generate Value="Faster"/>
@@ -197,11 +200,55 @@
     </Other>
   </CompilerOptions>
   <Debugging>
-    <BreakPoints Count="1">
+    <BreakPoints Count="12">
       <Item1>
-        <Source Value="src/main.pas"/>
+        <Source Value="src\main.pas"/>
         <Line Value="14"/>
       </Item1>
+      <Item2>
+        <Source Value="server.lpr"/>
+        <Line Value="171"/>
+      </Item2>
+      <Item3>
+        <Source Value="server.lpr"/>
+        <Line Value="170"/>
+      </Item3>
+      <Item4>
+        <Source Value="server.lpr"/>
+        <Line Value="172"/>
+      </Item4>
+      <Item5>
+        <Source Value="server.lpr"/>
+        <Line Value="173"/>
+      </Item5>
+      <Item6>
+        <Source Value="server.lpr"/>
+        <Line Value="174"/>
+      </Item6>
+      <Item7>
+        <Source Value="server.lpr"/>
+        <Line Value="175"/>
+      </Item7>
+      <Item8>
+        <Source Value="server.lpr"/>
+        <Line Value="179"/>
+      </Item8>
+      <Item9>
+        <Source Value="server.lpr"/>
+        <Line Value="180"/>
+      </Item9>
+      <Item10>
+        <Source Value="server.lpr"/>
+        <Line Value="183"/>
+      </Item10>
+      <Item11>
+        <Source Value="server.lpr"/>
+        <Line Value="181"/>
+      </Item11>
+      <Item12>
+        <Source Value="server.lpr"/>
+        <Line Value="182"/>
+      </Item12>
     </BreakPoints>
     <Exceptions Count="2">
       <Item1>

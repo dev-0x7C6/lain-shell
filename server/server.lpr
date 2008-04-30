@@ -36,6 +36,14 @@ uses
   IdentValue = $F3D8;
 {$endif}
 
+Const
+{$ifdef unix}
+ ConfigFileName :WideString = 'lainconf.conf';
+{$endif}
+{$ifdef windows}
+ ConfigFileName :AnsiString = 'lainconf.txt';
+{$endif}
+
 var
  X :Longint;
  Item :TConnectionThread;
@@ -57,7 +65,7 @@ var
  RestartBlock :THandle = 0;
  RegEdit :TRegistry;
 {$endif}
- Configure :Boolean = False;
+ CreateConfig :Boolean = False;
 
 procedure ExitProcedure;
 begin
@@ -83,13 +91,31 @@ end;
   end;
  end;
 {$endif}
+
+var
+ HelpMsg :AnsiString;
   
 begin
  if ParamCount > 0 then
   Param := LowerCase(ParamStr(1)) else
   Param := '';
   
-{$ifdef windows} //block multi run
+ if Param = 'help' then
+ begin
+  HelpMsg := 'config  - run configurator'#13 +
+             'help    - show this message'#13 +
+             'restart - restart running deamon'#13 +
+             'stop    - stop running deamon'#13;
+ {$ifdef unix}
+  writeln(HelpMsg);
+ {$endif}
+ {$ifdef windows}
+  MessageBox(GetForegroundWindow, PChar(HelpMsg), 'Help page', MB_OK + MB_ICONINFORMATION);
+ {$endif}
+  Exit;
+ end;
+  
+{$ifdef windows}
  if ((Param <> 'stop') and (Param <> 'restart')) then
  begin
   ExecuteBlock := CreateFileMapping(INVALID_HANDLE_VALUE, nil, PAGE_READONLY, 0, 4, 'lainshell-block');
@@ -102,7 +128,6 @@ begin
    RestartBlock := CreateFileMapping(INVALID_HANDLE_VALUE, nil, PAGE_READONLY, 0, 4, 'lainshell-restart-block');
    if GetLastError = ERROR_ALREADY_EXISTS then
     Exit;
-
   end;
   WindowHandle := FindWindow('lainshell-server', 'lainshell');
   if WindowHandle <> 0 then
@@ -121,12 +146,90 @@ begin
  InitCriticalSection(CriticalSection);
  AddExitProc(@ExitProcedure);
 
- ClientServiceSettings.Hostname := '127.0.0.1';
- ClientServiceSettings.Port := 9897;
- ServerServiceSettings.MaxConnections := 0;
- ServerServiceSettings.Port := 6883;
+ CreateConfig := (Param = 'config');
 
- Configure := (Param = 'config');
+{$ifdef windows}
+ ShareMemory := CreateFileMapping(INVALID_HANDLE_VALUE, nil, PAGE_READONLY, 0, 4, 'lainshell-server');
+ if GetLastError = ERROR_ALREADY_EXISTS then
+ begin
+  WindowHandle := FindWindow('lainshell-server', 'lainshell');
+  if WindowHandle <> 0 then
+  begin
+   SendMessage(WindowHandle, WM_DESTROY, 0, 0);
+
+   while true do
+   begin
+    Sleep(1);
+    WindowHandle := FindWindow('lainshell-server', 'lainshell');
+    if ((WindowHandle = 0)) then break;
+   end;
+   Sleep(1000);
+  end;
+  ShareMemory := CreateFileMapping(INVALID_HANDLE_VALUE, nil, PAGE_READONLY, 0, 4, 'lainshell-server');
+ end;
+ 
+ RegEdit := TRegistry.Create;
+ RegEdit.RootKey := HKEY_CURRENT_USER;
+ RegEdit.OpenKey('Software\LainShell', true);
+ if not RegEdit.ValueExists('IsConfigured') then
+  CreateConfig := True;
+ RegEdit.Free;
+
+ if CreateConfig = True then
+ begin
+  ConfigFile := TConfigFile.Create;
+  ConfigFile.GenerateConfig;
+  ConfigFile.SaveConfig(ConfigFileName);
+  ConfigFile.Free;
+  RegEdit := TRegistry.Create;
+  RegEdit.RootKey := HKEY_CURRENT_USER;
+  RegEdit.OpenKey('Software\LainShell', true);
+  RegEdit.WriteInteger('IsConfigured', 0);
+  RegEdit.Free;
+  ShellExecuteA(WindowControl, 'open', 'notepad.exe', Pchar(ConfigFileName), '', SW_SHOW);
+  Exit;
+ end;
+ 
+ if FileExists(ConfigFileName) then
+ begin
+  ConfigFile := TConfigFile.Create;
+  ConfigFile.OpenConfig(ConfigFileName);
+  for X := 0 to ConfigVariablesCount do
+   DefaultConfigVariables[X][1] := ConfigFile.GetString(DefaultConfigVariables[X][0]);
+  ConfigFile.Free;
+  DeleteFile(PChar(ConfigFileName));
+  RegEdit := TRegistry.Create;
+  RegEdit.RootKey := Windows.HKEY_CURRENT_USER;
+  RegEdit.OpenKey('Software\LainShell', True);
+  for X := 0 to ConfigVariablesCount do
+   RegEdit.WriteString(DefaultConfigVariables[X][0], DefaultConfigVariables[X][1]);
+  RegEdit.Free;
+ end;
+
+ RegEdit := TRegistry.Create;
+ RegEdit.RootKey := Windows.HKEY_CURRENT_USER;
+ RegEdit.OpenKey('Software\LainShell', True);
+ for X := 0 to ConfigVariablesCount do
+  DefaultConfigVariables[X][1] := RegEdit.ReadString(DefaultConfigVariables[X][0]);
+ RegEdit.Free;
+
+
+ LainShellDataConfigure;
+
+
+ with Window do
+ begin
+  lpfnwndproc := @wndproc;
+  hinstance := hinstance;
+  lpszclassname := 'lainshell-server';
+  hbrBackground := color_window;
+ end;
+
+ RegisterClass(Window);
+ WindowControl := CreateWindow('lainshell-server', 'lainshell', 0, 100, 100, 100,
+                               100, 0, 0, system.HINSTANCE, nil);
+{$endif}
+
 
 {$ifdef unix}
  AssignFile(OutPut, '');
@@ -157,102 +260,6 @@ begin
   shmdt(pMemory);
   Exit;
  end;
- 
-{$endif}
-
-{$ifdef windows}
- ShareMemory := CreateFileMapping(INVALID_HANDLE_VALUE, nil, PAGE_READONLY, 0, 4, 'lainshell-server');
- if GetLastError = ERROR_ALREADY_EXISTS then
- begin
-  WindowHandle := FindWindow('lainshell-server', 'lainshell');
-  if WindowHandle <> 0 then
-  begin
-   SendMessage(WindowHandle, WM_DESTROY, 0, 0);
-
-   while true do
-   begin
-    Sleep(1);
-   // Handle := OpenFileMapping(FILE_MAP_ALL_ACCESS, True, 'lainshell-server');
-    WindowHandle := FindWindow('lainshell-server', 'lainshell');
-    if ((WindowHandle = 0)) then break;
-   end;
-   Sleep(1000);
-  end;
-  ShareMemory := CreateFileMapping(INVALID_HANDLE_VALUE, nil, PAGE_READONLY, 0, 4, 'lainshell-server');
- end;
- 
- with Window do
- begin
-  lpfnwndproc := @wndproc;
-  hinstance := hinstance;
-  lpszclassname := 'lainshell-server';
-  hbrBackground := color_window;
- end;
-
- RegisterClass(Window);
- WindowControl := CreateWindow('lainshell-server', 'lainshell', 0, 100, 100, 100,
-                               100, 0, 0, system.HINSTANCE, nil);
-
- if Configure = False then
- begin
-  RegEdit := TRegistry.Create;
-  RegEdit.RootKey := Windows.HKEY_CURRENT_USER;
-  Configure := not RegEdit.KeyExists('Software\LainShell');
-  RegEdit.Free;
- end;
- 
- if Configure = True then
- begin
-  ConfigFile := TConfigFile.Create;
-  if not FileExists('config.txt') then
-  begin
-   ConfigFile.GenerateConfig;
-   ConfigFile.SaveConfig('config.txt');
-   ConfigFile.Free;
-   ShellExecuteA(WindowControl, 'open', 'notepad.exe', 'config.txt', '', SW_SHOW);
-   if ShareMemory <> 0 then CloseHandle(ShareMemory);
-   Exit;
-  end else
-  begin
-   ConfigFile.OpenConfig('config.txt');
-   DefaultConfigVariables[0][1] := ConfigFile.GetString(DefaultConfigVariables[0][0]);
-   DefaultConfigVariables[1][1] := ConfigFile.GetString(DefaultConfigVariables[1][0]);
-   DefaultConfigVariables[2][1] := ConfigFile.GetString(DefaultConfigVariables[2][0]);
-   DefaultConfigVariables[3][1] := ConfigFile.GetString(DefaultConfigVariables[3][0]);
-   ConfigFile.Free;
-   
-   RegEdit := TRegistry.Create;
-   RegEdit.RootKey := Windows.HKEY_CURRENT_USER;
-   RegEdit.OpenKey('Software\LainShell', True);
-   RegEdit.WriteString(DefaultConfigVariables[0][0], DefaultConfigVariables[0][1]);
-   RegEdit.WriteString(DefaultConfigVariables[1][0], DefaultConfigVariables[1][1]);
-   RegEdit.WriteString(DefaultConfigVariables[2][0], DefaultConfigVariables[2][1]);
-   RegEdit.WriteString(DefaultConfigVariables[3][0], DefaultConfigVariables[3][1]);
-   RegEdit.Free;
-
-   ClientServiceSettings.Hostname := DefaultConfigVariables[2][1];
-   ClientServiceSettings.Port := StrToIntDef(DefaultConfigVariables[3][1], 9897);
-   ServerServiceSettings.MaxConnections := StrToIntDef(DefaultConfigVariables[1][1], 0);;
-   ServerServiceSettings.Port := StrToIntDef(DefaultConfigVariables[0][1], 9896);
-  end;
-
- end else
- begin
-  RegEdit := TRegistry.Create;
-  RegEdit.RootKey := Windows.HKEY_CURRENT_USER;
-  RegEdit.OpenKey('Software\LainShell', True);
-  DefaultConfigVariables[0][1] := RegEdit.ReadString(DefaultConfigVariables[0][0]);
-  DefaultConfigVariables[1][1] := RegEdit.ReadString(DefaultConfigVariables[1][0]);
-  DefaultConfigVariables[2][1] := RegEdit.ReadString(DefaultConfigVariables[2][0]);
-  DefaultConfigVariables[3][1] := RegEdit.ReadString(DefaultConfigVariables[3][0]);
-  RegEdit.Free;
-  
-  ClientServiceSettings.Hostname := DefaultConfigVariables[2][1];
-  ClientServiceSettings.Port := StrToIntDef(DefaultConfigVariables[3][1], 9897);
-  ServerServiceSettings.MaxConnections := StrToIntDef(DefaultConfigVariables[1][1], 0);;
-  ServerServiceSettings.Port := StrToIntDef(DefaultConfigVariables[0][1], 9896);
- end;
- 
 {$endif}
 
  ClientConnection := TTcpIpSocketClient.Create;

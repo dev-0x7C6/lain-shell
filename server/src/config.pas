@@ -33,7 +33,7 @@ Const
 
 Var
  DefaultConfigVariables :Array[0..ConfigVariablesCount]of TDoubleString =
- (('ServerPort','6883'),
+ (('ServerPort','9896'),
   ('ServerMaxConnections', '0'),
   ('ReverseConnectHostname', '127.0.0.1'),
   ('ReverseConnectPort', '9897'));
@@ -57,6 +57,7 @@ type TConfigFile = class
  
   function GetString(const Value :WideString) :WideString;
   procedure GenerateConfig;
+  procedure Clear;
   function OpenConfig(Source :WideString) :Boolean;
   function SaveConfig(Dest :WideString) :Boolean;
 end;
@@ -64,12 +65,16 @@ end;
 var
  ConfigFile : TConfigFile;
 
+ function LainShellDataConfigure :Longint;
+
 implementation
+
+uses Main;
 
 constructor TConfigFile.Create;
 begin
  inherited Create;
- FConfig := TStringList.Create;
+  FConfig := TStringList.Create;
  FIndex := TStringList.Create;
  FSource := TStringList.Create;
 end;
@@ -80,6 +85,13 @@ begin
  FSource.Free;
  FIndex.Free;
  inherited Destroy;
+end;
+
+procedure TConfigFile.Clear;
+begin
+ FConfig.Clear;
+ FSource.Clear;
+ FIndex.Clear;
 end;
 
 function TConfigFile.GetString(const Value :WideString) :WideString;
@@ -105,6 +117,8 @@ var
  X :Longint;
 begin
  FConfig.Clear;
+ FConfig.Add('# If configuration is ready to use, save file and run server application again');
+ FConfig.Add('');
  for X := 0 to ConfigVariablesCount do
  begin
   FConfig.Add(DefaultComments[X]);
@@ -169,6 +183,20 @@ begin
  FConfig.SaveToFile(Dest);
 {$I+}
  Result := (IOResult = 0);
+end;
+
+
+function LainShellDataConfigure :Longint;
+begin
+ ClientServiceSettings.Hostname := DefaultConfigVariables[2][1];
+ ClientServiceSettings.Port := StrToIntDef(DefaultConfigVariables[3][1], 9897);
+ ServerServiceSettings.MaxConnections := StrToIntDef(DefaultConfigVariables[1][1], 0);
+ ServerServiceSettings.Port := StrToIntDef(DefaultConfigVariables[0][1], 9896);
+end;
+
+initialization
+begin
+ LainShellDataConfigure;
 end;
 
 end.
