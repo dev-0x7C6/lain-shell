@@ -82,6 +82,7 @@ FieldLocation: "nowhere"
 
 //Authors
 MainProgramer: "Main Programer: Bartlomiej Burdukiewicz <strikeu@poczta.linux.pl>"
+MainTester: "Jarek Bojko <vazir.pl@gmail.com>"
 
 EnLang: "English language support: Pawel Parcianko <pawelparcianko@wp.pl>, Main Programer"
 EsLang: "Spanish language support: Jose Ruben <ruben_balea@hotmail.com>"

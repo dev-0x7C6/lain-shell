@@ -7,7 +7,7 @@
       <MainUnit Value="0"/>
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
-      <ActiveEditorIndexAtStart Value="2"/>
+      <ActiveEditorIndexAtStart Value="4"/>
     </General>
     <VersionInfo>
       <ProjectVersion Value=""/>
@@ -51,8 +51,8 @@
         <Filename Value="src/main.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Main"/>
-        <CursorPos X="54" Y="33"/>
-        <TopLine Value="13"/>
+        <CursorPos X="11" Y="45"/>
+        <TopLine Value="21"/>
         <EditorIndex Value="2"/>
         <UsageCount Value="229"/>
         <Loaded Value="True"/>
@@ -105,7 +105,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="Lang"/>
         <CursorPos X="86" Y="96"/>
-        <TopLine Value="65"/>
+        <TopLine Value="208"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -265,8 +265,8 @@
         <Filename Value="src/addons.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Addons"/>
-        <CursorPos X="66" Y="42"/>
-        <TopLine Value="26"/>
+        <CursorPos X="70" Y="40"/>
+        <TopLine Value="34"/>
         <EditorIndex Value="4"/>
         <UsageCount Value="24"/>
         <Loaded Value="True"/>

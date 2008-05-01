@@ -102,10 +102,11 @@ begin
   
  if Param = 'help' then
  begin
-  HelpMsg := 'config  - run configurator'#13 +
-             'help    - show this message'#13 +
-             'restart - restart running deamon'#13 +
-             'stop    - stop running deamon'#13;
+ 
+  HelpMsg := 'config  - run configurator' + LineEnding +
+             'help    - show this message' + LineEnding +
+             'restart - restart running deamon' + LineEnding +
+             'stop    - stop running deamon' + LineEnding;
  {$ifdef unix}
   writeln(HelpMsg);
  {$endif}
