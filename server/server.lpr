@@ -328,6 +328,7 @@ LeaveCriticalSection(CriticalSection);
  if MainThreads[0].Created = True then
  begin
   RTLEventWaitFor(MainThreads[0].Event);
+  
   RTLEventDestroy(MainThreads[0].Event);
  end;
 
