@@ -292,23 +292,25 @@ LeaveCriticalSection(CriticalSection);
   if Integer(pMemory) <> -1 then
   begin
    MemLongWord := pMemory;
-   EnterCriticalSection(CriticalSection);
-   MemLongWord^ := 0;
-   Dump := MemLongWord^;
-   LeaveCriticalSection(CriticalSection);
-   while Dump <> $FF do
+   if MemLongWord^ <> $F0 then
    begin
     EnterCriticalSection(CriticalSection);
+    MemLongWord^ := $F0;
     Dump := MemLongWord^;
     LeaveCriticalSection(CriticalSection);
-    sleep(10);
+    while Dump <> $FF do
+    begin
+     EnterCriticalSection(CriticalSection);
+     Dump := MemLongWord^;
+     LeaveCriticalSection(CriticalSection);
+     sleep(10);
+    end
    end;
   end else
    Writeln(OutPut, 'Can''t include shared memory');
   shmdt(pMemory);
  end else
   Writeln(OutPut, 'Can''t create shared memory');
-
 
 {$endif}
 

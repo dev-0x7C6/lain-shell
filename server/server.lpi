@@ -36,8 +36,8 @@
         <Filename Value="server.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uniserver"/>
-        <CursorPos X="7" Y="122"/>
-        <TopLine Value="86"/>
+        <CursorPos X="24" Y="303"/>
+        <TopLine Value="283"/>
         <EditorIndex Value="6"/>
         <UsageCount Value="77"/>
         <Loaded Value="True"/>
