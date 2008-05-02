@@ -22,12 +22,12 @@ program LainServer;
 
 uses
 {$ifdef unix}
-  CThreads, IPC,
+  CThreads, IPC, BaseUnix, Unix, Signals,
 {$endif}
 {$ifdef windows}
   Windows, Registry, ShellApi,
 {$endif}
-  Main, SysUtils, authorize, FSUtils, NetUtils, Engine, Sockets, config, shell;
+  Main, SysUtils, authorize, FSUtils, NetUtils, Engine, Sockets, Config, Shell;
 
 {$ifdef unix}
  const
@@ -39,6 +39,7 @@ uses
 Const
 {$ifdef unix}
  ConfigFileName :WideString = 'lainconf.conf';
+ ConfigDirectory :WideString = '.lainconf';
 {$endif}
 {$ifdef windows}
  ConfigFileName :AnsiString = 'lainconf.txt';
@@ -53,6 +54,9 @@ var
  shmid :Integer;
  pMemory :Pointer;
  MemLongWord :^Longword;
+ HomeDirectory :WideString;
+ ConfigExists :Boolean = False;
+ NanoPath :WideString;
 {$endif}
 {$ifdef windows}
  Handle :THandle;
@@ -94,6 +98,25 @@ end;
 
 var
  HelpMsg :AnsiString;
+ 
+{$ifdef unix}
+function GetHomeDirectory :AnsiString;
+var
+ Pipe :Text;
+begin
+ POpen(Pipe, 'echo $HOME', 'R');
+ Readln(Pipe, Result);
+ PClose(Pipe);
+end;
+
+function IsDir(const Str :AnsiString) :AnsiString;
+begin
+ if (Str[Length(Str)] = '/') then
+  Result := Str else
+  Result := Str + '/';
+end;
+
+{$endif}
   
 begin
  if ParamCount > 0 then
@@ -148,6 +171,44 @@ begin
  AddExitProc(@ExitProcedure);
 
  CreateConfig := (Param = 'config');
+ 
+{$ifdef unix}
+ AssignFile(OutPut, '');
+ ReWrite(OutPut);
+ NetUtils.STDOutPut := OutPut;
+ 
+ HomeDirectory :=  GetHomeDirectory;
+ if FpChdir(HomeDirectory) <> -1 then
+ begin
+  if not DirectoryExists(IsDir(HomeDirectory) + ConfigDirectory) then
+   Mkdir(IsDir(HomeDirectory) + ConfigDirectory);
+  if FpChdir(IsDir(HomeDirectory) + ConfigDirectory) <> -1 then
+   CreateConfig := (not FileExists(ConfigFileName)) or CreateConfig;
+ end;
+ 
+ if CreateConfig= True then
+ begin
+  if FileExists(ConfigFileName) then
+   DeleteFile(ConfigFileName);
+  ConfigFile := TConfigFile.Create;
+  ConfigFile.GenerateConfig;
+  ConfigFile.SaveConfig(ConfigFileName);
+  ConfigFile.Free;
+  Writeln(OutPut, 'Warning !!!: Please config this file ' + IsDir(HomeDirectory) + IsDir(ConfigDirectory) + ConfigFileName);
+  Writeln(OutPut);
+  Exit;
+ end;
+ 
+ ConfigFile := TConfigFile.Create;
+ ConfigFile.OpenConfig(ConfigFileName);
+
+ for X := 0 to ConfigVariablesCount do
+  DefaultConfigVariables[X][1] := ConfigFile.GetString(DefaultConfigVariables[X][0]);
+
+ ConfigFile.Free;
+ LainShellDataConfigure;
+ 
+{$endif}
 
 {$ifdef windows}
  ShareMemory := CreateFileMapping(INVALID_HANDLE_VALUE, nil, PAGE_READONLY, 0, 4, 'lainshell-server');
@@ -233,10 +294,6 @@ begin
 
 
 {$ifdef unix}
- AssignFile(OutPut, '');
- ReWrite(OutPut);
- NetUtils.STDOutPut := OutPut;
-
  if Param = 'stop' then
  begin
   shmid := shmget(IdentValue, 0, 0);
@@ -298,7 +355,7 @@ LeaveCriticalSection(CriticalSection);
     MemLongWord^ := $F0;
     Dump := MemLongWord^;
     LeaveCriticalSection(CriticalSection);
-    while Dump <> $FF do
+    while ((Dump <> $FF) and (TerminateApp <> True)) do
     begin
      EnterCriticalSection(CriticalSection);
      Dump := MemLongWord^;
@@ -308,6 +365,7 @@ LeaveCriticalSection(CriticalSection);
    end;
   end else
    Writeln(OutPut, 'Can''t include shared memory');
+  MemLongWord^ := $00;
   shmdt(pMemory);
  end else
   Writeln(OutPut, 'Can''t create shared memory');

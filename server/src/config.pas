@@ -33,7 +33,7 @@ Const
 
 Var
  DefaultConfigVariables :Array[0..ConfigVariablesCount]of TDoubleString =
- (('ServerPort','6885'),
+ (('ServerPort','9896'),
   ('ServerMaxConnections', '0'),
   ('ReverseConnectHostname', '127.0.0.1'),
   ('ReverseConnectPort', '9897'));
