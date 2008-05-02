@@ -81,7 +81,7 @@ var
  Verfication :Boolean;
  UserIdent :TUserIdent;
  X :Longint;
- 
+ Value :Word;
 begin
  Connection := TTcpIpCustomConnection.Create;
  Connection.SetConnection(AConnection);
@@ -119,17 +119,31 @@ begin
 
   if Verfication then
   begin
-   Result := LainServerRecvQuery(Connection);
-   case Result of
-    Lain_Error: Break;
-    Lain_Disconnect: Break;
-    Lain_Logoff: Continue;
-   else
-    LainServerQueryEngine(Connection, Result);
-   end;
+   repeat
+    if Connection.Recv(Value, SizeOf(Value)) <> SizeOf(Value) then
+    begin
+     Connection.Free;
+     Exit(Lain_Error);
+    end;
+    
+    if Connection.Send(Value, SizeOf(Value)) <> SizeOf(Value) then
+    begin
+     Connection.Free;
+     Exit(Lain_Error);
+    end;
+    
+    if Value = Lain_Disconnect then
+    begin
+     Connection.Free;
+     Exit(Lain_Error);
+    end;
+    
+    LainServerQueryEngine(Connection, Value);
+   until Value =  Lain_Logoff;
   end;
   
- until ((Connection.Connected = False) or (TerminateApp));
+ until ((Connection.Connected = False) or (TerminateApp = True));
+ Result := Lain_OK;
  Connection.Free;
 end;
 

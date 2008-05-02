@@ -7,7 +7,7 @@
       <MainUnit Value="0"/>
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
-      <ActiveEditorIndexAtStart Value="6"/>
+      <ActiveEditorIndexAtStart Value="1"/>
     </General>
     <VersionInfo>
       <ProjectVersion Value=""/>
@@ -23,7 +23,7 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <LaunchingApplication Use="True" PathPlusParams="/usr/kde/3.5/bin/konsole -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
+        <LaunchingApplication PathPlusParams="/usr/kde/3.5/bin/konsole -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
     <RequiredPackages Count="1">
@@ -36,11 +36,9 @@
         <Filename Value="server.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uniserver"/>
-        <CursorPos X="67" Y="30"/>
-        <TopLine Value="19"/>
-        <EditorIndex Value="6"/>
-        <UsageCount Value="105"/>
-        <Loaded Value="True"/>
+        <CursorPos X="8" Y="31"/>
+        <TopLine Value="143"/>
+        <UsageCount Value="108"/>
       </Unit0>
       <Unit1>
         <Filename Value="units/fsutils.pas"/>
@@ -48,38 +46,32 @@
         <UnitName Value="FSUtils"/>
         <CursorPos X="14" Y="3"/>
         <TopLine Value="3"/>
-        <EditorIndex Value="2"/>
-        <UsageCount Value="85"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="88"/>
       </Unit1>
       <Unit2>
         <Filename Value="units/netutils.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="NetUtils"/>
-        <CursorPos X="25" Y="253"/>
-        <TopLine Value="291"/>
-        <EditorIndex Value="4"/>
-        <UsageCount Value="85"/>
-        <Loaded Value="True"/>
+        <CursorPos X="55" Y="483"/>
+        <TopLine Value="460"/>
+        <UsageCount Value="88"/>
       </Unit2>
       <Unit3>
         <Filename Value="src/main.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Main"/>
         <CursorPos X="2" Y="83"/>
-        <TopLine Value="51"/>
-        <EditorIndex Value="3"/>
-        <UsageCount Value="105"/>
-        <Loaded Value="True"/>
+        <TopLine Value="125"/>
+        <UsageCount Value="108"/>
       </Unit3>
       <Unit4>
         <Filename Value="src/authorize.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Authorize"/>
-        <CursorPos X="25" Y="65"/>
-        <TopLine Value="77"/>
-        <EditorIndex Value="0"/>
-        <UsageCount Value="105"/>
+        <CursorPos X="19" Y="146"/>
+        <TopLine Value="111"/>
+        <EditorIndex Value="1"/>
+        <UsageCount Value="108"/>
         <Loaded Value="True"/>
       </Unit4>
       <Unit5>
@@ -99,10 +91,10 @@
         <Filename Value="src/engine.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Engine"/>
-        <CursorPos X="10" Y="19"/>
-        <TopLine Value="15"/>
-        <EditorIndex Value="1"/>
-        <UsageCount Value="81"/>
+        <CursorPos X="14" Y="39"/>
+        <TopLine Value="3"/>
+        <EditorIndex Value="0"/>
+        <UsageCount Value="84"/>
         <Loaded Value="True"/>
       </Unit7>
       <Unit8>
@@ -149,21 +141,17 @@
         <Filename Value="src/config.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Config"/>
-        <CursorPos X="52" Y="104"/>
-        <TopLine Value="89"/>
-        <EditorIndex Value="8"/>
-        <UsageCount Value="65"/>
-        <Loaded Value="True"/>
+        <CursorPos X="9" Y="96"/>
+        <TopLine Value="85"/>
+        <UsageCount Value="68"/>
       </Unit14>
       <Unit15>
-        <Filename Value="src/shell.pas"/>
+        <Filename Value="src/execute.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="Shell"/>
-        <CursorPos X="28" Y="87"/>
-        <TopLine Value="52"/>
-        <EditorIndex Value="5"/>
-        <UsageCount Value="56"/>
-        <Loaded Value="True"/>
+        <UnitName Value="Execute"/>
+        <CursorPos X="26" Y="40"/>
+        <TopLine Value="14"/>
+        <UsageCount Value="59"/>
       </Unit15>
       <Unit16>
         <Filename Value="C:/lazarus/fpc/2.2.1/source/rtl/inc/mathh.inc"/>
@@ -177,23 +165,45 @@
         <UnitName Value="Signals"/>
         <CursorPos X="44" Y="27"/>
         <TopLine Value="17"/>
-        <EditorIndex Value="7"/>
-        <UsageCount Value="46"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="49"/>
       </Unit17>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
+    <JumpHistory Count="3" HistoryIndex="2">
+      <Position1>
+        <Filename Value="src/authorize.pas"/>
+        <Caret Line="144" Column="14" TopLine="115"/>
+      </Position1>
+      <Position2>
+        <Filename Value="src/authorize.pas"/>
+        <Caret Line="142" Column="31" TopLine="114"/>
+      </Position2>
+      <Position3>
+        <Filename Value="src/authorize.pas"/>
+        <Caret Line="53" Column="14" TopLine="15"/>
+      </Position3>
+    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
     <SearchPaths>
       <OtherUnitFiles Value="src/;units/"/>
     </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <IncludeAssertionCode Value="True"/>
+      </SyntaxOptions>
+    </Parsing>
     <CodeGeneration>
+      <Checks>
+        <IOChecks Value="True"/>
+        <OverflowChecks Value="True"/>
+        <StackChecks Value="True"/>
+      </Checks>
       <Generate Value="Faster"/>
     </CodeGeneration>
     <Linking>
       <Debugging>
+        <GenerateDebugInfo Value="True"/>
         <UseHeaptrc Value="True"/>
       </Debugging>
       <Options>
