@@ -218,6 +218,7 @@ begin
   if LainClientData.Authorized = True then
    CMD_Logout(Params);
    
+   
   Connection.Disconnect;
   LainClientData.Authorized := False;
   ConsoleUser := MultiLanguageSupport.GetString('FieldUsername');

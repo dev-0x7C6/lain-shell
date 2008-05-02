@@ -50,7 +50,7 @@ var
 
 implementation
 
-uses Extensions, Lang, Threads;
+uses Execute, Extensions, Lang, Threads;
 
 function CMD_Logout(var Params :TParams) :Longint;
 begin
@@ -161,7 +161,7 @@ begin
   if Verfication = Byte(True) then
   begin
    LainClientData.Authorized := True;
-   Writeln(Prefix, MultiLanguageSupport.GetString('MsgAuthorized'));
+   Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgAuthorized'));
    LainClientResetQueryEngine;
   {$ifdef unix}
    UnixThread := TUnixThread.Create(@UnixLainClientQueryLoopBind, nil);
@@ -196,10 +196,10 @@ begin
   RTLEventWaitFor(QueryEvent);
   if Connection.Send(Query, SizeOf(Query)) = SizeOf(Query) then
   begin
-   RTLEventResetEvent(QueryEvent);
    Exit(SendQueryDone);
   end else
    Exit(SendQueryFail);
+  RTLEventResetEvent(QueryEvent);
  end else
   Result := SendQueryFail;
 end;
@@ -217,8 +217,11 @@ begin
        Break;
       end;
    1: Break;
+   10: CMD_Execute_Query;
   end;
+  EnterCriticalSection(CriticalSection);
   RTLEventSetEvent(QueryEvent);
+  LeaveCriticalSection(CriticalSection);
  end;
  RTLEventSetEvent(QueryEvent);
  RTLEventSetEvent(EngineEvent);

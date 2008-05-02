@@ -29,7 +29,7 @@ uses
 
 
 Const
- ConsoleTitle :WideString = 'LainShell Client v0.00.60.2';
+ ConsoleTitle :WideString = 'LainShell Client v0.00.60.3';
  Prefix = ' >>> ';
  
 Const
@@ -78,7 +78,7 @@ var
 
 implementation
 
-uses Addons, Engine, Extensions, Lang, Network;
+uses Addons, Engine, Execute, Extensions, Lang, Network;
 
 procedure PaintConsoleTitle;
 begin
@@ -132,9 +132,10 @@ begin
  Cmd := LowerCase(Params[0]);
  
  if (Cmd = 'about') then Exit(CMD_About(Params));
- if (CMD = 'clear') then Exit(CMD_Clear(Params));
+ if (Cmd = 'clear') then Exit(CMD_Clear(Params));
  if (Cmd = 'connect') then Exit(CMD_Connect(Params));
  if (Cmd = 'disconnect') then Exit(CMD_Disconnect(Params));
+ if (Cmd = 'execute') then Exit(CMD_Execute(Params));
  if (Cmd = 'help') then Exit(CMD_Help(Params));
  if (Cmd = 'login') then Exit(CMD_Login(Params));
  if (Cmd = 'logout') then Exit(CMD_Logout(Params));

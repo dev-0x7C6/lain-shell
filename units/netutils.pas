@@ -86,10 +86,10 @@ type
   function GetConnection :TConnection;
   function Recv(var Buffer; Size :Longint) :Longint;
   function RecvStream(Stream :TStream) :Boolean;
-  function RecvString(var Dest :WideString) :Boolean;
+  function RecvString(var Dest :AnsiString) :Boolean;
   function Send(const Buffer; Size :Longint) :Longint;
   function SendStream(Stream :TStream) :Boolean;
-  function SendString(Source :WideString) :Boolean;
+  function SendString(Source :AnsiString) :Boolean;
  end;
  
  TTcpIpCustomConnection = class(TTcpIpSocketClient)
@@ -470,7 +470,7 @@ uses {$ifdef linux} LibC {$endif}{$ifdef windows} WinSock {$endif};
   Result := Connected;
  end;
 
- function TTcpIpSocketClient.SendString(Source :WideString) :Boolean;
+ function TTcpIpSocketClient.SendString(Source :AnsiString) :Boolean;
  var
   Stream :TMemoryStream;
  begin
@@ -480,7 +480,7 @@ uses {$ifdef linux} LibC {$endif}{$ifdef windows} WinSock {$endif};
   Stream.Free;
  end;
 
- function TTcpIpSocketClient.RecvString(var Dest :WideString) :Boolean;
+ function TTcpIpSocketClient.RecvString(var Dest :AnsiString) :Boolean;
  var
   Stream :TMemoryStream;
  begin

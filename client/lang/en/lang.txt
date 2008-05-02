@@ -40,6 +40,7 @@ HelpAbout: "Show about page"
 HelpConnect: "Connect with LainShell server"
 HelpClear: "Clear console"
 HelpDisconnect: "Disconnect any connections"
+HelpExecute: "Remote command execute" /// NEW
 HelpExit: "Close application"
 HelpHelp: "Show help page"
 HelpLogin: "login"
@@ -69,6 +70,7 @@ WordHostname: "Hostname"
 // Using
 UsingConnect: "Connect [hostname(:port)]"
 UsingRConnect: "RConnect [localport] [maxconnections]"
+UsingExecute: "Execute [command] <params>" //New
 UsingSet: "Set variables [%s]"
 UsingSetLang: "Set Lang [package]"
 UsingSetCodePage: "Set CodePage [number]"

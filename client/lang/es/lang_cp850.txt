@@ -40,6 +40,7 @@ HelpAbout: "Muestra la p gina Acerca de..."
 HelpConnect: "Conecta con el servidor LainShell"
 HelpClear: "Limpia la consola"
 HelpDisconnect: "Desconecta cualquier conexi¢n"
+HelpExecute: "Remote command execute" /// NEW
 HelpExit: "Al igual que Quit cierra la aplicaci¢n"
 HelpHelp: "Muestra la p gina de Ayuda"
 HelpLogin: "login"
@@ -69,6 +70,7 @@ WordHostname: "Hostname"
 // Using
 UsingConnect: "Connect [hostname(:puerto)]"
 UsingRConnect: "RConnect [puerto_local] [max_conexiones]"
+UsingExecute: "Execute [command] <params>" //New
 UsingSet: "Set variables [%s]"
 UsingSetLang: "Set Lang [paquete]"
 UsingSetCodePage: "Set CodePage [n£mero]"
