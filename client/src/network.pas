@@ -125,6 +125,7 @@ begin
   Exit(CMD_Fail);
  end;
 
+ LainClientData.Authorized := False;
  Offset := 0;
  for X := 1 to length(Params[1]) do if Params[1][X] = ':' then Offset := X;
  if Offset <> 0 then

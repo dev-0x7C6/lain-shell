@@ -52,6 +52,11 @@ var
  TFFile :TStringList;
  UNameInfo :UtsName;
 {$endif}
+{$ifdef windows}
+ MemoryInfo :TMemoryStatus;
+ Value :Longint;
+ Suffix :String;
+{$endif}
 begin
  SysInfoStr := TStringList.Create;
  SysFammily := Fammily_Unknown;
@@ -92,6 +97,24 @@ begin
 {$endif}
 {$ifdef windows}
  SysFammily := Fammily_Windows;
+ MemoryInfo.dwLength:= SizeOf(MemoryInfo);
+ GlobalMemoryStatus(MemoryInfo);
+ with MemoryInfo do
+ begin
+  Suffix := ' mbytes';
+  Value := (1024 * 1024);
+  SysInfoStr.Add('System Memory Summary');
+  SysInfoStr.Add('');
+  SysInfoStr.Add('Used Memory           : ' + IntToStr(dwMemoryLoad) + ' %');
+  SysInfoStr.Add('');
+  SysInfoStr.Add('Total Physical Memory : ' + IntToStr(dwTotalPhys div Value + 1) + Suffix);
+  SysInfoStr.Add('Total Page Memory     : ' + IntToStr(dwTotalPageFile div Value + 1) + Suffix);
+  SysInfoStr.Add('Total Virtual Memory  : ' + IntToStr(dwTotalVirtual div Value + 1) + Suffix);
+  SysInfoStr.Add('');
+  SysInfoStr.Add('Free Physical Memory  : ' + IntToStr(dwAvailPhys div Value + 1) + Suffix);
+  SysInfoStr.Add('Free Page Memory      : ' + IntToStr(dwAvailPageFile div Value + 1) + Suffix);
+  SysInfoStr.Add('Free Virtual Memory   : ' + IntToStr(dwAvailVirtual div Value + 1) + Suffix);
+ end;
 {$endif}
  SysInfoDat := SysInfoStr.Text;
  SysInfoStr.Free;

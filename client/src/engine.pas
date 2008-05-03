@@ -232,6 +232,8 @@ begin
  EnterCriticalSection(CriticalSection);
  RTLEventSetEvent(QueryEvent);
  RTLEventSetEvent(EngineEvent);
+ if Connection.Connected = False then
+  LainClientData.Authorized := False;
  LeaveCriticalSection(CriticalSection);
 end;
 

@@ -35,6 +35,9 @@ implementation
 {$ifdef unix}
  uses Unix;
 {$endif}
+{$ifdef windows}
+ uses Windows, ShellApi;
+{$endif}
 
 function LainShellProcessGetList(var Connection :TTcpIpCustomConnection) :Longint;
 
@@ -44,7 +47,10 @@ var
  Pipe :Text;
  Str :AnsiString;
 {$endif}
+{$ifdef windows}
+{$endif}
 begin
+
  ProcessList := TStringList.Create;
 {$ifdef unix}
  POpen(Pipe, 'ps -A', 'R');
@@ -54,6 +60,8 @@ begin
   ProcessList.Add(Str);
  end;
  PClose(Pipe);
+{$endif}
+{$ifdef windows}
 {$endif}
  Connection.SendString(ProcessList.Text);
  ProcessList.Free;
