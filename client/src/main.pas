@@ -29,7 +29,7 @@ uses
 
 
 Const
- ConsoleTitle :WideString = 'LainShell Client v0.00.60.3';
+ ConsoleTitle :WideString = 'LainShell Client v0.00.60.4';
  Prefix = ' >>> ';
  
 Const
@@ -104,6 +104,7 @@ end;
 
 procedure PaintConsoleTitle;
 begin
+ CClrScr(OutPut);
  Writeln(OutPut, ParamStr(0));
  Extensions.CWrite(Output, White, format(MultiLanguageSupport.GetString('MsgWelcome'), [ConsoleTitle]), True);
 end;

@@ -67,6 +67,7 @@ begin
   SysInfoStr.Add('Version: ' + UNameInfo.Version);
   SysInfoStr.Add('Machine: ' + UNameInfo.Machine);
   SysInfoStr.Add('Domain: ' + UNameInfo.Domain);
+  SysInfoStr.Add('');
  end else
  begin
   SysInfoStr.Add('Can''t get infomations from uname');

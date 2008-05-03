@@ -7,7 +7,7 @@
       <MainUnit Value="0"/>
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
-      <ActiveEditorIndexAtStart Value="0"/>
+      <ActiveEditorIndexAtStart Value="2"/>
     </General>
     <VersionInfo>
       <ProjectVersion Value=""/>
@@ -92,7 +92,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="Engine"/>
         <CursorPos X="1" Y="8"/>
-        <TopLine Value="4"/>
+        <TopLine Value="1"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="86"/>
         <Loaded Value="True"/>
@@ -171,7 +171,7 @@
         <Filename Value="src/sysinfo.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="SysInfo"/>
-        <CursorPos X="1" Y="98"/>
+        <CursorPos X="41" Y="62"/>
         <TopLine Value="46"/>
         <EditorIndex Value="2"/>
         <UsageCount Value="22"/>

@@ -70,6 +70,9 @@ implementation
 {$ifdef windows}
  uses Windows;
 {$endif}
+{$ifdef unix}
+ uses BaseUnix, Unix;
+{$endif}
 
 {$ifdef unix}
 function Attr2Ansi(Attr :Longint):string;
@@ -120,9 +123,23 @@ end;
 {$endif}
 
 procedure CClrScr(var OutPut :Text);
+{$ifdef windows}
+var
+ Data :CONSOLE_SCREEN_BUFFER_INFO;
+ dw :DWord;
+ co :_COORD;
+ Handle :THandle;
+{$endif}
 begin
 {$ifdef unix}
- Writeln(OutPut, #27'[');
+ Write(OutPut, #27'[H'#27'[2J');
+{$endif}
+{$ifdef windows}
+ ZeroMemory(@co, sizeof(co));
+ Handle:=GetStdHandle(STD_OUTPUT_HANDLE);
+ GetConsoleScreenBufferInfo(Handle, Data);
+ FillConsoleOutputCharacter(Handle, ' ', Data.dwSize.X*Data.dwSize.Y, co, dw);
+ SetConsoleCursorPosition(Handle, co);
 {$endif}
 end;
 
