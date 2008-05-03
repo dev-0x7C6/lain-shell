@@ -16,35 +16,47 @@
   MA 02111-1307, USA.
 }
 
-unit Engine;
+unit Process;
 
 {$mode objfpc}{$H+}
 
 interface
 
 uses
-  Classes, SysUtils, NetUtils;
+  Classes, SysUtils, Main;
 
 Const
- Lain_Error = -1;
- Lain_Disconnect = 0;
- Lain_Logoff = 1;
- Lain_Ok = 2;
-
-
-function LainServerQueryEngine(var Connection :TTcpIpCustomConnection; const Value :Longint) :Longint;
+ Lain_Process_GetList = 30;
  
+ function CMD_ProcessList(var Params :TParams) :Longint;
+ function CMD_ProcessList_Query :Longint;
+
 implementation
 
-uses Execute, Process, SysInfo;
+uses Engine, Lang;
 
-function LainServerQueryEngine(var Connection :TTcpIpCustomConnection; const Value :Longint) :Longint;
+function CMD_ProcessList(var Params :TParams) :Longint;
 begin
- case Value of
-  Lain_Execute: Result := LainShellExecuteCmd(Connection);
-  Lain_SysInfo_GetInfo: Result := LainShellSystemInformation(Connection);
-  Lain_Process_GetList: Result := LainShellProcessGetList(Connection);
- end;
+ if CheckConnectionAndAuthorization = False then
+  Exit(CMD_Fail);
+ Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgWaitForResponse'));
+ Writeln(OutPut);
+
+ LainClientSendQuery(Lain_Process_GetList);
+ RTLEventWaitFor(ConsoleEvent);
+ RTLEventResetEvent(ConsoleEvent);
+ Result := CMD_Done;
+end;
+
+function CMD_ProcessList_Query :Longint;
+var
+ Str :AnsiString;
+begin
+ Connection.RecvString(Str);
+ EnterCriticalSection(CriticalSection);
+ Writeln(OutPut, Str);
+ RTLEventSetEvent(ConsoleEvent);
+ LeaveCriticalSection(CriticalSection);
 end;
 
 end.

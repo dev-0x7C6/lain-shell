@@ -80,7 +80,7 @@ var
 
 implementation
 
-uses Addons, Engine, Execute, Extensions, Lang, Network, SysInfo;
+uses Addons, Engine, Execute, Extensions, Lang, Network, Process, SysInfo;
 
 function CheckConnectionAndAuthorization :Boolean;
 begin
@@ -157,6 +157,7 @@ begin
  if (Cmd = 'help') then Exit(CMD_Help(Params));
  if (Cmd = 'login') then Exit(CMD_Login(Params));
  if (Cmd = 'logout') then Exit(CMD_Logout(Params));
+ if (Cmd = 'processlist') then Exit(CMD_ProcessList(Params));
  if (Cmd = 'rconnect') then Exit(CMD_RCConnect(Params));
  if (Cmd = 'set') then Exit(CMDSetCase(Params));
  if (Cmd = 'status') then Exit(CMD_Status(Params));

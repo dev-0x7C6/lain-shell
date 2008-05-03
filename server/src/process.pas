@@ -16,7 +16,7 @@
   MA 02111-1307, USA.
 }
 
-unit Engine;
+unit Process;
 
 {$mode objfpc}{$H+}
 
@@ -24,27 +24,39 @@ interface
 
 uses
   Classes, SysUtils, NetUtils;
-
+  
 Const
- Lain_Error = -1;
- Lain_Disconnect = 0;
- Lain_Logoff = 1;
- Lain_Ok = 2;
-
-
-function LainServerQueryEngine(var Connection :TTcpIpCustomConnection; const Value :Longint) :Longint;
+ Lain_Process_GetList = 30;
  
+ function LainShellProcessGetList(var Connection :TTcpIpCustomConnection) :Longint;
+
 implementation
 
-uses Execute, Process, SysInfo;
+{$ifdef unix}
+ uses Unix;
+{$endif}
 
-function LainServerQueryEngine(var Connection :TTcpIpCustomConnection; const Value :Longint) :Longint;
+function LainShellProcessGetList(var Connection :TTcpIpCustomConnection) :Longint;
+
+var
+ ProcessList :TStringList;
+{$ifdef unix}
+ Pipe :Text;
+ Str :AnsiString;
+{$endif}
 begin
- case Value of
-  Lain_Execute: Result := LainShellExecuteCmd(Connection);
-  Lain_SysInfo_GetInfo: Result := LainShellSystemInformation(Connection);
-  Lain_Process_GetList: Result := LainShellProcessGetList(Connection);
+ ProcessList := TStringList.Create;
+{$ifdef unix}
+ POpen(Pipe, 'ps -A', 'R');
+ while not Eof(Pipe) do
+ begin
+  Readln(Pipe, Str);
+  ProcessList.Add(Str);
  end;
+ PClose(Pipe);
+{$endif}
+ Connection.SendString(ProcessList.Text);
+ ProcessList.Free;
 end;
 
 end.
