@@ -50,6 +50,7 @@ HelpExit: "Close application"
 HelpHelp: "Show help page"
 HelpLogin: "login"
 HelpLogout: "logout"
+HelpProcessList: "Show process list from remote host" ///// NEW
 HelpRConnect: "Reverse connection mode (waiting for connections)"
 HelpSet: "Set some variables"
 HelpStatus: "Show status page"

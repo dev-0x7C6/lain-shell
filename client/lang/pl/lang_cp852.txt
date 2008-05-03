@@ -51,6 +51,7 @@ HelpExit: "Zamknij aplikacje"
 HelpHelp: "Poka¾ stron© pomocy"
 HelpLogin: "Logowanie"
 HelpLogout: "Wylogowywanie"
+HelpProcessList: "Pobierz list proces¢w z zdalnego hosta" ///// NEW
 HelpRConnect: "Poˆ¥czenie odwrotne (oczekiwanie poˆ¥czeä)"
 HelpSet: "Ustaw zmienn¥"
 HelpStatus: "Poka¾ status"
