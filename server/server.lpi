@@ -7,7 +7,7 @@
       <MainUnit Value="0"/>
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
-      <ActiveEditorIndexAtStart Value="2"/>
+      <ActiveEditorIndexAtStart Value="0"/>
     </General>
     <VersionInfo>
       <ProjectVersion Value=""/>
@@ -172,18 +172,13 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="SysInfo"/>
         <CursorPos X="1" Y="98"/>
-        <TopLine Value="58"/>
+        <TopLine Value="46"/>
         <EditorIndex Value="2"/>
         <UsageCount Value="22"/>
         <Loaded Value="True"/>
       </Unit18>
     </Units>
-    <JumpHistory Count="1" HistoryIndex="0">
-      <Position1>
-        <Filename Value="src/engine.pas"/>
-        <Caret Line="45" Column="58" TopLine="4"/>
-      </Position1>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>

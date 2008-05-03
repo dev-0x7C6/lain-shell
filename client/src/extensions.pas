@@ -24,7 +24,30 @@ interface
 
 uses
   Classes, SysUtils, Main, KeyBoard;
-  
+
+Const
+//
+  Black         = 0;
+  Blue          = 1;
+  Green         = 2;
+  Cyan          = 3;
+  Red           = 4;
+  Magenta       = 5;
+  Brown         = 6;
+  LightGray     = 7;
+//
+  DarkGray      = 8;
+  LightBlue     = 9;
+  LightGreen    = 10;
+  LightCyan     = 11;
+  LightRed      = 12;
+  LightMagenta  = 13;
+  Yellow        = 14;
+  White         = 15;
+
+const
+  AnsiTbl : string[8]='04261537';
+     
 {$define ASCII_TRANSLATE}
 //{$define UNICODE_TRANSLATE} // not usesfull
   
@@ -39,8 +62,92 @@ Const
  function GetText :WideString;
  function GetPasswdln(Show :Char) :WideString;
  function GetPasswd(Show :Char) :WideString;
+ procedure CWrite(var OutPut :Text; Attr :Longint; Str :String; NewLine :Boolean);
+ procedure CClrScr(var OutPut :Text);
 
 implementation
+
+{$ifdef windows}
+ uses Windows;
+{$endif}
+
+{$ifdef unix}
+function Attr2Ansi(Attr :Longint):string;
+var
+ hstr : string[16];
+ OFg,OBg,Fg,Bg : longint;
+
+ procedure AddSep(ch:char);
+ begin
+  if length(hstr)>0 then
+   hstr:=hstr+';';
+  hstr:=hstr+ch;
+ end;
+begin
+ Hstr:='';
+ Fg:=Attr and $f;
+ Bg:=Attr shr 4;
+ if (OFg<>7) or (Fg=7) or ((OFg>7) and (Fg<8)) or ((OBg>7) and (Bg<8)) then
+ begin
+  hstr:='0';
+  OFg:=7;
+  OBg:=0;
+ end;
+ if (Fg>7) and (OFg<8) then
+  begin
+    AddSep('1');
+    OFg:=OFg or 8;
+  end;
+ if (Bg and 8)<>(OBg and 8) then
+  begin
+    AddSep('5');
+    OBg:=OBg or 8;
+  end;
+ if (Fg<>OFg) then
+  begin
+    AddSep('3');
+    hstr:=hstr+AnsiTbl[(Fg and 7)+1];
+  end;
+ if (Bg<>OBg) then
+  begin
+    AddSep('4');
+    hstr:=hstr+AnsiTbl[(Bg and 7)+1];
+  end;
+ if hstr='0' then
+  hstr:='';
+ Attr2Ansi:=#27'['+hstr+'m';
+end;
+{$endif}
+
+procedure CClrScr(var OutPut :Text);
+begin
+{$ifdef unix}
+ Writeln(OutPut, #27'[');
+{$endif}
+end;
+
+procedure CWrite(var OutPut :Text; Attr :Longint; Str :String; NewLine :Boolean);
+{$ifdef windows}
+var
+ AttrW :Longword;
+ Data :TCONSOLESCREENBUFFERINFO;
+{$endif}
+begin
+{$ifdef unix}
+ Write(OutPut, Attr2Ansi(Attr and $F));
+ if NewLine then
+  Writeln(OutPut, Str) else
+  Write(OutPut, Str);
+ Write(OutPut, Attr2Ansi(LightGray and $F));
+{$endif}
+{$ifdef windows}
+ GetConsoleScreenBufferInfo(GetStdhandle(STD_OUTPUT_HANDLE), Data);
+ if NewLine then
+  Writeln(OutPut, Str) else
+  Write(OutPut, Str);
+ FillConsoleOutputAttribute(GetStdhandle(STD_OUTPUT_HANDLE), (Attr and $8f), Length(Str), Data.dwCursorPosition, AttrW);
+{$endif}
+end;
 
 function CmdToParams(const Cmd :WideString; var Params :TParams) :Longint;
 var
@@ -168,4 +275,3 @@ begin
 end;
 
 end.
-

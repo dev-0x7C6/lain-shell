@@ -34,14 +34,18 @@ Const
 
 implementation
 
-uses Engine;
+uses Engine, Lang;
 
 function CMD_SysInfo(var Params :TParams) :Longint;
 begin
  if CheckConnectionAndAuthorization = False then
   Exit(CMD_Fail);
-  
+ Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgWaitForResponse'));
+ Writeln(OutPut);
+ 
  LainClientSendQuery(Lain_SysInfo_GetInfo);
+ RTLEventWaitFor(ConsoleEvent);
+ RTLEventResetEvent(ConsoleEvent);
  Result := CMD_Done;
 end;
 
@@ -52,7 +56,10 @@ var
 begin
  Connection.Recv(Fammily, SizeOf(Fammily));
  Connection.RecvString(Str);
+ EnterCriticalSection(CriticalSection);
  Writeln(OutPut, Str);
+ RTLEventSetEvent(ConsoleEvent);
+ LeaveCriticalSection(CriticalSection);
 end;
 
 end.

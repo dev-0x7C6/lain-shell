@@ -30,12 +30,15 @@ MsgRConnectWaiting: "Oczekiwanie połączeń..."
 MsgRConnectThreadEnd: "Zamykanie wątku..."
 MsgRConnectChose: "Wybierz połączenie :"
 MsgRConnectUnknownID: "Nieznane ID połączenia"
-
-
 MsgSetVariableDone: "Zmienna została ustawiona pomyślnie"
 MsgSetVariableFail: "Zmienna nie została zmieniona"
 MsgSetVariableUnknown: "Nieznana zmienna '%s' do ustawienia"
 
+MsgNotConnected: "Nie jesteś połączony" ///// NEW
+MsgNotAuthorized: "Twoje połączenie wymaga autoryzacji" ///// NEW
+MsgNotConnectedAndAuthorized: "Nie jesteś połączony ani autoryzowany" ///// NEW
+MsgWaitForResponse: "Oczekiwanie na odpowiedź..." ///// NEW
+MsgCommandExecuted: "Polecenie zostało wykonane"  /////NEW
 
 
 // Help
@@ -51,6 +54,7 @@ HelpLogout: "Wylogowywanie"
 HelpRConnect: "Połączenie odwrotne (oczekiwanie połączeń)"
 HelpSet: "Ustaw zmienną"
 HelpStatus: "Pokaż status"
+HelpSysInfo: "Pobierz informacje o systemie z zdalnego hosta" ///// NEW
 HelpQuit: "To samo co Exit"
 
 // Status

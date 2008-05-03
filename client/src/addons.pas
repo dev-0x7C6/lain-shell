@@ -23,7 +23,7 @@ unit Addons;
 interface
 
 uses
-  Classes, SysUtils, Main, Crt;
+  Classes, SysUtils, Main;
 
  function CMD_Clear(var Params :TParams) :Longint;
  function CMD_Help(var Params :TParams) :Longint;
@@ -46,8 +46,7 @@ begin
 end;
 
 function CMD_Clear(var Params :TParams) :Longint;
-begin
- ClrScr;
+begin   //Clear
  PaintConsoleTitle;
  Exit(CMD_Done);
 end;

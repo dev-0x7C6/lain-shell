@@ -25,7 +25,7 @@ interface
 uses
  {$ifdef windows}
   Windows,
- {$endif} Classes, SysUtils, NetUtils, Crt;
+ {$endif} Classes, SysUtils, NetUtils;
 
 
 Const
@@ -74,6 +74,7 @@ var
  LainClientData :TLainClientData;
  Params :TParams;
  UserIdent :TUserIdent;
+ ConsoleEvent :PRTLEvent;
 
  function CheckConnectionAndAuthorization :Boolean;
 
@@ -104,9 +105,7 @@ end;
 procedure PaintConsoleTitle;
 begin
  Writeln(OutPut, ParamStr(0));
- TextColor(White);
- Writeln(OutPut, format(MultiLanguageSupport.GetString('MsgWelcome'), [ConsoleTitle]));
- TextColor(LightGray);
+ Extensions.CWrite(Output, White, format(MultiLanguageSupport.GetString('MsgWelcome'), [ConsoleTitle]), True);
 end;
 
 function MainFunc :Longint;
@@ -116,17 +115,15 @@ begin
 {$ifdef windows}
  Windows.SetConsoleTitle(PChar(String(ConsoleTitle)));
 {$endif}
- ClrScr;
+ CClrScr(OutPut);
  if AnyLanguageSupport then
  begin
   PaintConsoleTitle;
   Writeln(OutPut);
   repeat
-   TextColor(LightGreen); Write(OutPut, ConsoleUser, '@', ConsoleHost);
-   TextColor(LightBlue); Write(OutPut, ' ~ # ');
-   TextColor(White);
+   CWrite(OutPut, LightGreen, ConsoleUser + '@' + ConsoleHost, False);
+   CWrite(OutPut, LightBlue, ' ~ # ', False);
    Cmd := Extensions.GetTextln;
-   TextColor(LightGray);
    CmdToParams(Cmd, Params);
    if (LowerCase(Cmd) <> 'exit') and (LowerCase(Cmd) <> 'quit') and
       (LowerCase(Cmd) <> '')  then
@@ -138,7 +135,6 @@ begin
   until ((LowerCase(Cmd) = 'exit') or (LowerCase(Cmd) = 'quit'));
   SetLength(Params, 0);
   Result := CMD_Done;
-  writeln(OutPut);
  end;
 
 end;
@@ -194,10 +190,12 @@ var
 initialization
 begin
  InitCriticalSection(CriticalSection);
+ ConsoleEvent := RTLEventCreate;
+ RTLEventResetEvent(ConsoleEvent);
 {$ifdef windows}
  Variables := Variables + '\CodePage';
 {$endif}
- AssignCrt(OutPut);
+ AssignFile(OutPut, '');
  ReWrite(OutPut);
  STDOutPut := OutPut;
  LainClientInitQueryEngine;
@@ -221,6 +219,7 @@ end;
 
 finalization
 begin
+ RTLEventDestroy(ConsoleEvent);
  if LainClientData.Authorized = True then
   CMD_Logout(Params);
  if Connection.Connected = True then
@@ -228,6 +227,7 @@ begin
  LainClientDoneQueryEngine(10000);
  MultiLanguageSupport.Free;
  Connection.Free;
+ Writeln(OutPut);
  CloseFile(OutPut);
  DoneCriticalSection(CriticalSection);
 end;

@@ -61,8 +61,11 @@ begin
   if CParams[Length(CParams)]  = ' ' then
    SetLength(CParams, Length(CParams) - 1);
  end;
-
+ 
+ Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgWaitForResponse'));
  LainClientSendQuery(Lain_Execute);
+ RTLEventWaitFor(ConsoleEvent);
+ RTLEventResetEvent(ConsoleEvent);
  Result := CMD_Done;
 end;
 
@@ -70,6 +73,10 @@ function CMD_Execute_Query :Longint;
 begin
  Connection.SendString(Command);
  Connection.SendString(CParams);
+ EnterCriticalSection(CriticalSection);
+ Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgCommandExecuted'));
+ RTLEventSetEvent(ConsoleEvent);
+ LeaveCriticalSection(CriticalSection);
  Result := CMD_Done;
 end;
 

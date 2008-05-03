@@ -23,7 +23,7 @@ unit Network;
 interface
 
 uses
-  Classes, SysUtils, NetUtils, Main, Crt, Keyboard;
+  Classes, SysUtils, NetUtils, Main, Keyboard;
 
 {$ifdef unix}
  type

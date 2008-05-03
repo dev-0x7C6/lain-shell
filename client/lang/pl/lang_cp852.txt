@@ -30,12 +30,15 @@ MsgRConnectWaiting: "Oczekiwanie poˆ¥czeä..."
 MsgRConnectThreadEnd: "Zamykanie w¥tku..."
 MsgRConnectChose: "Wybierz poˆ¥czenie :"
 MsgRConnectUnknownID: "Nieznane ID poˆ¥czenia"
-
-
 MsgSetVariableDone: "Zmienna zostaˆa ustawiona pomy˜lnie"
 MsgSetVariableFail: "Zmienna nie zostaˆa zmieniona"
 MsgSetVariableUnknown: "Nieznana zmienna '%s' do ustawienia"
 
+MsgNotConnected: "Nie jeste˜ poˆ¥czony" ///// NEW
+MsgNotAuthorized: "Twoje poˆ¥czenie wymaga autoryzacji" ///// NEW
+MsgNotConnectedAndAuthorized: "Nie jeste˜ poˆ¥czony ani autoryzowany" ///// NEW
+MsgWaitForResponse: "Oczekiwanie na odpowied«..." ///// NEW
+MsgCommandExecuted: "Polecenie zostaˆo wykonane"  /////NEW
 
 
 // Help
@@ -51,6 +54,7 @@ HelpLogout: "Wylogowywanie"
 HelpRConnect: "Poˆ¥czenie odwrotne (oczekiwanie poˆ¥czeä)"
 HelpSet: "Ustaw zmienn¥"
 HelpStatus: "Poka¾ status"
+HelpSysInfo: "Pobierz informacje o systemie z zdalnego hosta" ///// NEW
 HelpQuit: "To samo co Exit"
 
 // Status

@@ -34,10 +34,11 @@ MsgSetVariableDone: "Variable set successful"
 MsgSetVariableFail: "Variable set failed"
 MsgSetVariableUnknown: "Unknown variable '%s' to set"
 
-MsgNotConnected: "you're not connected" ///// NEW
-MsgNotAuthorized: "you're not autohrized" ///// NEW
-MsgNotConnectedAndAuthorized: "you're not connected and authorized" ///// NEW
-
+MsgNotConnected: "You're not connected" ///// NEW
+MsgNotAuthorized: "You're not autohrized" ///// NEW
+MsgNotConnectedAndAuthorized: "You're not connected and authorized" ///// NEW
+MsgWaitForResponse: "Waiting for response..." ///// NEW
+MsgCommandExecuted: "Command has been executed"  /////NEW
 
 // Help
 HelpAbout: "Show about page"
@@ -52,6 +53,7 @@ HelpLogout: "logout"
 HelpRConnect: "Reverse connection mode (waiting for connections)"
 HelpSet: "Set some variables"
 HelpStatus: "Show status page"
+HelpSysInfo: "Get system informations from remote host" ///// NEW
 HelpQuit: "Alians for exit"
 
 // Status
@@ -74,7 +76,7 @@ WordHostname: "Hostname"
 // Using
 UsingConnect: "Connect [hostname(:port)]"
 UsingRConnect: "RConnect [localport] [maxconnections]"
-UsingExecute: "Execute [command] <params>" //New
+UsingExecute: "Execute [command] <params>" ///// NEW
 UsingSet: "Set variables [%s]"
 UsingSetLang: "Set Lang [package]"
 UsingSetCodePage: "Set CodePage [number]"

@@ -30,10 +30,15 @@ MsgRConnectWaiting: "Esperando las conexiones..."
 MsgRConnectThreadEnd: "Esperando a que termine el hilo..."
 MsgRConnectChose: "Elige conexi¢n por id :"
 MsgRConnectUnknownID: "ID desconocida"
-
 MsgSetVariableDone: "Variable establecida correctamente"
 MsgSetVariableFail: "Variable no establecida correctamente"
 MsgSetVariableUnknown: "Variable desconocida para establecer '%s'"
+
+MsgNotConnected: "You're not connected" ///// NEW
+MsgNotAuthorized: "You're not autohrized" ///// NEW
+MsgNotConnectedAndAuthorized: "You're not connected and authorized" ///// NEW
+MsgWaitForResponse: "Waiting for response..." ///// NEW
+MsgCommandExecuted: "Command has been executed"  /////NEW
 
 // Help
 HelpAbout: "Muestra la p gina Acerca de..."
@@ -48,6 +53,7 @@ HelpLogout: "logout"
 HelpRConnect: "Modo de conexi¢n inversa (esperando por conexiones)"
 HelpSet: "Establece variables"
 HelpStatus: "Muestra la p gina de Estado"
+HelpSysInfo: "Get system informations from remote host" ///// NEW
 HelpQuit: "Al igual que Exit cierra la aplicaci¢n"
 
 // Status

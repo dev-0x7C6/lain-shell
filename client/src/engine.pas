@@ -199,7 +199,9 @@ begin
    Exit(SendQueryDone);
   end else
    Exit(SendQueryFail);
+  EnterCriticalSection(CriticalSection);
   RTLEventResetEvent(QueryEvent);
+  LeaveCriticalSection(CriticalSection);
  end else
   Result := SendQueryFail;
 end;
@@ -208,7 +210,9 @@ function LainClientQueryLoop :Longint;
 var
  Value :Word;
 begin
+ EnterCriticalSection(CriticalSection);
  RTLEventResetEvent(EngineEvent);
+ LeaveCriticalSection(CriticalSection);
  while Connection.Recv(Value, SizeOf(Value)) = SizeOf(Value) do
  begin
   Case Value of
@@ -224,8 +228,10 @@ begin
   RTLEventSetEvent(QueryEvent);
   LeaveCriticalSection(CriticalSection);
  end;
+ EnterCriticalSection(CriticalSection);
  RTLEventSetEvent(QueryEvent);
  RTLEventSetEvent(EngineEvent);
+ LeaveCriticalSection(CriticalSection);
 end;
 
 procedure LainClientInitQueryEngine;
