@@ -28,7 +28,7 @@ uses
  Windows,
 {$endif}
  Classes, SysUtils, CustApp, NetUtils, Main, Extensions, Lang, Threads, Network,
- Engine, execute;
+ Engine, execute, sysinfo;
 
 type
  TUniStrikeApp = class(TCustomApplication)

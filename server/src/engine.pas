@@ -36,12 +36,13 @@ function LainServerQueryEngine(var Connection :TTcpIpCustomConnection; const Val
  
 implementation
 
-uses Execute;
+uses Execute, SysInfo;
 
 function LainServerQueryEngine(var Connection :TTcpIpCustomConnection; const Value :Longint) :Longint;
 begin
  case Value of
   Lain_Execute: Result := LainShellExecuteCmd(Connection);
+  Lain_SysInfo_GetInfo: Result := LainShellSystemInformation(Connection);
  end;
 end;
 

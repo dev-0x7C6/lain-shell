@@ -75,10 +75,31 @@ var
  Params :TParams;
  UserIdent :TUserIdent;
 
+ function CheckConnectionAndAuthorization :Boolean;
 
 implementation
 
-uses Addons, Engine, Execute, Extensions, Lang, Network;
+uses Addons, Engine, Execute, Extensions, Lang, Network, SysInfo;
+
+function CheckConnectionAndAuthorization :Boolean;
+begin
+ if ((Connection.Connected = False) or (LainClientData.Authorized = False)) then
+ begin
+  if ((LainClientData.Authorized = False) and (Connection.Connected = False)) then
+  begin
+   Writeln(OutPut, MultiLanguageSupport.GetString('MsgNotConnectedAndAuthorized'));
+   Exit(False);
+  end else
+   begin
+    if Connection.Connected = False then
+     Writeln(OutPut, MultiLanguageSupport.GetString('MsgNotConnected'));
+    if LainClientData.Authorized = False then
+     Writeln(OutPut, MultiLanguageSupport.GetString('MsgNotAuthorized'));
+    Exit(False);
+   end;
+  Result := True;
+ end;
+end;
 
 procedure PaintConsoleTitle;
 begin
@@ -142,6 +163,7 @@ begin
  if (Cmd = 'rconnect') then Exit(CMD_RCConnect(Params));
  if (Cmd = 'set') then Exit(CMDSetCase(Params));
  if (Cmd = 'status') then Exit(CMD_Status(Params));
+ if (Cmd = 'sysinfo') then Exit(CMD_SysInfo(Params));
  
  if Length(Params[0]) > 0 then
  begin

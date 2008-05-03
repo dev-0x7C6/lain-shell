@@ -58,7 +58,7 @@ Type
  TCmdHint = Array[0..1] of WideString;
 
 var
- HelpList :Array[0..12] of TCmdHint =
+ HelpList :Array[0..13] of TCmdHint =
   (('About     ', ''),
    ('Connect   ', ''),
    ('Clear     ', ''),
@@ -71,6 +71,7 @@ var
    ('RConnect  ', ''),
    ('Set       ', ''),
    ('Status    ', ''),
+   ('Sysinfo   ', ''),
    ('Quit      ', '')
   );
 
@@ -255,7 +256,8 @@ begin
   HelpList[09][1] := MultiLanguageSupport.GetString('HelpRConnect');
   HelpList[10][1] := MultiLanguageSupport.GetString('HelpSet');
   HelpList[11][1] := MultiLanguageSupport.GetString('HelpStatus');
-  HelpList[12][1] := MultiLanguageSupport.GetString('HelpQuit');
+  HelpList[12][1] := MultiLanguageSupport.GetString('HelpSysinfo');
+  HelpList[13][1] := MultiLanguageSupport.GetString('HelpQuit');
   if ConsoleUser = '' then
    ConsoleUser := MultiLanguageSupport.GetString('FieldUsername');
   if ConsoleHost = '' then

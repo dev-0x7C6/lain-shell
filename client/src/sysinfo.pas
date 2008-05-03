@@ -16,7 +16,7 @@
   MA 02111-1307, USA.
 }
 
-unit Execute;
+unit Sysinfo;
 
 {$mode objfpc}{$H+}
 
@@ -26,51 +26,33 @@ uses
   Classes, SysUtils, Main;
 
 Const
- Lain_Execute = 10;
-
- function CMD_Execute(var Params :TParams) :Longint;
- function CMD_Execute_Query :Longint;
+ Lain_SysInfo_GetInfo = 20;
+   
+ function CMD_SysInfo(var Params :TParams) :Longint;
+ function CMD_SysInfo_Query :Longint;
+ 
 
 implementation
 
-uses Engine, Lang;
+uses Engine;
 
-var
- Command :AnsiString;
- CParams :AnsiString;
-
-function CMD_Execute(var Params :TParams) :Longint;
-var
- X :Longint;
+function CMD_SysInfo(var Params :TParams) :Longint;
 begin
  if CheckConnectionAndAuthorization = False then
   Exit(CMD_Fail);
-
- if Length(Params) < 2 then
- begin
-  Writeln(OutPut, MultiLanguageSupport.GetString('UsingExecute'));
-  Exit(CMD_Fail);
- end;
- 
- Command := Params[1];
- CParams := '';
- if Length(Params) > 2 then
- begin
-  For X := 2 to Length(Params) - 1 do
-   CParams := CParams + Params[X] + ' ';
-  if CParams[Length(CParams)]  = ' ' then
-   SetLength(CParams, Length(CParams) - 1);
- end;
-
- LainClientSendQuery(Lain_Execute);
+  
+ LainClientSendQuery(Lain_SysInfo_GetInfo);
  Result := CMD_Done;
 end;
 
-function CMD_Execute_Query :Longint;
+function CMD_SysInfo_Query :Longint;
+var
+ Str :AnsiString;
+ Fammily :Byte;
 begin
- Connection.SendString(Command);
- Connection.SendString(CParams);
- Result := CMD_Done;
+ Connection.Recv(Fammily, SizeOf(Fammily));
+ Connection.RecvString(Str);
+ Writeln(OutPut, Str);
 end;
 
 end.

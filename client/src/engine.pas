@@ -50,7 +50,7 @@ var
 
 implementation
 
-uses Execute, Extensions, Lang, Threads;
+uses Execute, Extensions, Lang, SysInfo, Threads;
 
 function CMD_Logout(var Params :TParams) :Longint;
 begin
@@ -217,7 +217,8 @@ begin
        Break;
       end;
    1: Break;
-   10: CMD_Execute_Query;
+   Lain_Execute: CMD_Execute_Query;
+   Lain_SysInfo_GetInfo: CMD_SysInfo_Query;
   end;
   EnterCriticalSection(CriticalSection);
   RTLEventSetEvent(QueryEvent);

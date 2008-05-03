@@ -30,10 +30,14 @@ MsgRConnectWaiting: "Waiting for connections..."
 MsgRConnectThreadEnd: "Waiting for thread terminate..."
 MsgRConnectChose: "Chose connection by id :"
 MsgRConnectUnknownID: "Unknown ID"
-
 MsgSetVariableDone: "Variable set successful"
 MsgSetVariableFail: "Variable set failed"
 MsgSetVariableUnknown: "Unknown variable '%s' to set"
+
+MsgNotConnected: "you're not connected" ///// NEW
+MsgNotAuthorized: "you're not autohrized" ///// NEW
+MsgNotConnectedAndAuthorized: "you're not connected and authorized" ///// NEW
+
 
 // Help
 HelpAbout: "Show about page"
