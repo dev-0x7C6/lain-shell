@@ -7,7 +7,7 @@
       <MainUnit Value="0"/>
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
-      <ActiveEditorIndexAtStart Value="9"/>
+      <ActiveEditorIndexAtStart Value="6"/>
     </General>
     <VersionInfo>
       <ProjectVersion Value=""/>
@@ -219,8 +219,8 @@
         <Filename Value="src/security.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Security"/>
-        <CursorPos X="35" Y="71"/>
-        <TopLine Value="58"/>
+        <CursorPos X="6" Y="141"/>
+        <TopLine Value="110"/>
         <EditorIndex Value="6"/>
         <UsageCount Value="25"/>
         <Loaded Value="True"/>

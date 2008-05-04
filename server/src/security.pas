@@ -137,6 +137,8 @@ end;
 function TLainDBControlClass.SaveToLainDB(const FPath :AnsiString) :Boolean;
 begin
  if not FileExists(FPath) then
+ begin
+ end;
 end;
 
 function TLainDBControlClass.AddUserToLainDB(const Username, Password :AnsiString) :Boolean;
