@@ -234,7 +234,7 @@ begin
    Index := X;
  if Index = -1 then Exit(False);
  AccountList[Index].Password := MD5String(Password);
- MemoryMapOfLainDB.Seek(SizeOf(DBFileHead) + SizeOf(LongWord) + (Index * SizeOf(UserAccount)), 0); /// !!! Warning
+ MemoryMapOfLainDB.Seek(SizeOf(DBFileHead) + SizeOf(LongWord) + (Index * SizeOf(TUserAccount)), 0); /// !!! Warning
  MemoryMapOfLainDB.WriteBuffer(AccountList[Index], SizeOf(AccountList[Index]));
  MemoryMapOfLainDB.Seek(0, 0);
  Result := True

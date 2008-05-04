@@ -219,8 +219,8 @@
         <Filename Value="src/security.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Security"/>
-        <CursorPos X="16" Y="240"/>
-        <TopLine Value="9"/>
+        <CursorPos X="82" Y="237"/>
+        <TopLine Value="199"/>
         <EditorIndex Value="6"/>
         <UsageCount Value="27"/>
         <Loaded Value="True"/>
@@ -239,19 +239,11 @@
         <UsageCount Value="11"/>
       </Unit24>
     </Units>
-    <JumpHistory Count="3" HistoryIndex="2">
+    <JumpHistory Count="1" HistoryIndex="0">
       <Position1>
         <Filename Value="src/security.pas"/>
-        <Caret Line="163" Column="31" TopLine="139"/>
+        <Caret Line="240" Column="16" TopLine="9"/>
       </Position1>
-      <Position2>
-        <Filename Value="src/security.pas"/>
-        <Caret Line="145" Column="27" TopLine="122"/>
-      </Position2>
-      <Position3>
-        <Filename Value="src/security.pas"/>
-        <Caret Line="187" Column="31" TopLine="154"/>
-      </Position3>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
