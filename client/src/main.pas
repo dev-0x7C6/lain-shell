@@ -29,7 +29,7 @@ uses
 
 
 Const
- ConsoleTitle :WideString = 'LainShell Client v0.00.60.5';
+ ConsoleTitle :WideString = 'LainShell Client v0.00.60.6';
  Prefix = ' >>> ';
  
 Const

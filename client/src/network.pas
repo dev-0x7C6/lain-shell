@@ -23,7 +23,7 @@ unit Network;
 interface
 
 uses
-  Classes, SysUtils, NetUtils, Main, Keyboard;
+  Classes, SysUtils, NetUtils, Main, KeyBoard;
 
 {$ifdef unix}
  type
@@ -110,7 +110,6 @@ function CMD_Connect(var Params :TParams) :Longint;
 var
  X, Offset :Longint;
  Key :TKeyEvent;
-
 begin
  if Connection.Connected = True then
  begin
@@ -161,7 +160,6 @@ begin
 {$endif}
 
  InitKeyBoard;
-
  repeat
   if Keyboard.KeyPressed then
   begin
@@ -172,8 +170,8 @@ begin
     EnterCriticalSection(CriticalSection);
     Write(OutPut, Prefix, MultiLanguageSupport.GetString('MsgCloseSocket') + ' ');
     if Main.Connection.Disconnect then
-     Writeln(OutPut, MultiLanguageSupport.GetString('FieldDone')) else
-     Writeln(OutPut, MultiLanguageSupport.GetString('FieldFail'));
+     Writeln(OutPut, MultiLanguageSupport.GetString('FieldDone') + #13) else
+     Writeln(OutPut, MultiLanguageSupport.GetString('FieldFail') + #13);
     LeaveCriticalSection(CriticalSection);
     RTLEventWaitFor(ThreadEvent);
     Break;
@@ -181,7 +179,6 @@ begin
   end else
    Sleep(10);
  until ThreadFree = True;
-
  DoneKeyBoard;
  RTLEventDestroy(ThreadEvent);
 
@@ -242,27 +239,38 @@ function RCThread(P :Pointer) :Longint;
 begin
  RCConnection.OnAccepted := @RCConnectionAccepted;
  RCConnection.Start;
+EnterCriticalSection(CriticalSection);
  RTLEventSetEvent(RCConnectThreadEvent);
+LeaveCriticalSection(CriticalSection);
 end;
 
-var ConnectionID :Longint = 1;
+var ConnectionID :Longint = 0;
 
 procedure RCConnectionAccepted(Connection :TConnection);
 var
  Conn :TTcpIpCustomConnection;
  ID :Longword;
+ 
+ procedure WriteOutPut; cdecl;
+ begin
+  EnterCriticalSection(CriticalSection);
+  Writeln(' <<< Have connection from ', HostAddrToStr(NetToHost(Connection.Addr.sin_addr)), ', id ', ConnectionID, #13);
+  LeaveCriticalSection(CriticalSection);
+ end;
+ 
 begin
- EnterCriticalSection(CriticalSection);
- Writeln(OutPut, 'Localhost <<< ', HostAddrToStr(NetToHost(Connection.Addr.sin_addr)));
+ WriteOutPut;
+EnterCriticalSection(CriticalSection);
  SetLength(Connections, Length(Connections) + 1);
  Connections[Length(Connections) - 1] := Connection;
  Conn := TTcpIpCustomConnection.Create;
  Conn.SetConnection(Connection);
+LeaveCriticalSection(CriticalSection);
  Conn.Recv(ID, SizeOf(ID));
-
- ConnectionID += 1;
+ InterLockedIncrement(ConnectionID);
  Conn.Free;
- LeaveCriticalSection(CriticalSection);
+
+
 end;
 
 {$ifdef unix}
@@ -328,7 +336,7 @@ begin
    RCConnection.CloseSocket;
    Write(OutPut, Prefix, MultiLanguageSupport.GetString('MsgRConnectThreadEnd'));
    RTLEventWaitFor(RCConnectThreadEvent);
-   Writeln(OutPut, MultiLanguageSupport.GetString('FieldDone'));
+   Writeln(OutPut, MultiLanguageSupport.GetString('FieldDone') + #13);
    Break;
   end;
  until False;
