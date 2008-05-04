@@ -28,7 +28,7 @@ uses
   Windows, Registry, ShellApi,
 {$endif}
   Main, SysUtils, authorize, FSUtils, NetUtils, Engine, Sockets, Config,
-execute, sysinfo, process;
+execute, sysinfo, process, security;
 
 {$ifdef unix}
  const

@@ -29,12 +29,6 @@ const
  AuthorizeSuccessful = 0;
  AuthorizeFailed = 1;
  
-type
- TUserIdent = packed record
-  Username :Array[0..63] of WideChar;
-  Password :Array[0..63] of WideChar;
- end;
-
  
 {$ifdef windows}
  function OnConnect(P :Pointer) :DWord; stdcall;
@@ -44,8 +38,8 @@ type
 {$endif}
  function FAuthorize(AConnection :TConnection) :Longint;
 
-var
- ServerUserIdent :TUserIdent;
+//var
+ //ServerUserIdent :TUserIdent;
 
 implementation
 
@@ -79,7 +73,7 @@ var
  Connection :TTcpIpCustomConnection;
  ControlSum :Longword;
  Verfication :Boolean;
- UserIdent :TUserIdent;
+// UserIdent :TUserIdent;
  X :Longint;
  Value :Word;
 begin
@@ -99,11 +93,11 @@ begin
    Verfication := True;
    
   if Connection.Send(Verfication, SizeOf(Verfication)) <> SizeOf(Verfication) then break;
-  if Connection.Recv(UserIdent, SizeOf(UserIdent)) <> SizeOf(UserIdent) then break;
+  //if Connection.Recv(UserIdent, SizeOf(UserIdent)) <> SizeOf(UserIdent) then break;
   
   Verfication := True;
 
-  for X := Low(UserIdent.Username) to High(UserIdent.Username) do
+{  for X := Low(UserIdent.Username) to High(UserIdent.Username) do
   begin
    UserIdent.Username[X] := Chr(Ord(UserIdent.Username[X]) xor 127);
    Verfication := Verfication and (UserIdent.Username[X] = ServerUserIdent.Username[X]);
@@ -113,7 +107,7 @@ begin
   begin
    UserIdent.Password[X] := Chr(Ord(UserIdent.Password[X]) xor 127);
    Verfication := Verfication and (UserIdent.Password[X] = ServerUserIdent.Password[X]);
-  end;
+  end;     }
 
   if Connection.Send(Verfication, SizeOf(Verfication)) <> SizeOf(Verfication) then break;
 
@@ -149,7 +143,7 @@ end;
 
 initialization
 begin
- FillChar(ServerUserIdent, SizeOf(ServerUserIdent), 0);
+ //FillChar(ServerUserIdent, SizeOf(ServerUserIdent), 0);
 end;
 
 //finalization

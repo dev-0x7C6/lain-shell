@@ -137,7 +137,27 @@ var STDOutPut :Text;
 
 implementation
 
-uses {$ifdef linux} LibC {$endif}{$ifdef windows} WinSock {$endif};
+uses {$ifdef unix} Unix {$endif}{$ifdef windows} WinSock {$endif};
+
+{$ifdef unix}
+ const
+  clib = 'c';
+
+ type
+  Phostent = ^hostent;
+  hostent = record
+   h_name: PChar;
+   h_aliases: PPChar;
+   h_addrtype: Integer;
+   h_length: socklen_t;
+   case Byte of
+    0: (h_addr_list: PPChar);
+    1: (h_addr: PPChar);
+   end;
+  PPhostent = ^Phostent;
+
+  function gethostbyname(__name:Pchar):Phostent;cdecl;external clib name 'gethostbyname';
+{$endif}
 
  function GetIpByHost(Host : PChar) : WideString;
  var

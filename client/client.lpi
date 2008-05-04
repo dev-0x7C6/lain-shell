@@ -26,14 +26,14 @@
         <LaunchingApplication Use="True" PathPlusParams="/usr/kde/3.5/bin/konsole -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <Units Count="40">
+    <Units Count="41">
       <Unit0>
         <Filename Value="client.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uniclient"/>
         <CursorPos X="67" Y="27"/>
         <TopLine Value="15"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="8"/>
         <UsageCount Value="229"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -75,7 +75,7 @@
         <UnitName Value="Extensions"/>
         <CursorPos X="24" Y="272"/>
         <TopLine Value="238"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="11"/>
         <UsageCount Value="220"/>
         <Loaded Value="True"/>
       </Unit4>
@@ -113,7 +113,7 @@
         <UnitName Value="Lang"/>
         <CursorPos X="2" Y="82"/>
         <TopLine Value="64"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="9"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit9>
@@ -256,8 +256,8 @@
         <Filename Value="src/network.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Network"/>
-        <CursorPos X="80" Y="337"/>
-        <TopLine Value="318"/>
+        <CursorPos X="47" Y="26"/>
+        <TopLine Value="3"/>
         <EditorIndex Value="6"/>
         <UsageCount Value="36"/>
         <Loaded Value="True"/>
@@ -276,9 +276,9 @@
         <Filename Value="src/addons.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Addons"/>
-        <CursorPos X="26" Y="13"/>
-        <TopLine Value="39"/>
-        <EditorIndex Value="8"/>
+        <CursorPos X="72" Y="1"/>
+        <TopLine Value="1"/>
+        <EditorIndex Value="7"/>
         <UsageCount Value="35"/>
         <Loaded Value="True"/>
       </Unit32>
@@ -288,7 +288,7 @@
         <UnitName Value="Execute"/>
         <CursorPos X="31" Y="35"/>
         <TopLine Value="13"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="10"/>
         <UsageCount Value="30"/>
         <Loaded Value="True"/>
       </Unit33>
@@ -336,29 +336,22 @@
         <Filename Value="/usr/src/fpc/rtl/unix/keyboard.pp"/>
         <UnitName Value="keyboard"/>
         <CursorPos X="10" Y="33"/>
-        <TopLine Value="98"/>
-        <EditorIndex Value="7"/>
+        <TopLine Value="1"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit39>
+      <Unit40>
+        <Filename Value="/usr/src/fpc/packages/hash/src/md5.pp"/>
+        <UnitName Value="md5"/>
+        <CursorPos X="10" Y="131"/>
+        <TopLine Value="117"/>
+        <UsageCount Value="10"/>
+      </Unit40>
     </Units>
-    <JumpHistory Count="4" HistoryIndex="3">
+    <JumpHistory Count="1" HistoryIndex="0">
       <Position1>
-        <Filename Value="/usr/src/fpc/rtl/unix/keyboard.pp"/>
-        <Caret Line="33" Column="12" TopLine="9"/>
+        <Filename Value="src/network.pas"/>
+        <Caret Line="26" Column="50" TopLine="3"/>
       </Position1>
-      <Position2>
-        <Filename Value="src/network.pas"/>
-        <Caret Line="180" Column="3" TopLine="148"/>
-      </Position2>
-      <Position3>
-        <Filename Value="src/network.pas"/>
-        <Caret Line="122" Column="39" TopLine="175"/>
-      </Position3>
-      <Position4>
-        <Filename Value="src/network.pas"/>
-        <Caret Line="190" Column="13" TopLine="99"/>
-      </Position4>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
