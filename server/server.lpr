@@ -28,7 +28,7 @@ uses
   Windows, Registry, ShellApi,
 {$endif}
   Main, SysUtils, Authorize, FSUtils, NetUtils, Engine, Sockets, Config, Execute,
-  Sysinfo, Process, Security;
+  Sysinfo, Process, Security, Params;
 
 {$ifdef unix}
  const
@@ -228,52 +228,14 @@ begin
   LainDBControlClass.SaveLainDBToFile(DataBaseFileName);
  end;
  
- if Param = 'adduser' then
- begin
-  if ((ParamStr(2) = '') or (ParamStr(3) = '')) then
-  begin
-   Writeln(OutPut, 'adduser <username> <password>');
-   Exit;
-  end;
-  
-  if LainDBControlClass.AddUserToLainDB(ParamStr(2), ParamStr(3)) then
-   Writeln(OutPut, 'User added successful') else
-   Writeln(OutPut, 'Can''t add user');
-  Exit;
- end;
  
- if Param = 'deluser' then
- begin
-  if (ParamStr(2) = '') then
-  begin
-   Writeln(OutPut, 'deluser <username>');
-   Exit;
-  end;
-  if LainDBControlClass.DelUserFromLainDB(ParamStr(2)) then
-   Writeln(OutPut, 'User deleted successful') else
-   Writeln(OutPut, 'Can''t delete user');
-  Exit;
- end;
- 
- 
- if Param = 'checkuser' then
- begin
-  if (ParamStr(2) = '') then
-  begin
-   Writeln(OutPut, 'Empty username not accepted');
-   Exit;
-  end;
-  if LainDBControlClass.FindUserInLainDB(ParamStr(2)) = -1 then
-  begin
-   Writeln(OutPut, 'User not found');
-   Exit;
-  end;
-  if LainDBControlClass.CheckUserInLainDB(ParamStr(2)) <> -1 then
-   Writeln(OutPut, 'User MD5Sums ok') else
-   Writeln(OutPut, 'User MD5Sums fail');
-  Exit;
- end;
- 
+ if Param = 'adduser' then if LainServerParamAddUser(OutPut) = True then Exit;
+ if Param = 'deluser' then if LainServerParamDelUser(OutPut) = True then Exit;
+ if Param = 'chkuser' then if LainServerParamChkUser(OutPut) = True then Exit;
+// if Param = 'lstuser' then if LainServerParamLstUser(OutPut) = True then Exit;
+// if Param = 'pwduser' then if LainServerParamPwdUser(OutPut) = True then Exit;
+
+
  if Param = 'createdb' then
  begin
   LainDBControlClass.CreateLainDB;
@@ -304,14 +266,7 @@ begin
  
  if Param = 'userlist' then
  begin
-  if Length(LainDBControlClass.AccountList) = 0 then
-  begin
-   Writeln(OutPut, 'No users in database');
-   Exit;
-  end;
-  for X := 0 to Length(LainDBControlClass.AccountList) - 1 do
-   Writeln(OutPut, 'User ID = ', X, ' Name = ', LainDBControlClass.AccountList[X].UsernameStr);
-  Exit;
+
  end;
  
 {$endif}
