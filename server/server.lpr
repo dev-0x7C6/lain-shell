@@ -76,13 +76,14 @@ var
 procedure ExitProcedure;
 begin
 {$ifdef unix}
+ LainDBControlClass.SaveLainDBToFile(DataBaseFileName);
  CloseFile(OutPut);
 {$endif}
 {$ifdef windows}
+ LainDBControlClass.SaveLainDBToRegistry('Software\LainShell', 'Accounts');
  if ShareMemory <> 0 then CloseHandle(ShareMemory);
  if ExecuteBlock <> 0 then CloseHandle(ExecuteBlock);
 {$endif}
- LainDBControlClass.SaveLainDBToFile(DataBaseFileName);
  LainDBControlClass.Free;
  DoneCriticalSection(CriticalSection);
 end;
@@ -380,6 +381,19 @@ begin
   DefaultConfigVariables[X][1] := RegEdit.ReadString(DefaultConfigVariables[X][0]);
  RegEdit.Free;
 
+ RegEdit := TRegistry.Create;
+ RegEdit.RootKey := HKEY_CURRENT_USER;
+ RegEdit.OpenKey('Software\LainShell', true);
+ if not RegEdit.ValueExists('Accounts') then
+  LainDBControlClass.CreateLainDB;
+ RegEdit.Free;
+ 
+ if Length(LainDBControlClass.AccountList) = 0 then
+ begin
+  MessageBox(GetForegroundWindow, 'Please adduser first, run with params adduser <username> <password>'
+             , 'Info', MB_ICONINFORMATION + MB_OK);
+  Exit;
+ end;
 
  LainShellDataConfigure;
 

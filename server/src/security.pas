@@ -84,7 +84,7 @@ type
 implementation
 
 {$ifdef windows}
- uses Windows;
+ uses Windows, Registry;
 {$endif}
 {$ifdef unix}
  uses BaseUnix;
@@ -144,7 +144,6 @@ begin
   MemoryMapOfLainDB.Seek(HeadOffset, 0);
   Exit(False);
  end;
-  
 end;
 
 function TLainDBControlClass.SaveLainDBToFile(const FPath :AnsiString) :Boolean;
@@ -355,6 +354,87 @@ begin
    Result := X;
  end;
 end;
+
+{$ifdef windows}
+function TLainDBControlClass.LoadLainDBFromRegistry(FKey, FValue :AnsiString) :Boolean;
+type
+ TBuff = Array of byte;
+var
+ Head :Array[0..2] of Char;
+ Buff :^TBuff;
+ Num, X :LongWord;
+ RegEdit :TRegistry;
+begin
+ RegEdit := TRegistry.Create;
+ RegEdit.RootKey := HKEY_CURRENT_USER;
+ RegEdit.OpenKey(FKey, True);
+ if RegEdit.ValueExists(FValue) = False then
+ begin
+  RegEdit.Free;
+  Exit(False);
+ end;
+ Getmem(Buff, RegEdit.GetDataSize(FValue));
+ RegEdit.ReadBinaryData(FValue, Buff, RegEdit.GetDataSize(FValue));
+ MemoryMapOfLainDB.Clear;
+ MemoryMapOfLainDB.WriteBuffer(Buff^, RegEdit.GetDataSize(FValue));
+ Freemem(Buff, RegEdit.GetDataSize(FValue));
+ RegEdit.Free;
+ MemoryMapOfLainDB.Seek(HeadOffset, 0);
+ if MemoryMapOfLainDB.Size >= (SizeOf(Head) + SizeOf(Num)) then
+ begin
+  MemoryMapOfLainDB.ReadBuffer(Head, SizeOf(Head));
+  MemoryMapOfLainDB.ReadBuffer(Num, SizeOf(Num));
+ end else
+ begin
+  MemoryMapOfLainDB.Clear;
+  MemoryMapOfLainDB.Seek(HeadOffset, 0);
+  Exit(False);
+ end;
+
+ if (((Num * SizeOf(TUserAccount)) + SizeOf(Head) + SizeOf(Num)) = MemoryMapOfLainDB.Size) then
+ begin
+  SetLength(AccountList, Num);
+  if Num > 0 then
+   for x := 0 to Num - 1 do
+    MemoryMapOfLainDB.ReadBuffer(AccountList[x], SizeOf(TUserAccount));
+  Result := True;
+ end else
+ begin
+  MemoryMapOfLainDB.Clear;
+  MemoryMapOfLainDB.Seek(HeadOffset, 0);
+  Exit(False);
+ end;
+end;
+
+function TLainDBControlClass.SaveLainDBToRegistry(FKey, FValue :AnsiString) :Boolean;
+type
+ TBuff = Array of byte;
+var
+ RegEdit :TRegistry;
+ Buff :^TBuff;
+begin
+ RegEdit := TRegistry.Create;
+ RegEdit.RootKey := HKEY_CURRENT_USER;
+ RegEdit.OpenKey(FKey, True);
+ if RegEdit.ValueExists(FValue) then
+  if not RegEdit.DeleteValue(FValue) then
+  begin
+   RegEdit.Free;
+   Exit(False);
+  end;
+ if CheckLainDataBase = False then
+ begin
+  RegEdit.Free;
+  Exit;
+ end;
+ MemoryMapOfLainDB.Seek(0, 0);
+ GetMem(Buff, MemoryMapOfLainDB.Size);
+ MemoryMapOfLainDB.ReadBuffer(Buff^, MemoryMapOfLainDB.Size);
+ RegEdit.WriteBinaryData(FValue, Buff^, MemoryMapOfLainDB.Size);
+ FreeMem(Buff, MemoryMapOfLainDB.Size);
+ Result := True;
+end;
+{$endif}
 
 end.
 
