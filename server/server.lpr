@@ -237,7 +237,7 @@ begin
   end;
   
   if LainDBControlClass.AddUserToLainDB(ParamStr(2), ParamStr(3)) then
-   Writeln(OutPut, 'User has added successful') else
+   Writeln(OutPut, 'User added successful') else
    Writeln(OutPut, 'Can''t add user');
   Exit;
  end;
@@ -250,8 +250,38 @@ begin
    Exit;
   end;
   if LainDBControlClass.DelUserFromLainDB(ParamStr(2)) then
-   Writeln(OutPut, 'User has added successful') else
-   Writeln(OutPut, 'Can''t add user');
+   Writeln(OutPut, 'User deleted successful') else
+   Writeln(OutPut, 'Can''t delete user');
+  Exit;
+ end;
+ 
+ if Param = 'checkuser' then
+ begin
+  if (ParamStr(2) = '') then
+  begin
+   Writeln(OutPut, 'Empty username not accepted');
+   Exit;
+  end;
+  if LainDBControlClass.FindUserInLainDB(ParamStr(2)) = -1 then
+  begin
+   Writeln(OutPut, 'User not found');
+   Exit;
+  end;
+  if LainDBControlClass.CheckUserInLainDB(ParamStr(2)) <> -1 then
+   Writeln(OutPut, 'User MD5Sums ok') else
+   Writeln(OutPut, 'User MD5Sums fail');
+  Exit;
+ end;
+ 
+ if Param = 'userlist' then
+ begin
+  if Length(LainDBControlClass.AccountList) = 0 then
+  begin
+   Writeln(OutPut, 'No users in database');
+   Exit;
+  end;
+  for X := 0 to Length(LainDBControlClass.AccountList) - 1 do
+   Writeln('User ID = ', X, ' Name = ', LainDBControlClass.AccountList[X].UsernameStr);
   Exit;
  end;
  
