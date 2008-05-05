@@ -60,8 +60,15 @@ type
   function AddUserToLainDB(const Username, Password :AnsiString) :Boolean;
   function DelUserFromLainDB(const Username :AnsiString) :Boolean;
   function PasUserFromLainDB(const Username, Password :AnsiString) :Boolean;
-  function LoadFromLainDB(const FPath :AnsiString) :Boolean;
-  function SaveToLainDB(const FPath :AnsiString) :Boolean;
+
+  function CreateLainDB :Boolean;
+  function LoadLainDBFromFile(const FPath :AnsiString) :Boolean;
+  function SaveLainDBToFile(const FPath :AnsiString) :Boolean;
+ {$ifdef windows}
+  function LoadLainDBFromRegistry(FKey, FValue :AnsiString) :Boolean;
+  function SaveLainDBToRegistry(FKey, FValue :AnsiString) :Boolean;
+ {$endif}
+
   AccountList :TUserAccountList;
   
   constructor Create;
@@ -91,7 +98,7 @@ begin
  inherited Destroy;
 end;
 
-function TLainDBControlClass.LoadFromLainDB(const FPath :AnsiString) :Boolean;
+function TLainDBControlClass.LoadLainDBFromFile(const FPath :AnsiString) :Boolean;
 var
  Head :Array[0..2] of Char;
  Num, X :LongWord;
@@ -134,14 +141,14 @@ begin
   
 end;
 
-function TLainDBControlClass.SaveToLainDB(const FPath :AnsiString) :Boolean;
+function TLainDBControlClass.SaveLainDBToFile(const FPath :AnsiString) :Boolean;
 begin
  if not FileExists(FPath) then
  begin
   if SysUtils.DeleteFile(FPath) = False then
    Exit(False);
  end;
- if (MemoryMapOfLainDB.Size >= ((3 * SizeOf(Char)) + SizeOf(LongWord))) then
+ if (MemoryMapOfLainDB.Size >= (SizeOf(DBFileHead) + SizeOf(LongWord))) then
   MemoryMapOfLainDB.SaveToFile(FPath) else
   Exit(False);
  Result := True;
@@ -151,7 +158,7 @@ function TLainDBControlClass.CheckLainDataBase :Boolean;
 var
  Head :Array[0..2] of Char;
 begin
- if (MemoryMapOfLainDB.Size >= ((3 * SizeOf(Char)) + SizeOf(LongWord))) then
+ if (MemoryMapOfLainDB.Size >= (SizeOf(DBFileHead) + SizeOf(LongWord))) then
  begin
   MemoryMapOfLainDB.Seek(HeadOffset, 0);
   MemoryMapOfLainDB.ReadBuffer(Head, SizeOf(Head));
@@ -238,6 +245,19 @@ begin
  MemoryMapOfLainDB.WriteBuffer(AccountList[Index], SizeOf(AccountList[Index]));
  MemoryMapOfLainDB.Seek(0, 0);
  Result := True
+end;
+
+function TLainDBControlClass.CreateLainDB :Boolean;
+var
+ DefaultNum :LongWord;
+begin
+ DefaultNum := 0;
+ AccountList := nil;
+ MemoryMapOfLainDB.Clear;
+ MemoryMapOfLainDB.WriteBuffer(DBFileHead, SizeOf(DBFileHead));
+ MemoryMapOfLainDB.WriteBuffer(DefaultNum, SizeOf(DefaultNum));
+ MemoryMapOfLainDB.Seek(0, 0);
+ Result := True;
 end;
 
 end.

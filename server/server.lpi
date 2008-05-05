@@ -7,7 +7,7 @@
       <MainUnit Value="0"/>
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
-      <ActiveEditorIndexAtStart Value="6"/>
+      <ActiveEditorIndexAtStart Value="0"/>
     </General>
     <VersionInfo>
       <ProjectVersion Value=""/>
@@ -38,9 +38,7 @@
         <UnitName Value="uniserver"/>
         <CursorPos X="2" Y="63"/>
         <TopLine Value="50"/>
-        <EditorIndex Value="9"/>
         <UsageCount Value="120"/>
-        <Loaded Value="True"/>
       </Unit0>
       <Unit1>
         <Filename Value="units/fsutils.pas"/>
@@ -48,9 +46,7 @@
         <UnitName Value="FSUtils"/>
         <CursorPos X="14" Y="171"/>
         <TopLine Value="121"/>
-        <EditorIndex Value="4"/>
         <UsageCount Value="100"/>
-        <Loaded Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="units/netutils.pas"/>
@@ -58,9 +54,7 @@
         <UnitName Value="NetUtils"/>
         <CursorPos X="84" Y="147"/>
         <TopLine Value="121"/>
-        <EditorIndex Value="10"/>
         <UsageCount Value="100"/>
-        <Loaded Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="src/main.pas"/>
@@ -68,9 +62,7 @@
         <UnitName Value="Main"/>
         <CursorPos X="17" Y="175"/>
         <TopLine Value="125"/>
-        <EditorIndex Value="5"/>
         <UsageCount Value="120"/>
-        <Loaded Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="src/authorize.pas"/>
@@ -78,9 +70,7 @@
         <UnitName Value="Authorize"/>
         <CursorPos X="4" Y="146"/>
         <TopLine Value="105"/>
-        <EditorIndex Value="0"/>
         <UsageCount Value="120"/>
-        <Loaded Value="True"/>
       </Unit4>
       <Unit5>
         <Filename Value="usr/src/fpc/rtl/inc/systemh.inc"/>
@@ -101,9 +91,7 @@
         <UnitName Value="Engine"/>
         <CursorPos X="23" Y="46"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="2"/>
         <UsageCount Value="96"/>
-        <Loaded Value="True"/>
       </Unit7>
       <Unit8>
         <Filename Value="../client/src/cengine.pas"/>
@@ -151,9 +139,7 @@
         <UnitName Value="Config"/>
         <CursorPos X="55" Y="203"/>
         <TopLine Value="69"/>
-        <EditorIndex Value="1"/>
         <UsageCount Value="80"/>
-        <Loaded Value="True"/>
       </Unit14>
       <Unit15>
         <Filename Value="src/execute.pas"/>
@@ -161,9 +147,7 @@
         <UnitName Value="Execute"/>
         <CursorPos X="2" Y="52"/>
         <TopLine Value="14"/>
-        <EditorIndex Value="3"/>
         <UsageCount Value="71"/>
-        <Loaded Value="True"/>
       </Unit15>
       <Unit16>
         <Filename Value="C:/lazarus/fpc/2.2.1/source/rtl/inc/mathh.inc"/>
@@ -177,9 +161,7 @@
         <UnitName Value="Signals"/>
         <CursorPos X="34" Y="76"/>
         <TopLine Value="26"/>
-        <EditorIndex Value="7"/>
         <UsageCount Value="61"/>
-        <Loaded Value="True"/>
       </Unit17>
       <Unit18>
         <Filename Value="src/sysinfo.pas"/>
@@ -187,9 +169,7 @@
         <UnitName Value="SysInfo"/>
         <CursorPos X="123" Y="113"/>
         <TopLine Value="71"/>
-        <EditorIndex Value="8"/>
         <UsageCount Value="32"/>
-        <Loaded Value="True"/>
       </Unit18>
       <Unit19>
         <Filename Value="src/process.pas"/>
@@ -197,9 +177,7 @@
         <UnitName Value="Process"/>
         <CursorPos X="1" Y="25"/>
         <TopLine Value="15"/>
-        <EditorIndex Value="11"/>
         <UsageCount Value="30"/>
-        <Loaded Value="True"/>
       </Unit19>
       <Unit20>
         <Filename Value="C:/lazarus/fpc/2.2.1/source/rtl/win32/winsysut.pp"/>
@@ -219,9 +197,9 @@
         <Filename Value="src/security.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Security"/>
-        <CursorPos X="82" Y="237"/>
-        <TopLine Value="199"/>
-        <EditorIndex Value="6"/>
+        <CursorPos X="17" Y="260"/>
+        <TopLine Value="216"/>
+        <EditorIndex Value="0"/>
         <UsageCount Value="27"/>
         <Loaded Value="True"/>
       </Unit22>
@@ -239,12 +217,7 @@
         <UsageCount Value="11"/>
       </Unit24>
     </Units>
-    <JumpHistory Count="1" HistoryIndex="0">
-      <Position1>
-        <Filename Value="src/security.pas"/>
-        <Caret Line="240" Column="16" TopLine="9"/>
-      </Position1>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
