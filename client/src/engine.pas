@@ -21,7 +21,7 @@ unit Engine;
 
 interface
 
-uses Classes, SysUtils, Main;
+uses Classes, SysUtils, Main, Md5;
 
 Const
  SendQueryDone = 0;
@@ -96,14 +96,8 @@ begin
   Exit(CMD_Fail);
  end;
 
- UserIdent.Username := LainClientData.Username;
- UserIdent.Password := LainClientData.Password;
-
- for X := Low(UserIdent.Username) to High(UserIdent.Username) do
-  UserIdent.Username[X] := Chr(Ord(UserIdent.Username[X]) xor 127);
-
- for X := Low(UserIdent.Password) to High(UserIdent.Password) do
-  UserIdent.Password[X] := Chr(Ord(UserIdent.Password[X]) xor 127);
+ UserIdent.Username := MD5String(LainClientData.Username);
+ UserIdent.Password := MD5String(LainClientData.Password);
 
  if LainClientData.Username = '' then
   ConsoleUser := MultiLanguageSupport.GetString('FieldUsername') else

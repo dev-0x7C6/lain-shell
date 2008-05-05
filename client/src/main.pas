@@ -25,11 +25,11 @@ interface
 uses
  {$ifdef windows}
   Windows,
- {$endif} Classes, SysUtils, NetUtils;
+ {$endif} Classes, SysUtils, NetUtils, Md5;
 
 
 Const
- ConsoleTitle :WideString = 'LainShell Client v0.00.60.7';
+ ConsoleTitle :WideString = 'LainShell Client v0.00.60.8';
  Prefix = ' >>> ';
  
 Const
@@ -41,8 +41,8 @@ var
 
 type
  TUserIdent = packed record
-  Username :Array[0..63] of WideChar;
-  Password :Array[0..63] of WideChar;
+  Username :TMD5Digest;
+  Password :TMD5Digest;
  end;
 
  
@@ -211,12 +211,8 @@ begin
  LainClientData.Password := '';
  LainClientData.Hostname := '';
  LainClientData.Port := '';
- 
- for X := Low(UserIdent.Username) to High(UserIdent.Username) do
-  UserIdent.Username[X] := Chr(Ord(UserIdent.Username[X]) xor 127);
-
- for X := Low(UserIdent.Password) to High(UserIdent.Password) do
-  UserIdent.Password[X] := Chr(Ord(UserIdent.Password[X]) xor 127);
+ UserIdent.Username := MD5String('');
+ UserIdent.Password := MD5String('');
 end;
 
 finalization

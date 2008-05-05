@@ -22,13 +22,13 @@ program LainServer;
 
 uses
 {$ifdef unix}
-  CThreads, IPC, BaseUnix, Unix, Signals,
+  CThreads, IPC, BaseUnix, Unix, Signals, Md5,
 {$endif}
 {$ifdef windows}
   Windows, Registry, ShellApi,
 {$endif}
-  Main, SysUtils, authorize, FSUtils, NetUtils, Engine, Sockets, Config,
-execute, sysinfo, process, security;
+  Main, SysUtils, Authorize, FSUtils, NetUtils, Engine, Sockets, Config, Execute,
+  Sysinfo, Process, Security;
 
 {$ifdef unix}
  const
@@ -225,14 +225,13 @@ begin
  begin
   LainDBControlClass.CreateLainDB;
   LainDBControlClass.SaveLainDBToFile(DataBaseFileName);
-  writeln(output, '?');
  end;
  
  if Param = 'adduser' then
  begin
   if ((ParamStr(2) = '') or (ParamStr(3) = '')) then
   begin
-   Writeln(OutPut, 'No empty fields accepted');
+   Writeln(OutPut, 'adduser <username> <password>');
    Exit;
   end;
   
@@ -246,7 +245,7 @@ begin
  begin
   if (ParamStr(2) = '') then
   begin
-   Writeln(OutPut, 'Empty username not accepted');
+   Writeln(OutPut, 'deluser <username>');
    Exit;
   end;
   if LainDBControlClass.DelUserFromLainDB(ParamStr(2)) then
@@ -254,6 +253,7 @@ begin
    Writeln(OutPut, 'Can''t delete user');
   Exit;
  end;
+ 
  
  if Param = 'checkuser' then
  begin
@@ -273,6 +273,34 @@ begin
   Exit;
  end;
  
+ if Param = 'createdb' then
+ begin
+  LainDBControlClass.CreateLainDB;
+  if LainDBControlClass.SaveLainDBToFile(DataBaseFileName) then
+   Writeln(OutPut, 'New database created') else
+   Writeln(OutPut, 'Can''t create new database');
+  Exit;
+ end;
+ 
+ if Param = 'passwd' then
+ begin
+  if ((ParamStr(2) = '') or (ParamStr(3) = '')) then
+  begin
+   Writeln(OutPut, 'passwd <username> <password>');
+   Exit;
+  end;
+  X := LainDBControlClass.FindUserInLainDB(ParamStr(2));
+  if X = -1 then
+  begin
+   Writeln(OutPut, 'User not found');
+   Exit;
+  end;
+  LainDBControlClass.AccountList[X].Password := MD5String(ParamStr(3));
+  LainDBControlClass.AccountList[X].PasswordMD5:= MD5Buffer(LainDBControlClass.AccountList[X].Password, SizeOf(LainDBControlClass.AccountList[X].Password));
+  Writeln(OutPut, 'New password set');
+  Exit;
+ end;
+ 
  if Param = 'userlist' then
  begin
   if Length(LainDBControlClass.AccountList) = 0 then
@@ -281,7 +309,7 @@ begin
    Exit;
   end;
   for X := 0 to Length(LainDBControlClass.AccountList) - 1 do
-   Writeln('User ID = ', X, ' Name = ', LainDBControlClass.AccountList[X].UsernameStr);
+   Writeln(OutPut, 'User ID = ', X, ' Name = ', LainDBControlClass.AccountList[X].UsernameStr);
   Exit;
  end;
  

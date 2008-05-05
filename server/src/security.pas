@@ -59,8 +59,10 @@ type
   function CheckLainDataBase :Boolean;
  public
   function FindUserInLainDB(const Username :AnsiString) :Longint;
+  function FindUserInLainDBByDigest(const UserDigest :TMD5Digest) :Longint;
   function CheckUserInLainDB(const Username :AnsiString) :Longint;
- 
+  function CheckUserInLainDBByDigest(const UserDigest :TMD5Digest) :Longint;
+  
   function AddUserToLainDB(const Username, Password :AnsiString) :Boolean;
   function DelUserFromLainDB(const Username :AnsiString) :Boolean;
   function PasUserFromLainDB(const Username, Password :AnsiString) :Boolean;
@@ -278,6 +280,55 @@ begin
     Result := X;
     Break;
    end;
+ end;
+end;
+
+function TLainDBControlClass.FindUserInLainDBByDigest(const UserDigest :TMD5Digest) :Longint;
+var
+ X, Y :LongWord;
+ Bool :Boolean;
+begin
+ Result := -1;
+ if Length(AccountList) > 0 then
+ begin
+  for X := 0 to Length(AccountList) - 1 do
+  begin
+   Bool := True;
+   for Y := Low(TMD5Digest) to High(TMD5Digest) do
+   begin
+    Bool := Bool and (UserDigest[Y] = AccountList[X].UsernameMD5[Y]);
+    if Bool = False then Break;
+   end;
+   if Bool = True then
+   begin
+    Result := X;
+    Break;
+   end;
+  end;
+ end;
+end;
+
+function TLainDBControlClass.CheckUserInLainDBByDigest(const UserDigest :TMD5Digest) :Longint;
+var
+ X, Y :Longint;
+ Digest :TMD5Digest;
+ Bool :Boolean;
+ UsernameStr :AnsiString;
+begin
+ Result := -1;
+ X := FindUserInLainDBByDigest(UserDigest);
+ if X <> -1 then
+ begin
+  Digest := MD5Buffer(AccountList[X].Password, SizeOf(AccountList[X].Password));
+  UsernameStr := AccountList[X].UsernameStr;
+  Bool := True;
+  for Y := Low(TMD5Digest) to High(TMD5Digest) do
+   Bool := Bool and (Digest[Y] = AccountList[X].PasswordMD5[Y]);
+  Digest := UserDigest;
+  for Y := Low(TMD5Digest) to High(TMD5Digest) do
+   Bool := Bool and (Digest[Y] = AccountList[X].UsernameMD5[Y]);
+  if Bool = True then
+   Result := X;
  end;
 end;
 

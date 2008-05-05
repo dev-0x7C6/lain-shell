@@ -23,7 +23,7 @@ unit Authorize;
 interface
 
 uses
-  Classes, SysUtils, NetUtils;
+  Classes, SysUtils, NetUtils, MD5;
 
 const
  AuthorizeSuccessful = 0;
@@ -31,8 +31,8 @@ const
  
 type
  TUserIdent = packed record
-  Username :Array[0..63] of WideChar;
-  Password :Array[0..63] of WideChar;
+  Username :TMD5Digest;
+  Password :TMD5Digest;
  end;
 
  
@@ -80,7 +80,7 @@ var
  ControlSum :Longword;
  Verfication :Boolean;
  UserIdent :TUserIdent;
- X :Longint;
+ X, Y :Longint;
  Value :Word;
 begin
  Connection := TTcpIpCustomConnection.Create;
@@ -101,18 +101,16 @@ begin
   if Connection.Send(Verfication, SizeOf(Verfication)) <> SizeOf(Verfication) then break;
   if Connection.Recv(UserIdent, SizeOf(UserIdent)) <> SizeOf(UserIdent) then break;
   
-  Verfication := True;
-
-  for X := Low(UserIdent.Username) to High(UserIdent.Username) do
+  X :=  LainDBControlClass.CheckUserInLainDBByDigest(UserIdent.Username);
+  Verfication := X <> -1;
+  if Verfication = True then
   begin
-   UserIdent.Username[X] := Chr(Ord(UserIdent.Username[X]) xor 127);
-   Verfication := Verfication and (UserIdent.Username[X] = ServerUserIdent.Username[X]);
-  end;
-
-  for X := Low(UserIdent.Password) to High(UserIdent.Password) do
-  begin
-   UserIdent.Password[X] := Chr(Ord(UserIdent.Password[X]) xor 127);
-   Verfication := Verfication and (UserIdent.Password[X] = ServerUserIdent.Password[X]);
+   for Y := Low(TMD5Digest) to High(TMD5Digest) do
+   begin
+    Verfication := Verfication and (LainDBControlClass.AccountList[X].Password[Y] = UserIdent.Password[Y]);
+    if Verfication = False then
+     Break;
+   end;
   end;
 
   if Connection.Send(Verfication, SizeOf(Verfication)) <> SizeOf(Verfication) then break;
