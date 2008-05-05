@@ -38,6 +38,7 @@ type
   UsernameStr :Array[0..63] of Char;
   UsernameMD5 :TMDDigest;
   Password :TMDDigest;
+  PasswordMD5 :TMDDigest;
  end;
 
 type
@@ -57,6 +58,8 @@ type
   RWPriv :Boolean;
   function CheckLainDataBase :Boolean;
  public
+  function FindUserInLainDB(const Username :AnsiString) :Longint;
+ 
   function AddUserToLainDB(const Username, Password :AnsiString) :Boolean;
   function DelUserFromLainDB(const Username :AnsiString) :Boolean;
   function PasUserFromLainDB(const Username, Password :AnsiString) :Boolean;
@@ -129,7 +132,7 @@ begin
  begin
   SetLength(AccountList, Num);
   if Num > 0 then
-   for x := 0 to Num do
+   for x := 0 to Num - 1 do
     MemoryMapOfLainDB.ReadBuffer(AccountList[x], SizeOf(TUserAccount));
   Result := True;
  end else
@@ -143,7 +146,7 @@ end;
 
 function TLainDBControlClass.SaveLainDBToFile(const FPath :AnsiString) :Boolean;
 begin
- if not FileExists(FPath) then
+ if FileExists(FPath) then
  begin
   if SysUtils.DeleteFile(FPath) = False then
    Exit(False);
@@ -173,12 +176,14 @@ var
  Num :Longword;
 begin
  if CheckLainDataBase = False then Exit(False);
+ if FindUserInLainDB(Username) <> -1 then Exit(False);
  if Length(Username) > SizeOf(UserAccount.UsernameStr) then Exit(False);
  FillChar(UserAccount, SizeOf(UserAccount), #0);
 
  UserAccount.UsernameStr := Username;
  UserAccount.UsernameMD5 := MD5String(Username);
  UserAccount.Password := MD5String(Password);
+ UserAccount.PasswordMD5 := MD5Buffer(UserAccount.Password, SizeOf(UserAccount.Password));
 
  MemoryMapOfLainDB.Seek(NumOffset, 0);
  MemoryMapOfLainDB.ReadBuffer(Num, SizeOf(Num));
@@ -202,10 +207,7 @@ var
 begin
  if CheckLainDataBase = False then Exit(False);
  if Length(AccountList) <= 0 then Exit(False);
- Index := -1;
- for X := 0 to Length(AccountList) - 1 do
-  if AccountList[X].UsernameStr = Username then
-   Index := X;
+ Index := FindUserInLainDB(Username);
  if Index = -1 then Exit(False);
  if Index = (Length(AccountList) - 1) then
  begin
@@ -223,7 +225,9 @@ begin
   MemoryMapOfLainDB.Seek(SizeOf(DBFileHead) + SizeOf(LongWord) + (Index * SizeOf(UserAccount)), 0); /// !!! Warning
   MemoryMapOfLainDB.WriteBuffer(UserAccount, SizeOf(UserAccount));
  end;
- 
+ MemoryMapOfLainDB.Seek(NumOffset, 0);
+ X := Length(AccountList);
+ MemoryMapOfLainDB.WriteBuffer(X, SizeOf(X));
  MemoryMapOfLainDB.Seek(0, 0);
  Result := True;
 end;
@@ -258,6 +262,22 @@ begin
  MemoryMapOfLainDB.WriteBuffer(DefaultNum, SizeOf(DefaultNum));
  MemoryMapOfLainDB.Seek(0, 0);
  Result := True;
+end;
+
+function TLainDBControlClass.FindUserInLainDB(const Username :AnsiString) :Longint;
+var
+ X :LongWord;
+begin
+ Result := -1;
+ if Length(AccountList) > 0 then
+ begin
+  for X := 0 to Length(AccountList) - 1 do
+   if AccountList[X].UsernameStr = Username then
+   begin
+    Result := X;
+    Break;
+   end;
+ end;
 end;
 
 end.

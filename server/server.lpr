@@ -40,6 +40,7 @@ execute, sysinfo, process, security;
 Const
 {$ifdef unix}
  ConfigFileName :WideString = 'lainconf.conf';
+ DataBaseFileName :WideString = 'laindb';
  ConfigDirectory :WideString = '.lainconf';
 {$endif}
 {$ifdef windows}
@@ -81,7 +82,9 @@ begin
  if ShareMemory <> 0 then CloseHandle(ShareMemory);
  if ExecuteBlock <> 0 then CloseHandle(ExecuteBlock);
 {$endif}
-  DoneCriticalSection(CriticalSection);
+ LainDBControlClass.SaveLainDBToFile(DataBaseFileName);
+ LainDBControlClass.Free;
+ DoneCriticalSection(CriticalSection);
 end;
 
   
@@ -169,6 +172,7 @@ begin
 {$endif}
 
  InitCriticalSection(CriticalSection);
+ LainDBControlClass := TLainDBControlClass.Create;
  AddExitProc(@ExitProcedure);
 
  CreateConfig := (Param = 'config');
@@ -177,6 +181,7 @@ begin
  AssignFile(OutPut, '');
  ReWrite(OutPut);
  NetUtils.STDOutPut := OutPut;
+ 
  
  HomeDirectory :=  GetHomeDirectory;
  if FpChdir(HomeDirectory) <> -1 then
@@ -208,6 +213,47 @@ begin
 
  ConfigFile.Free;
  LainShellDataConfigure;
+ 
+ if FileExists(DataBaseFileName) then
+ begin
+  if not LainDBControlClass.LoadLainDBFromFile(DataBaseFileName) then
+  begin
+   LainDBControlClass.Create;
+   LainDBControlClass.SaveLainDBToFile(DataBaseFileName);
+  end;
+ end else
+ begin
+  LainDBControlClass.CreateLainDB;
+  LainDBControlClass.SaveLainDBToFile(DataBaseFileName);
+  writeln(output, '?');
+ end;
+ 
+ if Param = 'adduser' then
+ begin
+  if ((ParamStr(2) = '') or (ParamStr(3) = '')) then
+  begin
+   Writeln(OutPut, 'No empty fields accepted');
+   Exit;
+  end;
+  
+  if LainDBControlClass.AddUserToLainDB(ParamStr(2), ParamStr(3)) then
+   Writeln(OutPut, 'User has added successful') else
+   Writeln(OutPut, 'Can''t add user');
+  Exit;
+ end;
+ 
+ if Param = 'deluser' then
+ begin
+  if (ParamStr(2) = '') then
+  begin
+   Writeln(OutPut, 'Empty username not accepted');
+   Exit;
+  end;
+  if LainDBControlClass.DelUserFromLainDB(ParamStr(2)) then
+   Writeln(OutPut, 'User has added successful') else
+   Writeln(OutPut, 'Can''t add user');
+  Exit;
+ end;
  
 {$endif}
 

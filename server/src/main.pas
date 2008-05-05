@@ -25,7 +25,7 @@ interface
 uses
  {$ifdef windows}
   Windows,
- {$endif} Classes, SysUtils, NetUtils;
+ {$endif} Classes, SysUtils, NetUtils, Security;
 
 {$ifdef unix}
  {$define verbose}
@@ -81,6 +81,7 @@ var
 
 var
  TerminateApp :Boolean = False;
+ LainDBControlClass :TLainDBControlClass;
  OutPut :Text;
 
 implementation
