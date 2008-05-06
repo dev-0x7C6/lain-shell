@@ -23,7 +23,7 @@ unit Params;
 interface
 
 uses
-  Classes, SysUtils; 
+  Classes, SysUtils, Md5;
   
 var
 {$ifdef windows}
@@ -32,16 +32,20 @@ var
  UsageAddUser :String = 'Usage: adduser <username> <password>';
  UsageDelUser :String = 'Usage: deluser <username>';
  UsageChkUser :String = 'Usage: chkuser <username>';
+ UsagePwdUser :String = 'Usage: pwduser <username> <password>';
 
  MsgUserAdded :String =        'User added successful';
  MsgUserNoAdded :String =      'Can''t add user';
  MsgUserDeleted :String =      'User deleted succesful';
  MsgUserNotDeleted :String =   'Can''t delete user';
  
- MsgUserNotFound :String =     'User not found';
- MsgUserCheckSumOk :String =   'User MD5Sums are correct';
- MsgUserCheckSumFail :String = 'User MD5Sums aren''t correct';
- MsgUserNoUsers :String =      'No users in database';
+ MsgUserNotFound :String =       'User not found';
+ MsgUserCheckSumOk :String =     'User MD5Sums are correct';
+ MsgUserCheckSumFail :String =   'User MD5Sums aren''t correct';
+ MsgUserNoUsers :String =        'No users in database';
+ MsgUserNewPasswordSet :String = 'New password set';
+ MsgNewDBCreate :String =        'New database created';
+ MsgNewDBNotCreate :String =     'Can''t create new database';
  
  
 var
@@ -174,7 +178,54 @@ begin
 end;
 
 function LainServerParamPwdUser(var OutPut :Text) :Boolean;
+var
+ X :LongWord;
 begin
+ if ((ParamStr(2) = '') or (ParamStr(3) = '')) then
+ begin
+ {$ifdef unix}
+  Writeln(OutPut, UsagePwdUser);
+ {$endif}
+ {$ifdef windows}
+  MessageBox(GetForegroundWindow, PChar(UsagePwdUser), MBInfoTitle, MB_OK + MB_ICONINFORMATION);
+ {$endif}
+  Exit(True);
+ end;
+  X := LainDBControlClass.FindUserInLainDB(ParamStr(2));
+  if X = -1 then
+  begin
+  {$ifdef unix}
+   Writeln(OutPut, MsgUserNotFound);
+  {$endif}
+  {$ifdef windows}
+   MessageBox(GetForegroundWindow, PChar(MsgUserNotFound), MBInfoTitle, MB_OK + MB_ICONINFORMATION);
+  {$endif}
+   Exit(True);
+  end;
+  LainDBControlClass.AccountList[X].Password := MD5String(ParamStr(3));
+  LainDBControlClass.AccountList[X].PasswordMD5:= MD5Buffer(LainDBControlClass.AccountList[X].Password, SizeOf(LainDBControlClass.AccountList[X].Password));
+ {$ifdef unix}
+  Writeln(OutPut, MsgUserNewPasswordSet);
+ {$endif}
+ {$ifdef windows}
+  MessageBox(GetForegroundWindow, PChar(MsgUserNotFound), MBInfoTitle, MB_OK + MB_ICONINFORMATION);
+ {$endif}
+  Result := True;
+end;
+
+function LainServerParamPwdUser(var OutPut :Text) :Boolean;
+begin
+ LainDBControlClass.CreateLainDB;
+ if LainDBControlClass.SaveLainDBToFile(DataBaseFileName) then
+ {$ifdef unix}
+  Writeln(OutPut, MsgNewDBCreate) else
+  Writeln(OutPut, MsgNewDBNotCreate);
+ {$endif}
+ {$ifdef windows}
+  MessageBox(GetForegroundWindow, PChar(MsgNewDBCreate), MBInfoTitle, MB_OK + MB_ICONINFORMATION) else
+  MessageBox(GetForegroundWindow, PChar(MsgNewDBNotCreate), MBInfoTitle, MB_OK + MB_ICONINFORMATION);
+ {$endif}
+ Exit;
 end;
 
 end.

@@ -232,42 +232,9 @@ begin
  if Param = 'adduser' then if LainServerParamAddUser(OutPut) = True then Exit;
  if Param = 'deluser' then if LainServerParamDelUser(OutPut) = True then Exit;
  if Param = 'chkuser' then if LainServerParamChkUser(OutPut) = True then Exit;
-// if Param = 'lstuser' then if LainServerParamLstUser(OutPut) = True then Exit;
-// if Param = 'pwduser' then if LainServerParamPwdUser(OutPut) = True then Exit;
+ if Param = 'lstuser' then if LainServerParamLstUser(OutPut) = True then Exit;
+ if Param = 'pwduser' then if LainServerParamPwdUser(OutPut) = True then Exit;
 
-
- if Param = 'createdb' then
- begin
-  LainDBControlClass.CreateLainDB;
-  if LainDBControlClass.SaveLainDBToFile(DataBaseFileName) then
-   Writeln(OutPut, 'New database created') else
-   Writeln(OutPut, 'Can''t create new database');
-  Exit;
- end;
- 
- if Param = 'passwd' then
- begin
-  if ((ParamStr(2) = '') or (ParamStr(3) = '')) then
-  begin
-   Writeln(OutPut, 'passwd <username> <password>');
-   Exit;
-  end;
-  X := LainDBControlClass.FindUserInLainDB(ParamStr(2));
-  if X = -1 then
-  begin
-   Writeln(OutPut, 'User not found');
-   Exit;
-  end;
-  LainDBControlClass.AccountList[X].Password := MD5String(ParamStr(3));
-  LainDBControlClass.AccountList[X].PasswordMD5:= MD5Buffer(LainDBControlClass.AccountList[X].Password, SizeOf(LainDBControlClass.AccountList[X].Password));
-  Writeln(OutPut, 'New password set');
-  Exit;
- end;
- 
- if Param = 'userlist' then
- begin
-
- end;
  
 {$endif}
 
