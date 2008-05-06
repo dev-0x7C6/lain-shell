@@ -7,7 +7,7 @@
       <MainUnit Value="0"/>
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
-      <ActiveEditorIndexAtStart Value="3"/>
+      <ActiveEditorIndexAtStart Value="11"/>
     </General>
     <VersionInfo>
       <ProjectVersion Value=""/>
@@ -52,7 +52,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="Main"/>
         <CursorPos X="38" Y="215"/>
-        <TopLine Value="189"/>
+        <TopLine Value="185"/>
         <EditorIndex Value="3"/>
         <UsageCount Value="229"/>
         <Bookmarks Count="3">
@@ -73,8 +73,8 @@
         <Filename Value="src/extensions.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Extensions"/>
-        <CursorPos X="24" Y="272"/>
-        <TopLine Value="238"/>
+        <CursorPos X="32" Y="137"/>
+        <TopLine Value="132"/>
         <EditorIndex Value="11"/>
         <UsageCount Value="220"/>
         <Loaded Value="True"/>
@@ -347,24 +347,7 @@
         <UsageCount Value="10"/>
       </Unit40>
     </Units>
-    <JumpHistory Count="4" HistoryIndex="3">
-      <Position1>
-        <Filename Value="src/main.pas"/>
-        <Caret Line="45" Column="23" TopLine="26"/>
-      </Position1>
-      <Position2>
-        <Filename Value="src/engine.pas"/>
-        <Caret Line="53" Column="52" TopLine="42"/>
-      </Position2>
-      <Position3>
-        <Filename Value="src/engine.pas"/>
-        <Caret Line="24" Column="34" TopLine="128"/>
-      </Position3>
-      <Position4>
-        <Filename Value="src/main.pas"/>
-        <Caret Line="28" Column="43" TopLine="21"/>
-      </Position4>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>

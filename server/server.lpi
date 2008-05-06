@@ -7,7 +7,7 @@
       <MainUnit Value="0"/>
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
-      <ActiveEditorIndexAtStart Value="4"/>
+      <ActiveEditorIndexAtStart Value="3"/>
     </General>
     <VersionInfo>
       <ProjectVersion Value=""/>
@@ -31,14 +31,14 @@
         <PackageName Value="LCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="26">
+    <Units Count="28">
       <Unit0>
         <Filename Value="server.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uniserver"/>
-        <CursorPos X="1" Y="267"/>
-        <TopLine Value="227"/>
-        <EditorIndex Value="3"/>
+        <CursorPos X="33" Y="432"/>
+        <TopLine Value="387"/>
+        <EditorIndex Value="2"/>
         <UsageCount Value="128"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -54,17 +54,19 @@
         <Filename Value="units/netutils.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="NetUtils"/>
-        <CursorPos X="84" Y="147"/>
-        <TopLine Value="121"/>
+        <CursorPos X="3" Y="159"/>
+        <TopLine Value="140"/>
+        <EditorIndex Value="3"/>
         <UsageCount Value="108"/>
+        <Loaded Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="src/main.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Main"/>
-        <CursorPos X="1" Y="1"/>
-        <TopLine Value="57"/>
-        <EditorIndex Value="1"/>
+        <CursorPos X="1" Y="56"/>
+        <TopLine Value="124"/>
+        <EditorIndex Value="0"/>
         <UsageCount Value="128"/>
         <Loaded Value="True"/>
       </Unit3>
@@ -72,9 +74,9 @@
         <Filename Value="src/authorize.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Authorize"/>
-        <CursorPos X="27" Y="102"/>
-        <TopLine Value="61"/>
-        <EditorIndex Value="2"/>
+        <CursorPos X="1" Y="101"/>
+        <TopLine Value="101"/>
+        <EditorIndex Value="1"/>
         <UsageCount Value="128"/>
         <Loaded Value="True"/>
       </Unit4>
@@ -203,9 +205,9 @@
         <Filename Value="src/security.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Security"/>
-        <CursorPos X="33" Y="282"/>
-        <TopLine Value="287"/>
-        <EditorIndex Value="0"/>
+        <CursorPos X="50" Y="359"/>
+        <TopLine Value="395"/>
+        <EditorIndex Value="4"/>
         <UsageCount Value="35"/>
         <Loaded Value="True"/>
       </Unit22>
@@ -226,43 +228,27 @@
         <Filename Value="src/params.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Params"/>
-        <CursorPos X="87" Y="181"/>
-        <TopLine Value="136"/>
-        <EditorIndex Value="4"/>
+        <CursorPos X="32" Y="141"/>
+        <TopLine Value="116"/>
+        <EditorIndex Value="5"/>
         <UsageCount Value="23"/>
         <Loaded Value="True"/>
       </Unit25>
+      <Unit26>
+        <Filename Value="/usr/src/fpc/packages/libc/src/libc.pp"/>
+        <UnitName Value="libc"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="25"/>
+        <UsageCount Value="10"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="/usr/src/fpc/packages/libc/src/netdbh.inc"/>
+        <CursorPos X="1" Y="45"/>
+        <TopLine Value="23"/>
+        <UsageCount Value="10"/>
+      </Unit27>
     </Units>
-    <JumpHistory Count="7" HistoryIndex="6">
-      <Position1>
-        <Filename Value="src/params.pas"/>
-        <Caret Line="38" Column="4" TopLine="9"/>
-      </Position1>
-      <Position2>
-        <Filename Value="src/params.pas"/>
-        <Caret Line="35" Column="42" TopLine="12"/>
-      </Position2>
-      <Position3>
-        <Filename Value="src/params.pas"/>
-        <Caret Line="133" Column="61" TopLine="82"/>
-      </Position3>
-      <Position4>
-        <Filename Value="src/params.pas"/>
-        <Caret Line="42" Column="18" TopLine="26"/>
-      </Position4>
-      <Position5>
-        <Filename Value="src/params.pas"/>
-        <Caret Line="133" Column="56" TopLine="94"/>
-      </Position5>
-      <Position6>
-        <Filename Value="server.lpr"/>
-        <Caret Line="236" Column="3" TopLine="218"/>
-      </Position6>
-      <Position7>
-        <Filename Value="src/params.pas"/>
-        <Caret Line="169" Column="16" TopLine="133"/>
-      </Position7>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
@@ -299,6 +285,12 @@
     </Other>
   </CompilerOptions>
   <Debugging>
+    <BreakPoints Count="1">
+      <Item1>
+        <Source Value="src/authorize.pas"/>
+        <Line Value="101"/>
+      </Item1>
+    </BreakPoints>
     <Exceptions Count="2">
       <Item1>
         <Name Value="ECodetoolError"/>
