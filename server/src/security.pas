@@ -374,7 +374,7 @@ begin
   Exit(False);
  end;
  Getmem(Buff, RegEdit.GetDataSize(FValue));
- RegEdit.ReadBinaryData(FValue, Buff, RegEdit.GetDataSize(FValue));
+ RegEdit.ReadBinaryData(FValue, Buff^, RegEdit.GetDataSize(FValue));
  MemoryMapOfLainDB.Clear;
  MemoryMapOfLainDB.WriteBuffer(Buff^, RegEdit.GetDataSize(FValue));
  Freemem(Buff, RegEdit.GetDataSize(FValue));
@@ -425,13 +425,14 @@ begin
  if CheckLainDataBase = False then
  begin
   RegEdit.Free;
-  Exit;
+  Exit(False);
  end;
  MemoryMapOfLainDB.Seek(0, 0);
  GetMem(Buff, MemoryMapOfLainDB.Size);
  MemoryMapOfLainDB.ReadBuffer(Buff^, MemoryMapOfLainDB.Size);
  RegEdit.WriteBinaryData(FValue, Buff^, MemoryMapOfLainDB.Size);
  FreeMem(Buff, MemoryMapOfLainDB.Size);
+ RegEdit.Free;
  Result := True;
 end;
 {$endif}

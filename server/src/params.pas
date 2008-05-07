@@ -24,7 +24,31 @@ interface
 
 uses
   Classes, SysUtils, Md5;
+
+
+const
+{$ifdef unix}
+ DataBaseFileName :WideString = 'laindb';
+{$endif}
+{$ifdef windows}
+ RegistryKey = 'Software\LainShell';
+ RegistryValue = 'Accounts';
+{$endif}
   
+var
+ HelpMsg :String = 'Main functions :' + LineEnding +
+                   ' * config  - run configurator' + LineEnding +
+                   ' * help    - show this message' + LineEnding +
+                   ' * restart - restart running deamon' + LineEnding +
+                   ' * stop    - stop running deamon' + LineEnding + LineEnding  +
+                   'User database functions:' + LineEnding +
+                   ' * createdb - create empty database' + LineEnding +
+                   ' * adduser - add new user' + LineEnding +
+                   ' * deluser - delete user' + LineEnding +
+                   ' * chkuser - check user md5sums' + LineEnding +
+                   ' * lstuser - show user list' + LineEnding +
+                   ' * pwduser - change user password';
+
 var
 {$ifdef windows}
  MBInfoTitle :PChar = 'Info';
@@ -50,6 +74,9 @@ var
  
 var
  Param :AnsiString;
+
+ function LainServerParamHelp(var OutPut :Text) :Boolean;
+ function LainServerParamCreateDB(var OutPut :Text) :Boolean;
  
  function LainServerParamAddUser(var OutPut :Text) :Boolean;
  function LainServerParamDelUser(var OutPut :Text) :Boolean;
@@ -61,6 +88,17 @@ implementation
 
 uses {$ifdef windows} Windows, {$endif} Main;
 
+function LainServerParamHelp(var OutPut :Text) :Boolean;
+begin
+{$ifdef unix}
+ Writeln(OutPut, HelpMsg);
+{$endif}
+{$ifdef windows}
+ MessageBox(GetForegroundWindow, PChar(HelpMsg), 'Help page', MB_OK + MB_ICONINFORMATION);
+{$endif}
+ Result := True;
+end;
+
 function LainServerParamAddUser(var OutPut :Text) :Boolean;
 begin
  if ((ParamStr(2) = '') or (ParamStr(3) = '')) then
@@ -69,7 +107,7 @@ begin
   Writeln(OutPut, UsageAddUser);
  {$endif}
  {$ifdef windows}
-  MessageBox(GetForegroundWindow, Pchar(UsageAddUser), MBInfoTitle, MB_OK + MB_ICONINFORMATION)
+  MessageBox(GetForegroundWindow, Pchar(UsageAddUser), MBInfoTitle, MB_OK + MB_ICONINFORMATION);
  {$endif}
   Exit(True);
  end;
@@ -81,7 +119,7 @@ begin
  {$endif}
  {$ifdef windows}
   MessageBox(GetForegroundWindow, PChar(MsgUserAdded), MBInfoTitle, MB_OK + MB_ICONINFORMATION) else
-  MessageBox(GetForegroundWindow, PChar(MsgUserNotAdded), MBInfoTitle, MB_OK + MB_ICONINFORMATION);
+  MessageBox(GetForegroundWindow, PChar(MsgUserNoAdded), MBInfoTitle, MB_OK + MB_ICONINFORMATION);
  {$endif}
  Result := True;
 end;
@@ -90,23 +128,23 @@ function LainServerParamDelUser(var OutPut :Text) :Boolean;
 begin
  if (ParamStr(2) = '') then
  begin
- {$ifdef unix}
+{$ifdef unix}
   Writeln(OutPut, UsageDelUser);
- {$endif}
- {$ifdef windows}
+{$endif}
+{$ifdef windows}
   MessageBox(GetForegroundWindow, PChar(UsageDelUser), MBInfoTitle, MB_OK + MB_ICONINFORMATION);
- {$endif}
+{$endif}
   Exit(True);
  end;
  if LainDBControlClass.DelUserFromLainDB(ParamStr(2)) then
- {$ifdef unix}
-  Writeln(OutPut, MsgUserDeleted) else
-  Writeln(OutPut, MsgUserNotDeleted);
- {$endif}
- {$ifdef windows}
-  MessageBox(GetForegroundWindow, PChar(MsgUserDeleted), MBInfoTitle, MB_OK + MB_ICONINFORMATION) else
-  MessageBox(GetForegroundWindow, PChar(MsgUserNotDeleted), MBInfoTitle, MB_OK + MB_ICONINFORMATION);
- {$endif}
+{$ifdef unix}
+ Writeln(OutPut, MsgUserDeleted) else
+ Writeln(OutPut, MsgUserNotDeleted);
+{$endif}
+{$ifdef windows}
+ MessageBox(GetForegroundWindow, PChar(MsgUserDeleted), MBInfoTitle, MB_OK + MB_ICONINFORMATION) else
+ MessageBox(GetForegroundWindow, PChar(MsgUserNotDeleted), MBInfoTitle, MB_OK + MB_ICONINFORMATION);
+{$endif}
  Result := True;
 end;
 
@@ -170,7 +208,7 @@ begin
   Writeln(OutPut, 'User ID = ', X, ' Name = ', LainDBControlClass.AccountList[X].UsernameStr);
  {$endif}
 {$ifdef windows}
-  UserList.Add('User ID = ' + IntToStr(X) + ' Name = ' + LainDBControlClass.AccountList[X].UsernameStr)
+  UserList.Add('User ID = ' + IntToStr(X) + ' Name = ' + LainDBControlClass.AccountList[X].UsernameStr);
  MessageBox(GetForegroundWindow, PChar(UserList.Text), MBInfoTitle, MB_OK + MB_ICONINFORMATION);
  UserList.Free;
 {$endif}
@@ -191,41 +229,42 @@ begin
  {$endif}
   Exit(True);
  end;
-  X := LainDBControlClass.FindUserInLainDB(ParamStr(2));
-  if X = -1 then
-  begin
-  {$ifdef unix}
-   Writeln(OutPut, MsgUserNotFound);
-  {$endif}
-  {$ifdef windows}
-   MessageBox(GetForegroundWindow, PChar(MsgUserNotFound), MBInfoTitle, MB_OK + MB_ICONINFORMATION);
-  {$endif}
-   Exit(True);
-  end;
-  LainDBControlClass.AccountList[X].Password := MD5String(ParamStr(3));
-  LainDBControlClass.AccountList[X].PasswordMD5:= MD5Buffer(LainDBControlClass.AccountList[X].Password, SizeOf(LainDBControlClass.AccountList[X].Password));
+ X := LainDBControlClass.FindUserInLainDB(ParamStr(2));
+ if X = -1 then
+ begin
  {$ifdef unix}
-  Writeln(OutPut, MsgUserNewPasswordSet);
+  Writeln(OutPut, MsgUserNotFound);
  {$endif}
  {$ifdef windows}
   MessageBox(GetForegroundWindow, PChar(MsgUserNotFound), MBInfoTitle, MB_OK + MB_ICONINFORMATION);
  {$endif}
-  Result := True;
+  Exit(True);
+ end;
+ LainDBControlClass.AccountList[X].Password := MD5String(ParamStr(3));
+ LainDBControlClass.AccountList[X].PasswordMD5:= MD5Buffer(LainDBControlClass.AccountList[X].Password, SizeOf(LainDBControlClass.AccountList[X].Password));
+{$ifdef unix}
+ Writeln(OutPut, MsgUserNewPasswordSet);
+{$endif}
+{$ifdef windows}
+ MessageBox(GetForegroundWindow, PChar(MsgUserNewPasswordSet), MBInfoTitle, MB_OK + MB_ICONINFORMATION);
+{$endif}
+ Result := True;
 end;
 
-function LainServerParamPwdUser(var OutPut :Text) :Boolean;
+function LainServerParamCreateDB(var OutPut :Text) :Boolean;
 begin
  LainDBControlClass.CreateLainDB;
+{$ifdef unix}
  if LainDBControlClass.SaveLainDBToFile(DataBaseFileName) then
- {$ifdef unix}
   Writeln(OutPut, MsgNewDBCreate) else
   Writeln(OutPut, MsgNewDBNotCreate);
- {$endif}
- {$ifdef windows}
+{$endif}
+{$ifdef windows}
+ if LainDBControlClass.SaveLainDBToRegistry(RegistryKey, RegistryValue) then
   MessageBox(GetForegroundWindow, PChar(MsgNewDBCreate), MBInfoTitle, MB_OK + MB_ICONINFORMATION) else
   MessageBox(GetForegroundWindow, PChar(MsgNewDBNotCreate), MBInfoTitle, MB_OK + MB_ICONINFORMATION);
- {$endif}
- Exit;
+{$endif}
+ Result := True;
 end;
 
 end.

@@ -40,7 +40,6 @@ uses
 Const
 {$ifdef unix}
  ConfigFileName :WideString = 'lainconf.conf';
- DataBaseFileName :WideString = 'laindb';
  ConfigDirectory :WideString = '.lainconf';
 {$endif}
 {$ifdef windows}
@@ -80,7 +79,7 @@ begin
  CloseFile(OutPut);
 {$endif}
 {$ifdef windows}
- LainDBControlClass.SaveLainDBToRegistry('Software\LainShell', 'Accounts');
+ LainDBControlClass.SaveLainDBToRegistry(RegistryKey, RegistryValue);
  if ShareMemory <> 0 then CloseHandle(ShareMemory);
  if ExecuteBlock <> 0 then CloseHandle(ExecuteBlock);
 {$endif}
@@ -101,9 +100,6 @@ end;
  end;
 {$endif}
 
-var
- HelpMsg :AnsiString;
- 
 {$ifdef unix}
 function GetHomeDirectory :AnsiString;
 var
@@ -127,22 +123,74 @@ begin
  if ParamCount > 0 then
   Param := LowerCase(ParamStr(1)) else
   Param := '';
-  
- if Param = 'help' then
- begin
+
+ CreateConfig := (Param = 'config');
+
+ LainDBControlClass := TLainDBControlClass.Create;
  
-  HelpMsg := 'config  - run configurator' + LineEnding +
-             'help    - show this message' + LineEnding +
-             'restart - restart running deamon' + LineEnding +
-             'stop    - stop running deamon' + LineEnding;
- {$ifdef unix}
-  writeln(HelpMsg);
- {$endif}
- {$ifdef windows}
-  MessageBox(GetForegroundWindow, PChar(HelpMsg), 'Help page', MB_OK + MB_ICONINFORMATION);
- {$endif}
+{$ifdef windows}
+ LainDBControlClass.LoadLainDBFromRegistry(RegistryKey, RegistryValue);
+{$endif}
+{$ifdef unix}
+ AssignFile(OutPut, '');
+ ReWrite(OutPut);
+ NetUtils.STDOutPut := OutPut;
+ 
+ HomeDirectory := GetHomeDirectory;
+ if FpChdir(HomeDirectory) <> -1 then
+ begin
+  if not DirectoryExists(IsDir(HomeDirectory) + ConfigDirectory) then
+   Mkdir(IsDir(HomeDirectory) + ConfigDirectory);
+  if FpChdir(IsDir(HomeDirectory) + ConfigDirectory) <> -1 then
+   CreateConfig := (not FileExists(ConfigFileName)) or CreateConfig;
+ end;
+
+ if CreateConfig= True then
+ begin
+  if FileExists(ConfigFileName) then
+   DeleteFile(ConfigFileName);
+  ConfigFile := TConfigFile.Create;
+  ConfigFile.GenerateConfig;
+  ConfigFile.SaveConfig(ConfigFileName);
+  ConfigFile.Free;
+  Writeln(OutPut, 'Warning !!!: Please config this file ' + IsDir(HomeDirectory) + IsDir(ConfigDirectory) + ConfigFileName);
+  Writeln(OutPut);
   Exit;
  end;
+
+ ConfigFile := TConfigFile.Create;
+ ConfigFile.OpenConfig(ConfigFileName);
+
+ for X := 0 to ConfigVariablesCount do
+  DefaultConfigVariables[X][1] := ConfigFile.GetString(DefaultConfigVariables[X][0]);
+
+ ConfigFile.Free;
+ LainShellDataConfigure;
+
+ if FileExists(DataBaseFileName) then
+ begin
+  if not LainDBControlClass.LoadLainDBFromFile(DataBaseFileName) then
+  begin
+   LainDBControlClass.Create;
+   LainDBControlClass.SaveLainDBToFile(DataBaseFileName);
+  end;
+ end else
+ begin
+  LainDBControlClass.CreateLainDB;
+  LainDBControlClass.SaveLainDBToFile(DataBaseFileName);
+ end;
+{$endif}
+ 
+ InitCriticalSection(CriticalSection);
+ AddExitProc(@ExitProcedure);
+  
+ if Param = 'help' then if LainServerParamHelp(OutPut) = True then Exit;
+ if Param = 'adduser' then if LainServerParamAddUser(OutPut) = True then Exit;
+ if Param = 'deluser' then if LainServerParamDelUser(OutPut) = True then Exit;
+ if Param = 'chkuser' then if LainServerParamChkUser(OutPut) = True then Exit;
+ if Param = 'lstuser' then if LainServerParamLstUser(OutPut) = True then Exit;
+ if Param = 'pwduser' then if LainServerParamPwdUser(OutPut) = True then Exit;
+ if Param = 'createdb' then if LainServerParamCreateDB(OutPut) = True then Exit;
   
 {$ifdef windows}
  if ((Param <> 'stop') and (Param <> 'restart')) then
@@ -171,73 +219,7 @@ begin
   if Param = 'restart' then CloseHandle(RestartBlock);
  end;
 {$endif}
-
- InitCriticalSection(CriticalSection);
- LainDBControlClass := TLainDBControlClass.Create;
- AddExitProc(@ExitProcedure);
-
- CreateConfig := (Param = 'config');
  
-{$ifdef unix}
- AssignFile(OutPut, '');
- ReWrite(OutPut);
- NetUtils.STDOutPut := OutPut;
- 
- 
- HomeDirectory :=  GetHomeDirectory;
- if FpChdir(HomeDirectory) <> -1 then
- begin
-  if not DirectoryExists(IsDir(HomeDirectory) + ConfigDirectory) then
-   Mkdir(IsDir(HomeDirectory) + ConfigDirectory);
-  if FpChdir(IsDir(HomeDirectory) + ConfigDirectory) <> -1 then
-   CreateConfig := (not FileExists(ConfigFileName)) or CreateConfig;
- end;
- 
- if CreateConfig= True then
- begin
-  if FileExists(ConfigFileName) then
-   DeleteFile(ConfigFileName);
-  ConfigFile := TConfigFile.Create;
-  ConfigFile.GenerateConfig;
-  ConfigFile.SaveConfig(ConfigFileName);
-  ConfigFile.Free;
-  Writeln(OutPut, 'Warning !!!: Please config this file ' + IsDir(HomeDirectory) + IsDir(ConfigDirectory) + ConfigFileName);
-  Writeln(OutPut);
-  Exit;
- end;
- 
- ConfigFile := TConfigFile.Create;
- ConfigFile.OpenConfig(ConfigFileName);
-
- for X := 0 to ConfigVariablesCount do
-  DefaultConfigVariables[X][1] := ConfigFile.GetString(DefaultConfigVariables[X][0]);
-
- ConfigFile.Free;
- LainShellDataConfigure;
- 
- if FileExists(DataBaseFileName) then
- begin
-  if not LainDBControlClass.LoadLainDBFromFile(DataBaseFileName) then
-  begin
-   LainDBControlClass.Create;
-   LainDBControlClass.SaveLainDBToFile(DataBaseFileName);
-  end;
- end else
- begin
-  LainDBControlClass.CreateLainDB;
-  LainDBControlClass.SaveLainDBToFile(DataBaseFileName);
- end;
- 
- 
- if Param = 'adduser' then if LainServerParamAddUser(OutPut) = True then Exit;
- if Param = 'deluser' then if LainServerParamDelUser(OutPut) = True then Exit;
- if Param = 'chkuser' then if LainServerParamChkUser(OutPut) = True then Exit;
- if Param = 'lstuser' then if LainServerParamLstUser(OutPut) = True then Exit;
- if Param = 'pwduser' then if LainServerParamPwdUser(OutPut) = True then Exit;
-
- 
-{$endif}
-
 {$ifdef windows}
  ShareMemory := CreateFileMapping(INVALID_HANDLE_VALUE, nil, PAGE_READONLY, 0, 4, 'lainshell-server');
  if GetLastError = ERROR_ALREADY_EXISTS then
