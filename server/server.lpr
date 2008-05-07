@@ -185,6 +185,7 @@ begin
  AddExitProc(@ExitProcedure);
   
  if Param = 'help' then if LainServerParamHelp(OutPut) = True then Exit;
+ if Param = 'stop' then if LainServerParamStop(OutPut) = True then Exit;
  if Param = 'adduser' then if LainServerParamAddUser(OutPut) = True then Exit;
  if Param = 'deluser' then if LainServerParamDelUser(OutPut) = True then Exit;
  if Param = 'chkuser' then if LainServerParamChkUser(OutPut) = True then Exit;
@@ -315,33 +316,6 @@ begin
                                100, 0, 0, system.HINSTANCE, nil);
 {$endif}
 
-
-{$ifdef unix}
- if Param = 'stop' then
- begin
-  shmid := shmget(IdentValue, 0, 0);
-  if shmid =-1 then
-  begin
-   Writeln(OutPut, 'nothing to stop');
-   Exit;
-  end;
-  
-  pMemory := shmat(shmid, nil, 0);
-
-  if Integer(pMemory) = -1 then
-  begin
-   shmdt(pMemory);
-   Writeln(OutPut, 'access denided');
-   Exit;
-  end;
-  
-  MemLongWord := pMemory;
-  MemLongWord^ := $FF;
-  Writeln(OutPut, 'Done');
-  shmdt(pMemory);
-  Exit;
- end;
-{$endif}
 
  ClientConnection := TTcpIpSocketClient.Create;
  ServerConnection := TTcpIpSocketServer.Create;

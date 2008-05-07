@@ -76,6 +76,8 @@ var
  Param :AnsiString;
 
  function LainServerParamHelp(var OutPut :Text) :Boolean;
+ function LainServerParamStop(var OutPut :Text) :Boolean;
+ 
  function LainServerParamCreateDB(var OutPut :Text) :Boolean;
  
  function LainServerParamAddUser(var OutPut :Text) :Boolean;
@@ -97,6 +99,33 @@ begin
  MessageBox(GetForegroundWindow, PChar(HelpMsg), 'Help page', MB_OK + MB_ICONINFORMATION);
 {$endif}
  Result := True;
+end;
+
+function LainServerParamStop(var OutPut :Text) :Boolean;
+begin
+{$ifdef unix}
+ shmid := shmget(IdentValue, 0, 0);
+ if shmid =-1 then
+ begin
+  Writeln(OutPut, 'nothing to stop');
+  Exit(True);
+ end;
+ pMemory := shmat(shmid, nil, 0);
+ if Integer(pMemory) = -1 then
+ begin
+  shmdt(pMemory);
+  Writeln(OutPut, 'access denided');
+  Exit(True);
+ end;
+ MemLongWord := pMemory;
+ MemLongWord^ := $FF;
+ Writeln(OutPut, 'Done');
+ shmdt(pMemory);
+ Result := True;
+{$endif}
+{$ifdef windows}
+ Result := False;
+{$endif}
 end;
 
 function LainServerParamAddUser(var OutPut :Text) :Boolean;
