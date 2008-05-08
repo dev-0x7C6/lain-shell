@@ -46,14 +46,16 @@
         <Filename Value="src/main.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Main"/>
-        <CursorPos X="38" Y="215"/>
-        <TopLine Value="185"/>
+        <CursorPos X="7" Y="129"/>
+        <TopLine Value="110"/>
+        <EditorIndex Value="4"/>
         <UsageCount Value="229"/>
         <Bookmarks Count="3">
-          <Item0 X="5" Y="108" ID="0"/>
-          <Item1 X="2" Y="119" ID="2"/>
-          <Item2 X="1" Y="126" ID="3"/>
+          <Item0 X="5" Y="109" ID="0"/>
+          <Item1 X="2" Y="126" ID="2"/>
+          <Item2 X="1" Y="133" ID="3"/>
         </Bookmarks>
+        <Loaded Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="src/authorize.pas"/>
@@ -67,8 +69,10 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="Extensions"/>
         <CursorPos X="32" Y="137"/>
-        <TopLine Value="132"/>
+        <TopLine Value="44"/>
+        <EditorIndex Value="6"/>
         <UsageCount Value="220"/>
+        <Loaded Value="True"/>
       </Unit4>
       <Unit5>
         <Filename Value="src/cconnect.pas"/>
@@ -231,7 +235,7 @@
         <UnitName Value="Threads"/>
         <CursorPos X="59" Y="27"/>
         <TopLine Value="24"/>
-        <UsageCount Value="136"/>
+        <UsageCount Value="137"/>
       </Unit28>
       <Unit29>
         <Filename Value="C:/lazarus/fpc/2.2.1/source/rtl/win/wininc/redef.inc"/>
@@ -245,44 +249,46 @@
         <UnitName Value="Network"/>
         <CursorPos X="47" Y="26"/>
         <TopLine Value="23"/>
-        <UsageCount Value="37"/>
+        <UsageCount Value="38"/>
       </Unit30>
       <Unit31>
         <Filename Value="src/engine.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Engine"/>
-        <CursorPos X="3" Y="224"/>
+        <CursorPos X="28" Y="220"/>
         <TopLine Value="200"/>
         <EditorIndex Value="0"/>
-        <UsageCount Value="36"/>
+        <UsageCount Value="37"/>
         <Loaded Value="True"/>
       </Unit31>
       <Unit32>
         <Filename Value="src/addons.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Addons"/>
-        <CursorPos X="72" Y="1"/>
-        <TopLine Value="1"/>
-        <UsageCount Value="36"/>
+        <CursorPos X="7" Y="49"/>
+        <TopLine Value="31"/>
+        <EditorIndex Value="5"/>
+        <UsageCount Value="37"/>
+        <Loaded Value="True"/>
       </Unit32>
       <Unit33>
         <Filename Value="src/execute.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Execute"/>
-        <CursorPos X="80" Y="77"/>
+        <CursorPos X="95" Y="54"/>
         <TopLine Value="46"/>
         <EditorIndex Value="3"/>
-        <UsageCount Value="31"/>
+        <UsageCount Value="32"/>
         <Loaded Value="True"/>
       </Unit33>
       <Unit34>
         <Filename Value="src/sysinfo.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Sysinfo"/>
-        <CursorPos X="23" Y="60"/>
+        <CursorPos X="96" Y="45"/>
         <TopLine Value="28"/>
         <EditorIndex Value="1"/>
-        <UsageCount Value="30"/>
+        <UsageCount Value="31"/>
         <Loaded Value="True"/>
       </Unit34>
       <Unit35>
@@ -303,9 +309,9 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="Process"/>
         <CursorPos X="23" Y="57"/>
-        <TopLine Value="25"/>
+        <TopLine Value="14"/>
         <EditorIndex Value="2"/>
-        <UsageCount Value="24"/>
+        <UsageCount Value="25"/>
         <Loaded Value="True"/>
       </Unit37>
       <Unit38>
@@ -335,10 +341,23 @@
         <UnitName Value="NetUtils"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="40"/>
-        <UsageCount Value="21"/>
+        <UsageCount Value="22"/>
       </Unit41>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
+    <JumpHistory Count="3" HistoryIndex="2">
+      <Position1>
+        <Filename Value="src/main.pas"/>
+        <Caret Line="112" Column="27" TopLine="95"/>
+      </Position1>
+      <Position2>
+        <Filename Value="src/addons.pas"/>
+        <Caret Line="1" Column="72" TopLine="1"/>
+      </Position2>
+      <Position3>
+        <Filename Value="src/main.pas"/>
+        <Caret Line="65" Column="28" TopLine="44"/>
+      </Position3>
+    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>

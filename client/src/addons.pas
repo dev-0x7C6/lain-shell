@@ -46,8 +46,8 @@ begin
 end;
 
 function CMD_Clear(var Params :TParams) :Longint;
-begin   //Clear
- PaintConsoleTitle;
+begin
+ DrawConsoleTitle;
  Exit(CMD_Done);
 end;
 

@@ -60,8 +60,9 @@ type
  
  function CMDCase(var Params :TParams) :Longint;
  function MainFunc :Longint;
- procedure PaintConsoleTitle;
-
+ 
+ procedure DrawConsoleTitle;
+ procedure DrawCommandPath;
 
 var
  OutPut :Text;
@@ -102,11 +103,17 @@ begin
  end;
 end;
 
-procedure PaintConsoleTitle;
+procedure DrawConsoleTitle;
 begin
  CClrScr(OutPut);
  Writeln(OutPut, ParamStr(0));
  Extensions.CWrite(Output, White, format(MultiLanguageSupport.GetString('MsgWelcome'), [ConsoleTitle]), True);
+end;
+
+procedure DrawCommandPath;
+begin
+ CWrite(OutPut, LightGreen, ConsoleUser + '@' + ConsoleHost, False);
+ CWrite(OutPut, LightBlue, ' ~ # ', False);
 end;
 
 function MainFunc :Longint;
@@ -119,7 +126,7 @@ begin
  CClrScr(OutPut);
  if AnyLanguageSupport then
  begin
-  PaintConsoleTitle;
+  DrawConsoleTitle;
   Writeln(OutPut);
   repeat
    CWrite(OutPut, LightGreen, ConsoleUser + '@' + ConsoleHost, False);

@@ -190,12 +190,12 @@ begin
   RTLEventWaitFor(QueryEvent);
   if Connection.Send(Query, SizeOf(Query)) = SizeOf(Query) then
   begin
+   EnterCriticalSection(CriticalSection);
+   RTLEventResetEvent(QueryEvent);
+   LeaveCriticalSection(CriticalSection);
    Exit(SendQueryDone);
   end else
    Exit(SendQueryFail);
-  EnterCriticalSection(CriticalSection);
-  RTLEventResetEvent(QueryEvent);
-  LeaveCriticalSection(CriticalSection);
  end else
   Result := SendQueryFail;
 end;
@@ -207,14 +207,25 @@ begin
  EnterCriticalSection(CriticalSection);
  RTLEventResetEvent(EngineEvent);
  LeaveCriticalSection(CriticalSection);
- while Connection.Recv(Value, SizeOf(Value)) = SizeOf(Value) do
- begin
-  Case Value of
-   0: begin
-       Connection.Disconnect;
-       Break;
-      end;
-   1: Break;
+ repeat
+  if Connection.Recv(Value, SizeOf(Value)) <> SizeOf(Value) then
+  begin
+   Connection.Disconnect;
+   LainClientData.Authorized := False;
+   EnterCriticalSection(CriticalSection);
+   RTLEventSetEvent(QueryEvent);
+   RTLEventSetEvent(EngineEvent);
+   RTLEventSetEvent(ConsoleEvent);
+   Writeln(OutPut, #13);
+   Writeln(OutPut, Prefix, 'Connection closed gracefully'#13);
+   Writeln(OutPut, #13);
+   DrawCommandPath;
+   LeaveCriticalSection(CriticalSection);
+   Exit;
+  end;
+  
+  case Value of
+   0: Connection.Disconnect;
    Lain_Execute: CMD_Execute_Query;
    Lain_SysInfo_GetInfo: CMD_SysInfo_Query;
    Lain_Process_GetList: CMD_ProcessList_Query;
@@ -223,12 +234,10 @@ begin
   RTLEventSetEvent(QueryEvent);
   RTLEventSetEvent(ConsoleEvent);
   LeaveCriticalSection(CriticalSection);
- end;
+ until ((Value = 0) or (Value = 1));
+ 
  EnterCriticalSection(CriticalSection);
- RTLEventSetEvent(QueryEvent);
  RTLEventSetEvent(EngineEvent);
- if Connection.Connected = False then
-  LainClientData.Authorized := False;
  LeaveCriticalSection(CriticalSection);
 end;
 
