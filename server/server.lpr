@@ -30,6 +30,10 @@ uses
   Main, SysUtils, Authorize, Engine, Sockets, Config, Execute,
   Sysinfo, Process, Security, Params, diskmgr, convnum, FSUtils, NetUtils;
 
+
+Const
+ MsgDBNoUsers :String = 'Please add user to database, run program with parametrs adduser <username> <password>';
+
 Const
 {$ifdef unix}
  ConfigFileName :WideString = 'lainconf.conf';
@@ -46,6 +50,7 @@ var
 {$ifdef unix}
  Dump :LongWord;
  WorkDirectory :WideString;
+ LainDirectory :WideString;
  ConfigExists :Boolean = False;
  NanoPath :WideString;
 {$endif}
@@ -141,19 +146,6 @@ begin
   DefaultConfigVariables[X][1] := RegEdit.ReadString(DefaultConfigVariables[X][0]);
  RegEdit.Free;
 
- RegEdit := TRegistry.Create;
- RegEdit.RootKey := HKEY_CURRENT_USER;
- RegEdit.OpenKey('Software\LainShell', true);
- if not RegEdit.ValueExists('Accounts') then
-  LainDBControlClass.CreateLainDB;
- RegEdit.Free;
- 
- if Length(LainDBControlClass.AccountList) = 0 then
- begin
-  MessageBox(GetForegroundWindow, 'Please adduser first, run with params adduser <username> <password>'
-             , 'Info', MB_ICONINFORMATION + MB_OK);
-  Exit;
- end;
 
  LainShellDataConfigure;
 
@@ -280,7 +272,7 @@ end;
 procedure ExitProcedure;
 begin
 {$ifdef unix}
- LainDBControlClass.SaveLainDBToFile(DataBaseFileName);
+ LainDBControlClass.SaveLainDBToFile(LainDirectory + DataBaseFileName);
  Writeln(OutPut);
  CloseFile(OutPut);
 {$endif}
@@ -339,7 +331,10 @@ begin
   end;
  end;
  
- WorkDirectory := IsDir(WorkDirectory);
+ 
+ LainDirectory := IsDir(WorkDirectory);
+ WorkDirectory := LainDirectory;
+ 
  CreateConfig := (not FileExists(WorkDirectory + ConfigFileName)) or CreateConfig;
 
  if CreateConfig = True then
@@ -381,6 +376,7 @@ begin
   LainDBControlClass.CreateLainDB;
   LainDBControlClass.SaveLainDBToFile(WorkDirectory + DataBaseFileName);
  end;
+ 
 {$endif}
 
 
@@ -410,9 +406,25 @@ begin
 
   if Param = 'restart' then CloseHandle(RestartBlock);
  end;
+ 
+ RegEdit := TRegistry.Create;
+ RegEdit.RootKey := HKEY_CURRENT_USER;
+ RegEdit.OpenKey(RegistryKey, true);
+ if not RegEdit.ValueExists(RegistryValue) then
+  LainDBControlClass.CreateLainDB;
+ RegEdit.Free;
 {$endif}
 
-
+ if ((Length(LainDBControlClass.AccountList) = 0) and (Param <> 'adduser')) then
+ begin
+ {$ifdef unix}
+  Writeln(OutPut, MsgDBNoUsers);
+ {$endif}
+ {$ifdef windows}
+  MessageBox(GetForegroundWindow, PChar(MsgDBNoUsers), MBInfoTitle, MB_OK + MB_ICONINFORMATION);
+ {$endif}
+  Exit;
+ end;
 
  if Param = 'adduser' then if LainServerParamAddUser(OutPut) = True then Exit;
  if Param = 'deluser' then if LainServerParamDelUser(OutPut) = True then Exit;
