@@ -221,6 +221,7 @@ begin
   end;
   EnterCriticalSection(CriticalSection);
   RTLEventSetEvent(QueryEvent);
+  RTLEventSetEvent(ConsoleEvent);
   LeaveCriticalSection(CriticalSection);
  end;
  EnterCriticalSection(CriticalSection);

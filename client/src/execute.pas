@@ -75,7 +75,6 @@ begin
  Connection.SendString(CParams);
  EnterCriticalSection(CriticalSection);
  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgCommandExecuted'));
- RTLEventSetEvent(ConsoleEvent);
  LeaveCriticalSection(CriticalSection);
  Result := CMD_Done;
 end;

@@ -58,7 +58,6 @@ begin
  Connection.RecvString(Str);
  EnterCriticalSection(CriticalSection);
  Writeln(OutPut, Str);
- RTLEventSetEvent(ConsoleEvent);
  LeaveCriticalSection(CriticalSection);
 end;
 
