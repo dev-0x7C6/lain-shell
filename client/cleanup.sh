@@ -6,11 +6,8 @@ rm -v *.compiled
 rm -v *.ppu
 rm -v *.bak
 rm -v *.o
-cd units
+cd src
 rm -v *.ppu
 rm -v *.bak
 rm -v *.o
-cd ../src
-rm -v *.ppu
-rm -v *.bak
-rm -v *.o
+cd ..

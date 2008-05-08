@@ -27,8 +27,8 @@ uses
 {$ifdef windows}
   Windows, Registry, ShellApi,
 {$endif}
-  Main, SysUtils, Authorize, FSUtils, NetUtils, Engine, Sockets, Config, Execute,
-  Sysinfo, Process, Security, Params, diskmgr, convnum;
+  Main, SysUtils, Authorize, Engine, Sockets, Config, Execute,
+  Sysinfo, Process, Security, Params, diskmgr, convnum, FSUtils, NetUtils;
 
 Const
 {$ifdef unix}
@@ -281,6 +281,7 @@ procedure ExitProcedure;
 begin
 {$ifdef unix}
  LainDBControlClass.SaveLainDBToFile(DataBaseFileName);
+ Writeln(OutPut);
  CloseFile(OutPut);
 {$endif}
 {$ifdef windows}
@@ -338,20 +339,24 @@ begin
   end;
  end;
  
- CreateConfig := (not FileExists(IsDir(WorkDirectory) + ConfigFileName)) or CreateConfig;
+ WorkDirectory := IsDir(WorkDirectory);
+ CreateConfig := (not FileExists(WorkDirectory + ConfigFileName)) or CreateConfig;
 
  if CreateConfig = True then
  begin
-  if FileExists(IsDir(WorkDirectory) + ConfigFileName) then
+  if FileExists(WorkDirectory + ConfigFileName) then
   begin
-
+   if FpChMod(WorkDirectory + ConfigFileName, OctToDec('700')) <> 0 then
+   begin
+    Writeln(OutPut, 'Access Denied, can''t new privileges to ', WorkDirectory);
+    Exit;
+   end;
   end;
   ConfigFile := TConfigFile.Create;
   ConfigFile.GenerateConfig;
-  ConfigFile.SaveConfig(ConfigFileName);
+  ConfigFile.SaveConfig(IsDir(WorkDirectory) + ConfigFileName);
   ConfigFile.Free;
-  Writeln(OutPut, 'Warning !!!: Please config this file ' + IsDir(HomeDirectory) + IsDir(ConfigDirectory) + ConfigFileName);
-  Writeln(OutPut);
+  Writeln(OutPut, 'Please config this file ' + IsDir(WorkDirectory) + ConfigFileName);
   Exit;
  end;
 
@@ -364,17 +369,17 @@ begin
  ConfigFile.Free;
  LainShellDataConfigure;
 
- if FileExists(DataBaseFileName) then
+ if FileExists(WorkDirectory + DataBaseFileName) then
  begin
-  if not LainDBControlClass.LoadLainDBFromFile(DataBaseFileName) then
+  if not LainDBControlClass.LoadLainDBFromFile(WorkDirectory + DataBaseFileName) then
   begin
    LainDBControlClass.Create;
-   LainDBControlClass.SaveLainDBToFile(DataBaseFileName);
+   LainDBControlClass.SaveLainDBToFile(WorkDirectory + DataBaseFileName);
   end;
  end else
  begin
   LainDBControlClass.CreateLainDB;
-  LainDBControlClass.SaveLainDBToFile(DataBaseFileName);
+  LainDBControlClass.SaveLainDBToFile(WorkDirectory + DataBaseFileName);
  end;
 {$endif}
 

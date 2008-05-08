@@ -27,8 +27,8 @@ uses
 {$ifdef windows}
  Windows,
 {$endif}
- Classes, SysUtils, CustApp, NetUtils, Main, Extensions, Lang, Threads, Network,
- Engine, execute, sysinfo, process;
+ Classes, SysUtils, CustApp, Main, Extensions, Lang, Threads, Network,
+ Engine, execute, sysinfo, process, NetUtils;
 
 type
  TUniStrikeApp = class(TCustomApplication)
