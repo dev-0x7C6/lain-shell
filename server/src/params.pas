@@ -23,12 +23,15 @@ unit Params;
 interface
 
 uses
-  Classes, SysUtils, Md5;
+  {$ifdef unix} BaseUnix, Unix, IPC, {$endif} Classes, SysUtils, Md5;
 
 
 const
 {$ifdef unix}
  DataBaseFileName :WideString = 'laindb';
+ AccessMode = SHM_R or SHM_W;
+ SegmentSize = SizeOf(LongWord);
+ IdentValue = $F3D8;
 {$endif}
 {$ifdef windows}
  RegistryKey = 'Software\LainShell';
@@ -73,6 +76,11 @@ var
  
  
 var
+{$ifdef unix}
+ shmid :Integer;
+ pMemory :Pointer;
+ MemLongWord :^Longword;
+{$endif}
  Param :AnsiString;
 
  function LainServerParamHelp(var OutPut :Text) :Boolean;
