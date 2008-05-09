@@ -288,8 +288,6 @@ end;
 begin
  InitCriticalSection(CriticalSection);
  LainDBControlClass := TLainDBControlClass.Create;
- Main.OutPut := System.Output;
- NetUtils.STDOutPut := System.Output;
  
  if ParamCount > 0 then
   Param := LowerCase(ParamStr(1)) else

@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <CONFIG>
   <ProjectOptions>
-    <PathDelim Value="/"/>
+    <PathDelim Value="\"/>
     <Version Value="6"/>
     <General>
       <MainUnit Value="0"/>
-      <IconPath Value="./"/>
+      <IconPath Value=".\"/>
       <TargetFileExt Value=""/>
       <ActiveEditorIndexAtStart Value="1"/>
     </General>
@@ -16,6 +16,7 @@
     </VersionInfo>
     <PublishOptions>
       <Version Value="2"/>
+      <DestinationDirectory Value="$(TestDir)\publishedproject\"/>
       <IgnoreBinaries Value="False"/>
       <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
       <ExcludeFileFilter Value="*.(bak|ppu|ppw|o|so);*~;backup"/>
@@ -23,7 +24,7 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <LaunchingApplication Use="True" PathPlusParams="/usr/kde/3.5/bin/konsole -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
+        <LaunchingApplication Use="True" PathPlusParams="\usr\kde\3.5\bin\konsole -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
     <RequiredPackages Count="1">
@@ -36,38 +37,38 @@
         <Filename Value="server.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uniserver"/>
-        <CursorPos X="42" Y="413"/>
-        <TopLine Value="386"/>
+        <CursorPos X="51" Y="290"/>
+        <TopLine Value="275"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="174"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="units/fsutils.pas"/>
+        <Filename Value="units\fsutils.pas"/>
         <UnitName Value="FSUtils"/>
         <CursorPos X="14" Y="171"/>
         <TopLine Value="121"/>
         <UsageCount Value="154"/>
       </Unit1>
       <Unit2>
-        <Filename Value="units/netutils.pas"/>
+        <Filename Value="units\netutils.pas"/>
         <UnitName Value="NetUtils"/>
         <CursorPos X="3" Y="159"/>
         <TopLine Value="140"/>
         <UsageCount Value="154"/>
       </Unit2>
       <Unit3>
-        <Filename Value="src/main.pas"/>
+        <Filename Value="src\main.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Main"/>
-        <CursorPos X="48" Y="132"/>
-        <TopLine Value="128"/>
+        <CursorPos X="1" Y="85"/>
+        <TopLine Value="66"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="174"/>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
-        <Filename Value="src/authorize.pas"/>
+        <Filename Value="src\authorize.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Authorize"/>
         <CursorPos X="1" Y="101"/>
@@ -75,20 +76,20 @@
         <UsageCount Value="174"/>
       </Unit4>
       <Unit5>
-        <Filename Value="usr/src/fpc/rtl/inc/systemh.inc"/>
+        <Filename Value="usr\src\fpc\rtl\inc\systemh.inc"/>
         <CursorPos X="16" Y="340"/>
         <TopLine Value="340"/>
         <UsageCount Value="3"/>
       </Unit5>
       <Unit6>
-        <Filename Value="../../unistrike/server/src/engine.pas"/>
+        <Filename Value="..\..\unistrike\server\src\engine.pas"/>
         <UnitName Value="Engine"/>
         <CursorPos X="35" Y="54"/>
         <TopLine Value="27"/>
         <UsageCount Value="14"/>
       </Unit6>
       <Unit7>
-        <Filename Value="src/engine.pas"/>
+        <Filename Value="src\engine.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Engine"/>
         <CursorPos X="23" Y="46"/>
@@ -96,47 +97,47 @@
         <UsageCount Value="150"/>
       </Unit7>
       <Unit8>
-        <Filename Value="../client/src/cengine.pas"/>
+        <Filename Value="..\client\src\cengine.pas"/>
         <UnitName Value="CEngine"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
         <UsageCount Value="11"/>
       </Unit8>
       <Unit9>
-        <Filename Value="../client/client.lpi"/>
+        <Filename Value="..\client\client.lpi"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
         <UsageCount Value="1"/>
         <SyntaxHighlighter Value="XML"/>
       </Unit9>
       <Unit10>
-        <Filename Value="C:/lazarus/fpc/2.2.1/source/rtl/inc/systemh.inc"/>
+        <Filename Value="C:\lazarus\fpc\2.2.1\source\rtl\inc\systemh.inc"/>
         <CursorPos X="11" Y="785"/>
         <TopLine Value="766"/>
         <UsageCount Value="4"/>
       </Unit10>
       <Unit11>
-        <Filename Value="C:/lazarus/fpc/2.2.1/source/rtl/win/wininc/redef.inc"/>
+        <Filename Value="C:\lazarus\fpc\2.2.1\source\rtl\win\wininc\redef.inc"/>
         <CursorPos X="10" Y="800"/>
         <TopLine Value="781"/>
         <UsageCount Value="3"/>
       </Unit11>
       <Unit12>
-        <Filename Value="usr/src/fpc/rtl/unix/ipc.pp"/>
+        <Filename Value="usr\src\fpc\rtl\unix\ipc.pp"/>
         <UnitName Value="ipc"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="148"/>
         <UsageCount Value="3"/>
       </Unit12>
       <Unit13>
-        <Filename Value="C:/lazarus/fpc/2.2.1/source/packages/winunits-base/src/shellapi.pp"/>
+        <Filename Value="C:\lazarus\fpc\2.2.1\source\packages\winunits-base\src\shellapi.pp"/>
         <UnitName Value="ShellApi"/>
         <CursorPos X="2" Y="1053"/>
         <TopLine Value="1053"/>
         <UsageCount Value="5"/>
       </Unit13>
       <Unit14>
-        <Filename Value="src/config.pas"/>
+        <Filename Value="src\config.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Config"/>
         <CursorPos X="55" Y="203"/>
@@ -146,7 +147,7 @@
         <Loaded Value="True"/>
       </Unit14>
       <Unit15>
-        <Filename Value="src/execute.pas"/>
+        <Filename Value="src\execute.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Execute"/>
         <CursorPos X="2" Y="52"/>
@@ -154,13 +155,13 @@
         <UsageCount Value="125"/>
       </Unit15>
       <Unit16>
-        <Filename Value="C:/lazarus/fpc/2.2.1/source/rtl/inc/mathh.inc"/>
+        <Filename Value="C:\lazarus\fpc\2.2.1\source\rtl\inc\mathh.inc"/>
         <CursorPos X="14" Y="64"/>
         <TopLine Value="45"/>
         <UsageCount Value="2"/>
       </Unit16>
       <Unit17>
-        <Filename Value="src/signals.pas"/>
+        <Filename Value="src\signals.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Signals"/>
         <CursorPos X="34" Y="76"/>
@@ -168,7 +169,7 @@
         <UsageCount Value="115"/>
       </Unit17>
       <Unit18>
-        <Filename Value="src/sysinfo.pas"/>
+        <Filename Value="src\sysinfo.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="SysInfo"/>
         <CursorPos X="123" Y="113"/>
@@ -176,7 +177,7 @@
         <UsageCount Value="86"/>
       </Unit18>
       <Unit19>
-        <Filename Value="src/process.pas"/>
+        <Filename Value="src\process.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Process"/>
         <CursorPos X="1" Y="25"/>
@@ -184,21 +185,21 @@
         <UsageCount Value="84"/>
       </Unit19>
       <Unit20>
-        <Filename Value="C:/lazarus/fpc/2.2.1/source/rtl/win32/winsysut.pp"/>
+        <Filename Value="C:\lazarus\fpc\2.2.1\source\rtl\win32\winsysut.pp"/>
         <UnitName Value="winsysut"/>
         <CursorPos X="57" Y="43"/>
         <TopLine Value="29"/>
         <UsageCount Value="5"/>
       </Unit20>
       <Unit21>
-        <Filename Value="usr/src/fpc/packages/hash/src/md5.pp"/>
+        <Filename Value="usr\src\fpc\packages\hash\src\md5.pp"/>
         <UnitName Value="md5"/>
         <CursorPos X="3" Y="42"/>
         <TopLine Value="40"/>
         <UsageCount Value="6"/>
       </Unit21>
       <Unit22>
-        <Filename Value="src/security.pas"/>
+        <Filename Value="src\security.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Security"/>
         <CursorPos X="70" Y="432"/>
@@ -206,20 +207,20 @@
         <UsageCount Value="81"/>
       </Unit22>
       <Unit23>
-        <Filename Value="usr/src/fpc/packages/libc/src/libc.pp"/>
+        <Filename Value="usr\src\fpc\packages\libc\src\libc.pp"/>
         <UnitName Value="libc"/>
         <CursorPos X="123" Y="27"/>
         <TopLine Value="1"/>
         <UsageCount Value="7"/>
       </Unit23>
       <Unit24>
-        <Filename Value="usr/src/fpc/packages/libc/src/netdbh.inc"/>
+        <Filename Value="usr\src\fpc\packages\libc\src\netdbh.inc"/>
         <CursorPos X="40" Y="43"/>
         <TopLine Value="25"/>
         <UsageCount Value="7"/>
       </Unit24>
       <Unit25>
-        <Filename Value="src/params.pas"/>
+        <Filename Value="src\params.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Params"/>
         <CursorPos X="2" Y="286"/>
@@ -229,14 +230,14 @@
         <Loaded Value="True"/>
       </Unit25>
       <Unit26>
-        <Filename Value="C:/lazarus/fpc/2.2.1/source/rtl/inc/heaptrc.pp"/>
+        <Filename Value="C:\lazarus\fpc\2.2.1\source\rtl\inc\heaptrc.pp"/>
         <UnitName Value="heaptrc"/>
         <CursorPos X="1" Y="185"/>
         <TopLine Value="168"/>
         <UsageCount Value="6"/>
       </Unit26>
       <Unit27>
-        <Filename Value="src/diskmgr.pas"/>
+        <Filename Value="src\diskmgr.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="DiskMgr"/>
         <CursorPos X="27" Y="13"/>
@@ -246,7 +247,7 @@
         <Loaded Value="True"/>
       </Unit27>
       <Unit28>
-        <Filename Value="src/unixutils.pas"/>
+        <Filename Value="src\unixutils.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="UnixUtils"/>
         <CursorPos X="1" Y="1"/>
@@ -254,19 +255,19 @@
         <UsageCount Value="60"/>
       </Unit28>
       <Unit29>
-        <Filename Value="usr/src/fpc/packages/libc/src/sstath.inc"/>
+        <Filename Value="usr\src\fpc\packages\libc\src\sstath.inc"/>
         <CursorPos X="19" Y="27"/>
         <TopLine Value="8"/>
         <UsageCount Value="10"/>
       </Unit29>
       <Unit30>
-        <Filename Value="usr/src/fpc/packages/libc/src/bstath.inc"/>
+        <Filename Value="usr\src\fpc\packages\libc\src\bstath.inc"/>
         <CursorPos X="1" Y="78"/>
         <TopLine Value="55"/>
         <UsageCount Value="10"/>
       </Unit30>
       <Unit31>
-        <Filename Value="src/convnum.pas"/>
+        <Filename Value="src\convnum.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="ConvNum"/>
         <CursorPos X="10" Y="63"/>
@@ -274,7 +275,7 @@
         <UsageCount Value="22"/>
       </Unit31>
       <Unit32>
-        <Filename Value="../units/netutils.pas"/>
+        <Filename Value="..\units\netutils.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="NetUtils"/>
         <CursorPos X="1" Y="1"/>
@@ -282,7 +283,7 @@
         <UsageCount Value="20"/>
       </Unit32>
       <Unit33>
-        <Filename Value="../units/fsutils.pas"/>
+        <Filename Value="..\units\fsutils.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="FSUtils"/>
         <CursorPos X="1" Y="1"/>
@@ -290,12 +291,22 @@
         <UsageCount Value="20"/>
       </Unit33>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
+    <JumpHistory Count="2" HistoryIndex="1">
+      <Position1>
+        <Filename Value="server.lpr"/>
+        <Caret Line="413" Column="42" TopLine="386"/>
+      </Position1>
+      <Position2>
+        <Filename Value="server.lpr"/>
+        <Caret Line="291" Column="4" TopLine="275"/>
+      </Position2>
+    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
+    <PathDelim Value="\"/>
     <SearchPaths>
-      <OtherUnitFiles Value="src/;../units/"/>
+      <OtherUnitFiles Value="src\;..\units\"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>

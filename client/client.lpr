@@ -28,7 +28,7 @@ uses
  Windows,
 {$endif}
  Classes, SysUtils, CustApp, Main, Extensions, Lang, Threads, Network,
- Engine, execute, sysinfo, process, NetUtils;
+ Engine, execute, sysinfo, process, NetUtils, Md5;
 
 type
  TUniStrikeApp = class(TCustomApplication)
@@ -43,7 +43,44 @@ type
 
 procedure TUniStrikeApp.DoRun;
 begin
+
+{$ifdef windows}
+ Variables := Variables + '\CodePage';
+{$endif}
+
+ LainClientInitQueryEngine;
+ MultiLanguageSupport := nil;
+ MultiLanguageInit;
+
+ Connection := TTcpIpCustomConnection.Create;
+ FillChar(UserIdent, SizeOf(UserIdent), 0);
+ LainClientData.Authorized := False;
+ LainClientData.Username := '';
+ LainClientData.Password := '';
+ LainClientData.Hostname := '';
+ LainClientData.Port := '';
+ UserIdent.Username := MD5String('');
+ UserIdent.Password := MD5String('');
+ 
  MainFunc;
+ 
+
+ if LainClientData.Authorized = True then
+ begin
+  CMD_Logout(Main.Params);
+ end;
+ LainClientDoneQueryEngine(1000);
+ 
+ if Connection.Connected = True then
+ begin
+  CMD_Disconnect(Main.Params);
+ end;
+
+ MultiLanguageSupport.Free;
+ Connection.Free;
+ Writeln(EndLineChar);
+ 
+
  Terminate;
 end;
 
@@ -60,10 +97,18 @@ end;
 
 var
  Application: TUniStrikeApp;
+ 
 begin
+ InitCriticalSection(CriticalSection);
+ ConsoleEvent := RTLEventCreate;
+ RTLEventResetEvent(ConsoleEvent);
+
  Application := TUniStrikeApp.Create(nil);
  Application.Title := 'Lain Shell Client';
  Application.Run;
  Application.Free;
+
+ RTLEventDestroy(ConsoleEvent);
+ DoneCriticalSection(CriticalSection);
 end.
 

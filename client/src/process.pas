@@ -39,8 +39,8 @@ function CMD_ProcessList(var Params :TParams) :Longint;
 begin
  if CheckConnectionAndAuthorization = False then
   Exit(CMD_Fail);
- Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgWaitForResponse'));
- Writeln(OutPut);
+ Writeln(Prefix, MultiLanguageSupport.GetString('MsgWaitForResponse'), EndLineChar);
+ Writeln(EndLineChar);
 
  LainClientSendQuery(Lain_Process_GetList);
  RTLEventWaitFor(ConsoleEvent);
@@ -54,7 +54,7 @@ var
 begin
  Connection.RecvString(Str);
  EnterCriticalSection(CriticalSection);
- Writeln(OutPut, Str);
+ Writeln(Str, EndLineChar);
  LeaveCriticalSection(CriticalSection);
 end;
 

@@ -23,6 +23,10 @@ interface
 
 uses Classes, SysUtils, Main, Md5;
 
+Var
+ ConnectionClosedGracefullyErrorShow :Boolean = True;
+
+
 Const
  SendQueryDone = 0;
  SendQueryFail = 1;
@@ -56,10 +60,10 @@ function CMD_Logout(var Params :TParams) :Longint;
 begin
  if ((LainClientData.Authorized = True) and (Connection.Connected = True)) then
  begin
-  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgLogoff'));
+  Writeln(Prefix, MultiLanguageSupport.GetString('MsgLogoff'), EndLineChar);
   if  LainClientSendQuery(Lain_Logoff) = SendQueryFail then
   begin
-   Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgCantLogoff'));
+   Writeln(Prefix, MultiLanguageSupport.GetString('MsgCantLogoff'), EndLineChar);
    Connection.Disconnect;
    LainClientData.Authorized := False;
    Exit(CMD_Fail);
@@ -75,24 +79,30 @@ var
  X :Longint;
 begin
  CMD_Logout(Params);
- Write(OutPut, Prefix, MultiLanguageSupport.GetString('MsgSetUsername') + ' '); LainClientData.Username := Extensions.GetText;
+ 
+ Write(Prefix, MultiLanguageSupport.GetString('MsgSetUsername') + ' ');
+ LainClientData.Username := Extensions.GetText;
+ 
  if LainClientData.Username = '' then
-  Writeln(OutPut, MultiLanguageSupport.GetString('FieldEmpty')) else
-  Writeln(OutPut);
- Write(OutPut, Prefix, MultiLanguageSupport.GetString('MsgSetPassword') + ' '); LainClientData.Password := GetPasswd('*');
+  Writeln(MultiLanguageSupport.GetString('FieldEmpty'), EndLineChar) else
+  Writeln(EndLineChar);
+  
+ Write(Prefix, MultiLanguageSupport.GetString('MsgSetPassword') + ' ');
+ LainClientData.Password := GetPasswd('*');
+ 
  if LainClientData.Password = '' then
-  Writeln(OutPut, MultiLanguageSupport.GetString('FieldEmpty')) else
-  Writeln(OutPut);
+  Writeln(MultiLanguageSupport.GetString('FieldEmpty'), EndLineChar) else
+  Writeln(EndLineChar);
 
  if (Length(LainClientData.Username) > SizeOf(UserIdent.Username)) then
  begin
-  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgLongUsername'));
+  Writeln(Prefix, MultiLanguageSupport.GetString('MsgLongUsername'), EndLineChar);
   Exit(CMD_Fail);
  end;
 
  if (Length(LainClientData.Password) > SizeOf(UserIdent.Password)) then
  begin
-  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgLongPassword'));
+  Writeln(Prefix, MultiLanguageSupport.GetString('MsgLongPassword'), EndLineChar);
   Exit(CMD_Fail);
  end;
 
@@ -105,7 +115,7 @@ begin
 
  if Connection.Connected = True then
  begin
-  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgPreparAuthorize'));
+  Writeln(Prefix, MultiLanguageSupport.GetString('MsgPreparAuthorize'), EndLineChar);
   Result := OnAuthorize;
  end;
 
@@ -138,12 +148,6 @@ function OnAuthorize :Longint;
 var
  ControlSum :Longword;
  Verfication :Byte;
-
- procedure OnExit;
- begin
-  writeln(Prefix, MultiLanguageSupport.GetString('MsgCantAuthorize'));
- end;
-
 begin
  ControlSum := $F8D6;
  if Connection.Send(ControlSum, SizeOf(ControlSum)) = SizeOf(ControlSum) then
@@ -155,7 +159,7 @@ begin
   if Verfication = Byte(True) then
   begin
    LainClientData.Authorized := True;
-   Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgAuthorized'));
+   Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgAuthorized'), #13);
    LainClientResetQueryEngine;
   {$ifdef unix}
    UnixThread := TUnixThread.Create(@UnixLainClientQueryLoopBind, nil);
@@ -171,13 +175,13 @@ begin
   end else
   begin
    LainClientData.Authorized := False;
-   OnExit;
+  {$ifdef unix}
+   Writeln(Prefix, MultiLanguageSupport.GetString('MsgCantAuthorize'), #13);
+  {$endif}
    Exit(CMD_Fail);
   end;
  end;
-
- OnExit;
- Exit(CMD_Fail);
+ Result := CMD_Fail;
 end;
 
 function LainClientSendQuery(ID :Word) :Longint;
@@ -205,6 +209,7 @@ var
  Value :Word;
 begin
  EnterCriticalSection(CriticalSection);
+ ConnectionClosedGracefullyErrorShow := True;
  RTLEventResetEvent(EngineEvent);
  LeaveCriticalSection(CriticalSection);
  repeat
@@ -216,9 +221,12 @@ begin
    RTLEventSetEvent(QueryEvent);
    RTLEventSetEvent(EngineEvent);
    RTLEventSetEvent(ConsoleEvent);
-   Writeln(OutPut, #13);
-   Writeln(OutPut, Prefix, 'Connection closed gracefully'#13);
-   Writeln(OutPut, #13);
+   if ConnectionClosedGracefullyErrorShow then
+   begin
+    Writeln(OutPut, #13);
+    Writeln(OutPut, Prefix, 'Connection closed gracefully'#13);
+    Writeln(OutPut, #13);
+   end;
    DrawCommandPath;
    LeaveCriticalSection(CriticalSection);
    Exit;
@@ -237,6 +245,7 @@ begin
  until ((Value = 0) or (Value = 1));
  
  EnterCriticalSection(CriticalSection);
+ ConnectionClosedGracefullyErrorShow := False;
  RTLEventSetEvent(EngineEvent);
  LeaveCriticalSection(CriticalSection);
 end;
@@ -257,9 +266,9 @@ end;
 
 procedure LainClientDoneQueryEngine(TimeOut :Longint);
 begin
- RTLEventDestroy(QueryEvent);
  RTLEventWaitFor(EngineEvent, TimeOut);
  RTLEventDestroy(EngineEvent);
+ RTLEventDestroy(QueryEvent);
 end;
 
 end.

@@ -48,7 +48,7 @@ begin
 
  if Length(Params) < 2 then
  begin
-  Writeln(OutPut, MultiLanguageSupport.GetString('UsingExecute'));
+  Writeln(MultiLanguageSupport.GetString('UsingExecute'), EndLineChar);
   Exit(CMD_Fail);
  end;
  
@@ -62,7 +62,7 @@ begin
    SetLength(CParams, Length(CParams) - 1);
  end;
  
- Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgWaitForResponse'));
+ Writeln(Prefix, MultiLanguageSupport.GetString('MsgWaitForResponse'), EndLineChar);
  LainClientSendQuery(Lain_Execute);
  RTLEventWaitFor(ConsoleEvent);
  RTLEventResetEvent(ConsoleEvent);
@@ -74,7 +74,7 @@ begin
  Connection.SendString(Command);
  Connection.SendString(CParams);
  EnterCriticalSection(CriticalSection);
- Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgCommandExecuted'));
+ Writeln(Prefix, MultiLanguageSupport.GetString('MsgCommandExecuted'), EndLineChar);
  LeaveCriticalSection(CriticalSection);
  Result := CMD_Done;
 end;

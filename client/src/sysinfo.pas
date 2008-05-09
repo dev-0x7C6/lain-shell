@@ -40,8 +40,8 @@ function CMD_SysInfo(var Params :TParams) :Longint;
 begin
  if CheckConnectionAndAuthorization = False then
   Exit(CMD_Fail);
- Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgWaitForResponse'));
- Writeln(OutPut);
+ Writeln(Prefix, MultiLanguageSupport.GetString('MsgWaitForResponse'), EndLineChar);
+ Writeln(EndLineChar);
  
  LainClientSendQuery(Lain_SysInfo_GetInfo);
  RTLEventWaitFor(ConsoleEvent);
@@ -57,7 +57,7 @@ begin
  Connection.Recv(Fammily, SizeOf(Fammily));
  Connection.RecvString(Str);
  EnterCriticalSection(CriticalSection);
- Writeln(OutPut, Str);
+ Writeln(Str, EndLineChar);
  LeaveCriticalSection(CriticalSection);
 end;
 

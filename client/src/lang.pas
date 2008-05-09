@@ -96,15 +96,15 @@ function CMD_SetLang(var Params :TParams) :Longint;
 begin
  if Length(Params) < 3 then
  begin
-  Writeln(OutPut, MultiLanguageSupport.GetString(Format('UsingSetLang', [SupportLangs])));
+  Writeln(MultiLanguageSupport.GetString(Format('UsingSetLang', [SupportLangs])), EndLineChar);
   Exit(CMD_Fail);
  end;
  
  DefaultLang := LowerCase(Params[2]);
  Result := MultiLanguageInit;
  if Result = CMD_Done then
-  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgSetVariableDone')) else
-  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgSetVariableFail'));
+  Writeln(Prefix, MultiLanguageSupport.GetString('MsgSetVariableDone'), EndLineChar) else
+  Writeln(Prefix, MultiLanguageSupport.GetString('MsgSetVariableFail'), EndLineChar);
 end;
 
 {$ifdef windows}
@@ -114,7 +114,7 @@ end;
  begin
   if Length(Params) < 2 then
   begin
-   Writeln(OutPut, MultiLanguageSupport.GetString('UsingSetCodePage'));
+   Writeln(MultiLanguageSupport.GetString('UsingSetCodePage'), EndLineChar);
    Exit(CMD_Fail);
   end;
   Value := StrToIntDef(Params[2], 0);
@@ -123,7 +123,7 @@ end;
   if WindowsManualCodePage = True then
   begin
    SetConsoleCP(WindowsManualCodePageID);
-   Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgSetVariableDone'));
+   Writeln(Prefix, MultiLanguageSupport.GetString('MsgSetVariableDone'), EndLineChar);
   end;
   Result := CMD_Done;
  end;
@@ -233,11 +233,11 @@ begin
  {$endif}
  if not FileExists(LangFile) then
  begin
-  Writeln(OutPut, 'Can''t find language file: ', LangFile, ' Not Found');
-  Writeln(OutPut);
+  Writeln('Can''t find language file: ', LangFile, ' Not Found', EndLineChar);
+  Writeln(EndLineChar);
   if MultiLanguageSupport = nil then AnyLanguageSupport := False;
-  Result := CMD_Fail;
-  Readln;
+   Result := CMD_Fail;
+   Readln;
  end else
  begin
   if MultiLanguageSupport <> nil then MultiLanguageSupport.Free;

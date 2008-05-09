@@ -29,6 +29,11 @@ uses
 
 
 Const
+ ConsoleHost :WideString = '';
+ ConsoleUser :WideString = '';
+ EndLineChar = #13;
+
+Const
  ConsoleTitle :WideString = 'LainShell Client v0.00.60.9';
  Prefix = ' >>> ';
  
@@ -45,7 +50,6 @@ type
   Password :TMD5Digest;
  end;
 
- 
 type
  TParams = Array of WideString;
  
@@ -65,12 +69,8 @@ type
  procedure DrawCommandPath;
 
 var
- OutPut :Text;
-
-var
  Connection :TTcpIpCustomConnection;
- ConsoleHost :WideString = '';
- ConsoleUser :WideString = '';
+
  CriticalSection :TRTLCriticalSection;
  LainClientData :TLainClientData;
  Params :TParams;
@@ -89,14 +89,14 @@ begin
  begin
   if ((LainClientData.Authorized = False) and (Connection.Connected = False)) then
   begin
-   Writeln(OutPut, MultiLanguageSupport.GetString('MsgNotConnectedAndAuthorized'));
+   Writeln(MultiLanguageSupport.GetString('MsgNotConnectedAndAuthorized'), EndLineChar);
    Exit(False);
   end else
    begin
     if Connection.Connected = False then
-     Writeln(OutPut, MultiLanguageSupport.GetString('MsgNotConnected'));
+     Writeln(MultiLanguageSupport.GetString('MsgNotConnected'), EndLineChar);
     if LainClientData.Authorized = False then
-     Writeln(OutPut, MultiLanguageSupport.GetString('MsgNotAuthorized'));
+     Writeln(MultiLanguageSupport.GetString('MsgNotAuthorized'), EndLineChar);
     Exit(False);
    end;
   Result := True;
@@ -106,8 +106,8 @@ end;
 procedure DrawConsoleTitle;
 begin
  CClrScr(OutPut);
- Writeln(OutPut, ParamStr(0));
- Extensions.CWrite(Output, White, format(MultiLanguageSupport.GetString('MsgWelcome'), [ConsoleTitle]), True);
+ Writeln(ParamStr(0), EndLineChar);
+ Extensions.CWrite(Output, White, format(MultiLanguageSupport.GetString('MsgWelcome') + EndLineChar, [ConsoleTitle]), True);
 end;
 
 procedure DrawCommandPath;
@@ -129,8 +129,7 @@ begin
   DrawConsoleTitle;
   Writeln(OutPut);
   repeat
-   CWrite(OutPut, LightGreen, ConsoleUser + '@' + ConsoleHost, False);
-   CWrite(OutPut, LightBlue, ' ~ # ', False);
+   DrawCommandPath;
    Cmd := Extensions.GetTextln;
    CmdToParams(Cmd, Params);
    if (LowerCase(Cmd) <> 'exit') and (LowerCase(Cmd) <> 'quit') and
@@ -172,7 +171,7 @@ begin
  
  if Length(Params[0]) > 0 then
  begin
-  Writeln(OutPut, Prefix, format(MultiLanguageSupport.GetString('MsgCmdNotFound'), [Params[0]]));
+  Writeln(Prefix, format(MultiLanguageSupport.GetString('MsgCmdNotFound'), [Params[0]]), EndLineChar);
  end;
 end;
 
@@ -182,7 +181,7 @@ var
 begin
  if Length(Params) < 2 then
  begin
-  Writeln(OutPut, Format(MultiLanguageSupport.GetString('UsingSet'), [Variables]));
+  Writeln(Format(MultiLanguageSupport.GetString('UsingSet'), [Variables]), EndLineChar);
   Exit(CMD_Fail);
  end;
  Cmd := LowerCase(Params[1]);
@@ -190,52 +189,9 @@ begin
 {$ifdef windows}
  if (Cmd = 'codepage') then Exit(CMD_SetConsoleCodePage(Params));
 {$endif}
- Writeln(OutPut, Format(MultiLanguageSupport.GetString('MsgSetVariableUnknown'), [Cmd]));
-end;
- 
-var
- X :Longint;
- 
-initialization
-begin
- InitCriticalSection(CriticalSection);
- ConsoleEvent := RTLEventCreate;
- RTLEventResetEvent(ConsoleEvent);
-{$ifdef windows}
- Variables := Variables + '\CodePage';
-{$endif}
- AssignFile(OutPut, '');
- ReWrite(OutPut);
- STDOutPut := OutPut;
- LainClientInitQueryEngine;
- MultiLanguageSupport := nil;
- MultiLanguageInit;
-
- Connection := TTcpIpCustomConnection.Create;
- FillChar(UserIdent, SizeOf(UserIdent), 0);
- LainClientData.Authorized := False;
- LainClientData.Username := '';
- LainClientData.Password := '';
- LainClientData.Hostname := '';
- LainClientData.Port := '';
- UserIdent.Username := MD5String('');
- UserIdent.Password := MD5String('');
+ Writeln(Format(MultiLanguageSupport.GetString('MsgSetVariableUnknown'), [Cmd]), EndLineChar);
 end;
 
-finalization
-begin
- RTLEventDestroy(ConsoleEvent);
- if LainClientData.Authorized = True then
-  CMD_Logout(Params);
- if Connection.Connected = True then
-  CMD_Disconnect(Params);
- LainClientDoneQueryEngine(10000);
- MultiLanguageSupport.Free;
- Connection.Free;
- Writeln(OutPut);
- CloseFile(OutPut);
- DoneCriticalSection(CriticalSection);
-end;
 
 end.
 

@@ -82,7 +82,6 @@ var
 var
  TerminateApp :Boolean = False;
  LainDBControlClass :TLainDBControlClass;
- OutPut :Text;
 
 implementation
 

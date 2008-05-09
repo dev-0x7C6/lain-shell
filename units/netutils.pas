@@ -132,8 +132,6 @@ type
  end;
  
  function GetIpByHost(host : PChar) : WideString;
- 
-var STDOutPut :Text;
 
 implementation
 
@@ -275,7 +273,7 @@ uses {$ifdef unix} Unix {$endif}{$ifdef windows} WinSock {$endif};
   begin
    Result := Sockets.Recv(Sock, Buffer, Size, FRecvFlags);
    {$ifdef debug}
-    writeln(STDOutPut, 'Sock = ', Sock,'; Recv = ', Result);
+    writeln('Sock = ', Sock,'; Recv = ', Result);
    {$endif}
    if ((SocketError <> 0) and (Result <= 0)) then
    begin
@@ -292,7 +290,7 @@ uses {$ifdef unix} Unix {$endif}{$ifdef windows} WinSock {$endif};
   begin
    Result := Sockets.SendTo(Sock, Buffer, Size, FSendFlags, Addr, SizeOf(Addr));
    {$ifdef debug}
-    writeln(STDOutPut, 'Sock = ', Sock,'; Send = ', Result);
+    writeln('Sock = ', Sock,'; Send = ', Result);
    {$endif}
    if ((SocketError <> 0) and (Result <= 0)) then
    begin

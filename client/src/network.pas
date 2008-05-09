@@ -113,14 +113,14 @@ var
 begin
  if Connection.Connected = True then
  begin
-  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgAlreadyConnected'));
-  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgDisconnectConnection'));
+  Writeln(Prefix, MultiLanguageSupport.GetString('MsgAlreadyConnected'), EndLineChar);
+  Writeln(Prefix, MultiLanguageSupport.GetString('MsgDisconnectConnection'), EndLineChar);
   Exit(CMD_Fail);
  end;
  
  if Length(Params) < 2 then
  begin
-  Writeln(OutPut, MultiLanguageSupport.GetString('UsingConnect'));
+  Writeln(MultiLanguageSupport.GetString('UsingConnect'), EndLineChar);
   Exit(CMD_Fail);
  end;
 
@@ -140,12 +140,12 @@ begin
 
  if Connection.Hostname = '' then
  begin
-  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgCantFindHostname'));
+  Writeln(Prefix, MultiLanguageSupport.GetString('MsgCantFindHostname'), EndLineChar);
   Exit(CMD_Fail);
  end;
 
  Connection.Port := StrToIntDef(LainClientData.Port, 9896);
- Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgCancelConnect'));
+ Writeln(Prefix, MultiLanguageSupport.GetString('MsgCancelConnect'), EndLineChar);
 
  ThreadEvent := RTLEventCreate;
  ThreadFree := False;
@@ -168,10 +168,10 @@ begin
    if GetKeyEventChar(Key) = kbdReturn then
    begin
     EnterCriticalSection(CriticalSection);
-    Write(OutPut, Prefix, MultiLanguageSupport.GetString('MsgCloseSocket') + ' ');
+    Write(Prefix, MultiLanguageSupport.GetString('MsgCloseSocket') + ' ');
     if Main.Connection.Disconnect then
-     Writeln(OutPut, MultiLanguageSupport.GetString('FieldDone') + #13) else
-     Writeln(OutPut, MultiLanguageSupport.GetString('FieldFail') + #13);
+     Writeln(MultiLanguageSupport.GetString('FieldDone') + EndLineChar) else
+     Writeln(MultiLanguageSupport.GetString('FieldFail') + EndLineChar);
     LeaveCriticalSection(CriticalSection);
     RTLEventWaitFor(ThreadEvent);
     Break;
@@ -192,19 +192,19 @@ begin
  if (Connection.Connected = True) then
  begin
   ConsoleHost := LainClientData.Hostname;
-  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgConnected') + ' ', ConsoleHost);
+  Writeln(Prefix, MultiLanguageSupport.GetString('MsgConnected') + ' ', ConsoleHost, EndLineChar);
   Result := CMD_Done;
  end else
  begin
-  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgCantConnect'));
+  Writeln(Prefix, MultiLanguageSupport.GetString('MsgCantConnect'), EndLineChar);
   Exit(CMD_Fail);
  end;
  
  if (ConnectionAccept = False) then
  begin
   Connection.Disconnect;
-  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgUnknownProto'));
-  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgDisconnect'));
+  Writeln(Prefix, MultiLanguageSupport.GetString('MsgUnknownProto'), EndLineChar);
+  Writeln(Prefix, MultiLanguageSupport.GetString('MsgDisconnect'), EndLineChar);
   Result := CMD_Fail;
  end;
 end;
@@ -213,17 +213,19 @@ function CMD_Disconnect(var Params :TParams) :Longint;
 begin
  if Connection.Connected then
  begin
+  ConnectionClosedGracefullyErrorShow := False;
   if LainClientData.Authorized = True then
+  begin
    CMD_Logout(Params);
-   
-   
+   LainClientDoneQueryEngine(10000);
+  end;
   Connection.Disconnect;
   LainClientData.Authorized := False;
   ConsoleUser := MultiLanguageSupport.GetString('FieldUsername');
   ConsoleHost := MultiLanguageSupport.GetString('FieldLocation');
-  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgDisconnected'));
+  Writeln(Prefix, MultiLanguageSupport.GetString('MsgDisconnected'), EndLineChar);
  end else
-  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgNotConnected'));
+  Writeln(Prefix, MultiLanguageSupport.GetString('MsgNotConnected'), EndLineChar);
  Result := CMD_Done;
 end;
 
@@ -254,7 +256,7 @@ var
  procedure WriteOutPut; cdecl;
  begin
   EnterCriticalSection(CriticalSection);
-  Writeln(' <<< Have connection from ', HostAddrToStr(NetToHost(Connection.Addr.sin_addr)), ', id ', ConnectionID, #13);
+  Writeln(' <<< Have connection from ', HostAddrToStr(NetToHost(Connection.Addr.sin_addr)), ', id ', ConnectionID, EndLineChar);
   LeaveCriticalSection(CriticalSection);
  end;
  
@@ -298,13 +300,13 @@ var
 begin
  if Connection.Connected = True then
  begin
-  Writeln(OutPut, MultiLanguageSupport.GetString('MsgAlreadyConnected'));
+  Writeln(MultiLanguageSupport.GetString('MsgAlreadyConnected'), EndLineChar);
   Exit(CMD_Fail);
  end;
  
  if Length(Params) < 3 then
  begin
-  Writeln(OutPut, MultiLanguageSupport.GetString('UsingRConnect'));
+  Writeln(MultiLanguageSupport.GetString('UsingRConnect'), EndLineChar);
   Exit(CMD_Fail);
  end;
 
@@ -315,8 +317,8 @@ begin
  ConnectionID := 1;
  Connections := nil;
 
- Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgRConnectPressEnter'));
- Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgRConnectWaiting'));
+ Writeln(Prefix, MultiLanguageSupport.GetString('MsgRConnectPressEnter'), EndLineChar);
+ Writeln(Prefix, MultiLanguageSupport.GetString('MsgRConnectWaiting'), EndLineChar);
  RCConnectThreadEvent := RTLEventCreate;
 
 {$ifdef unix}
@@ -334,9 +336,9 @@ begin
   begin
    RCConnection.Shutdown;
    RCConnection.CloseSocket;
-   Write(OutPut, Prefix, MultiLanguageSupport.GetString('MsgRConnectThreadEnd'));
+   Write(Prefix, MultiLanguageSupport.GetString('MsgRConnectThreadEnd'));
    RTLEventWaitFor(RCConnectThreadEvent);
-   Writeln(OutPut, MultiLanguageSupport.GetString('FieldDone') + #13);
+   Writeln(MultiLanguageSupport.GetString('FieldDone'), EndLineChar);
    Break;
   end;
  until False;
@@ -351,12 +353,12 @@ begin
  if Length(Connections) > 0 then
  begin
   repeat
-   Write(OutPut, MultiLanguageSupport.GetString('MsgRConnectChose') + ' ');
+   Write(MultiLanguageSupport.GetString('MsgRConnectChose') + ' ');
    Str := GetTextln;
    ID := StrToIntDef(Str, -1);
    if ((ID = -1) or (ID > Length(Connections))) then
    begin
-    Writeln(OutPut, MultiLanguageSupport.GetString('MsgRConnectUnknownID'));
+    Writeln(MultiLanguageSupport.GetString('MsgRConnectUnknownID'), EndLineChar);
     Continue;
    end;
    Connection.SetConnection(Connections[ID - 1]);

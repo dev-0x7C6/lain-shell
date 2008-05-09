@@ -36,12 +36,12 @@ uses Extensions, Lang, Network;
 
 function CMD_About(var Params :TParams) :Longint;
 begin
- Writeln(OutPut, '  ', MultiLanguageSupport.GetString('MainProgramer'));
- Writeln(OutPut, '  ', MultiLanguageSupport.GetString('MainTester'));
- Writeln(OutPut);
- Writeln(OutPut, '  ', MultiLanguageSupport.GetString('EnLang'));
- Writeln(OutPut, '  ', MultiLanguageSupport.GetString('EsLang'));
- Writeln(OutPut, '  ', MultiLanguageSupport.GetString('PlLang'));
+ Writeln('  ', MultiLanguageSupport.GetString('MainProgramer'), EndLineChar);
+ Writeln('  ', MultiLanguageSupport.GetString('MainTester'), EndLineChar);
+ Writeln(EndLineChar);
+ Writeln('  ', MultiLanguageSupport.GetString('EnLang'), EndLineChar);
+ Writeln('  ', MultiLanguageSupport.GetString('EsLang'), EndLineChar);
+ Writeln('  ', MultiLanguageSupport.GetString('PlLang'), EndLineChar);
  Result := CMD_Done;
 end;
 
@@ -57,8 +57,8 @@ var
 begin
  for X := Low(HelpList) to High(HelpList) do
  begin
-  Write(OutPut, '  ', HelpList[X][0], ' -   ');
-  Writeln(OutPut, HelpList[X][1]);
+  Write('  ', HelpList[X][0], ' -   ');
+  Writeln(HelpList[X][1], EndLineChar);
  end;
  Result := 0;
 end;
@@ -67,23 +67,23 @@ function CMD_Status(var Params :TParams) :Longint;
 var
  X :Longint;
 begin
- Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('StatusAuthorized') + ' = ', LainClientData.Authorized);
- Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('StatusConnected') + ' = ', Connection.Connected);
+ Writeln(Prefix, MultiLanguageSupport.GetString('StatusAuthorized') + ' = ', LainClientData.Authorized, EndLineChar);
+ Writeln(Prefix, MultiLanguageSupport.GetString('StatusConnected') + ' = ', Connection.Connected, EndLineChar);
  if Connection.Connected = true then
  begin
-  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('StatusHostname') + ' = ', ConsoleHost, '(', Connection.Hostname, ')');
-  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('StatusPort') + ' = ', Connection.Port);
+  Writeln(Prefix, MultiLanguageSupport.GetString('StatusHostname') + ' = ', ConsoleHost, '(', Connection.Hostname, ')', EndLineChar);
+  Writeln(Prefix, MultiLanguageSupport.GetString('StatusPort') + ' = ', Connection.Port, EndLineChar);
  end;
  if LainClientData.Authorized = true then
  begin
-  Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('StatusUsername') + ' = ', ConsoleUser);
+  Writeln(Prefix, MultiLanguageSupport.GetString('StatusUsername') + ' = ', ConsoleUser, EndLineChar);
   Write(OutPut, Prefix, MultiLanguageSupport.GetString('StatusPassword') + ' = ');
   if LainClientData.Password = '' then
-   Writeln(Output, MultiLanguageSupport.GetString('FieldEmpty')) else
+   Writeln(MultiLanguageSupport.GetString('FieldEmpty'), EndLineChar) else
    begin
     for X := 1 to length(LainClientData.Password) do
-    Write(OutPut, '*');
-    Writeln(OutPut);
+     Write('*');
+    Writeln(EndLineChar);
    end;
  end;
  Result := CMD_Done;
