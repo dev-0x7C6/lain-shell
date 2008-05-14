@@ -29,6 +29,8 @@ uses
 
 implementation
 
+uses DiskMgr;
+
 function GetHomeDirectory :AnsiString;
 var
  Pipe :Text;
@@ -36,6 +38,7 @@ begin
  POpen(Pipe, 'echo $HOME', 'R');
  Readln(Pipe, Result);
  PClose(Pipe);
+ Result := IsDir(Result);
 end;
 
 end.

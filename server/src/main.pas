@@ -33,6 +33,7 @@ uses
 
 Const
  ClientReconnectTime = 30000;
+ EndLineChar = #13;
 
 type
  TClientServiceSettings = packed record

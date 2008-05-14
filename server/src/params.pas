@@ -83,143 +83,135 @@ var
 {$endif}
  Param :AnsiString;
 
- function LainServerParamHelp(var OutPut :Text) :Boolean;
- function LainServerParamStop(var OutPut :Text) :Boolean;
+ procedure LainServerParamHelp;
+ procedure LainServerParamStop;
  
- function LainServerParamCreateDB(var OutPut :Text) :Boolean;
- 
- function LainServerParamAddUser(var OutPut :Text) :Boolean;
- function LainServerParamDelUser(var OutPut :Text) :Boolean;
- function LainServerParamChkUser(var OutPut :Text) :Boolean;
- function LainServerParamLstUser(var OutPut :Text) :Boolean;
- function LainServerParamPwdUser(var OutPut :Text) :Boolean;
+ procedure LainServerParamCreateDB;
+ procedure LainServerParamAddUser;
+ procedure LainServerParamDelUser;
+ procedure LainServerParamChkUser;
+ procedure LainServerParamLstUser;
+ procedure LainServerParamPwdUser;
  
 implementation
 
 uses {$ifdef windows} Windows, {$endif} Main;
 
-function LainServerParamHelp(var OutPut :Text) :Boolean;
+procedure LainServerParamHelp;
 begin
 {$ifdef unix}
- Writeln(OutPut, HelpMsg);
+ Writeln(HelpMsg, EndLineChar);
 {$endif}
 {$ifdef windows}
  MessageBox(GetForegroundWindow, PChar(HelpMsg), 'Help page', MB_OK + MB_ICONINFORMATION);
 {$endif}
- Result := True;
 end;
 
-function LainServerParamStop(var OutPut :Text) :Boolean;
+procedure LainServerParamStop;
 begin
 {$ifdef unix}
  shmid := shmget(IdentValue, 0, 0);
  if shmid =-1 then
  begin
-  Writeln(OutPut, 'nothing to stop');
-  Exit(True);
+  Writeln('nothing to stop', EndLineChar);
+  Exit;
  end;
  pMemory := shmat(shmid, nil, 0);
  if Integer(pMemory) = -1 then
  begin
   shmdt(pMemory);
-  Writeln(OutPut, 'access denided');
-  Exit(True);
+  Writeln('access denided', EndLineChar);
+  Exit;
  end;
  MemLongWord := pMemory;
  MemLongWord^ := $FF;
- Writeln(OutPut, 'Done');
+ Writeln('Done', EndLineChar);
  shmdt(pMemory);
- Result := True;
 {$endif}
 {$ifdef windows}
- Result := False;
 {$endif}
 end;
 
-function LainServerParamAddUser(var OutPut :Text) :Boolean;
+procedure LainServerParamAddUser;
 begin
  if ((ParamStr(2) = '') or (ParamStr(3) = '')) then
  begin
  {$ifdef unix}
-  Writeln(OutPut, UsageAddUser);
+  Writeln(UsageAddUser, EndLineChar);
  {$endif}
  {$ifdef windows}
   MessageBox(GetForegroundWindow, Pchar(UsageAddUser), MBInfoTitle, MB_OK + MB_ICONINFORMATION);
  {$endif}
-  Exit(True);
  end;
 
  if LainDBControlClass.AddUserToLainDB(ParamStr(2), ParamStr(3)) then
  {$ifdef unix}
-  Writeln(OutPut, MsgUserAdded) else
-  Writeln(OutPut, MsgUserNoAdded);
+  Writeln(MsgUserAdded, EndLineChar) else
+  Writeln(MsgUserNoAdded, EndLineChar);
  {$endif}
  {$ifdef windows}
   MessageBox(GetForegroundWindow, PChar(MsgUserAdded), MBInfoTitle, MB_OK + MB_ICONINFORMATION) else
   MessageBox(GetForegroundWindow, PChar(MsgUserNoAdded), MBInfoTitle, MB_OK + MB_ICONINFORMATION);
  {$endif}
- Result := True;
 end;
 
-function LainServerParamDelUser(var OutPut :Text) :Boolean;
+procedure LainServerParamDelUser;
 begin
  if (ParamStr(2) = '') then
  begin
 {$ifdef unix}
-  Writeln(OutPut, UsageDelUser);
+  Writeln(UsageDelUser, EndLineChar);
 {$endif}
 {$ifdef windows}
   MessageBox(GetForegroundWindow, PChar(UsageDelUser), MBInfoTitle, MB_OK + MB_ICONINFORMATION);
 {$endif}
-  Exit(True);
+  Exit;
  end;
  if LainDBControlClass.DelUserFromLainDB(ParamStr(2)) then
 {$ifdef unix}
- Writeln(OutPut, MsgUserDeleted) else
- Writeln(OutPut, MsgUserNotDeleted);
+ Writeln(MsgUserDeleted, EndLineChar) else
+ Writeln(MsgUserNotDeleted, EndLineChar);
 {$endif}
 {$ifdef windows}
  MessageBox(GetForegroundWindow, PChar(MsgUserDeleted), MBInfoTitle, MB_OK + MB_ICONINFORMATION) else
  MessageBox(GetForegroundWindow, PChar(MsgUserNotDeleted), MBInfoTitle, MB_OK + MB_ICONINFORMATION);
 {$endif}
- Result := True;
 end;
 
-function LainServerParamChkUser(var OutPut :Text) :Boolean;
+procedure LainServerParamChkUser;
 begin
  if (ParamStr(2) = '') then
  begin
  {$ifdef unix}
-  Writeln(OutPut, UsageChkUser);
+  Writeln(UsageChkUser, EndLineChar);
  {$endif}
  {$ifdef windows}
   MessageBox(GetForegroundWindow, PChar(UsageChkUser), MBInfoTitle, MB_OK + MB_ICONINFORMATION);
  {$endif}
-  Exit(True);
+  Exit;
  end;
  if LainDBControlClass.FindUserInLainDB(ParamStr(2)) = -1 then
  begin
  {$ifdef unix}
-  Writeln(OutPut, MsgUserNotFound);
+  Writeln(MsgUserNotFound, EndLineChar);
  {$endif}
  {$ifdef windows}
   MessageBox(GetForegroundWindow, PChar(MsgUserNotFound), MBInfoTitle, MB_OK + MB_ICONINFORMATION);
  {$endif}
-  Exit(True);
+  Exit;
  end;
  if LainDBControlClass.CheckUserInLainDB(ParamStr(2)) <> -1 then
  {$ifdef unix}
-  Writeln(OutPut, MsgUserCheckSumOk) else
-  Writeln(OutPut, MsgUserCheckSumFail);
+  Writeln(MsgUserCheckSumOk, EndLineChar) else
+  Writeln(MsgUserCheckSumFail, EndLineChar);
  {$endif}
  {$ifdef windows}
   MessageBox(GetForegroundWindow, PChar(MsgUserCheckSumOk), MBInfoTitle, MB_OK + MB_ICONINFORMATION) else
   MessageBox(GetForegroundWindow, PChar(MsgUserCheckSumFail), MBInfoTitle, MB_OK + MB_ICONINFORMATION);
  {$endif}
- Result := True;
 end;
 
-function LainServerParamLstUser(var OutPut :Text) :Boolean;
+procedure LainServerParamLstUser;
 
 var
  X :LongWord;
@@ -230,78 +222,75 @@ begin
  if Length(LainDBControlClass.AccountList) = 0 then
  begin
  {$ifdef unix}
-  Writeln(OutPut, MsgUserNoUsers);
+  Writeln(MsgUserNoUsers, EndLineChar);
  {$endif}
  {$ifdef windows}
   MessageBox(GetForegroundWindow, PChar(MsgUserNoUsers), MBInfoTitle, MB_OK + MB_ICONINFORMATION);
  {$endif}
-  Exit(True);
+  Exit;
  end;
 {$ifdef windows}
  UserList := TStringList.Create;
 {$endif}
  for X := 0 to Length(LainDBControlClass.AccountList) - 1 do
  {$ifdef unix}
-  Writeln(OutPut, 'User ID = ', X, ' Name = ', LainDBControlClass.AccountList[X].UsernameStr);
+  Writeln('User ID = ', X, ' Name = ', LainDBControlClass.AccountList[X].UsernameStr, EndLineChar);
  {$endif}
 {$ifdef windows}
   UserList.Add('User ID = ' + IntToStr(X) + ' Name = ' + LainDBControlClass.AccountList[X].UsernameStr);
  MessageBox(GetForegroundWindow, PChar(UserList.Text), MBInfoTitle, MB_OK + MB_ICONINFORMATION);
  UserList.Free;
 {$endif}
- Result := True;
 end;
 
-function LainServerParamPwdUser(var OutPut :Text) :Boolean;
+procedure LainServerParamPwdUser;
 var
  X :LongWord;
 begin
  if ((ParamStr(2) = '') or (ParamStr(3) = '')) then
  begin
  {$ifdef unix}
-  Writeln(OutPut, UsagePwdUser);
+  Writeln(UsagePwdUser, EndLineChar);
  {$endif}
  {$ifdef windows}
   MessageBox(GetForegroundWindow, PChar(UsagePwdUser), MBInfoTitle, MB_OK + MB_ICONINFORMATION);
  {$endif}
-  Exit(True);
+  Exit;
  end;
  X := LainDBControlClass.FindUserInLainDB(ParamStr(2));
  if X = -1 then
  begin
  {$ifdef unix}
-  Writeln(OutPut, MsgUserNotFound);
+  Writeln(MsgUserNotFound, EndLineChar);
  {$endif}
  {$ifdef windows}
   MessageBox(GetForegroundWindow, PChar(MsgUserNotFound), MBInfoTitle, MB_OK + MB_ICONINFORMATION);
  {$endif}
-  Exit(True);
+  Exit;
  end;
  LainDBControlClass.AccountList[X].Password := MD5String(ParamStr(3));
  LainDBControlClass.AccountList[X].PasswordMD5:= MD5Buffer(LainDBControlClass.AccountList[X].Password, SizeOf(LainDBControlClass.AccountList[X].Password));
 {$ifdef unix}
- Writeln(OutPut, MsgUserNewPasswordSet);
+ Writeln(MsgUserNewPasswordSet, EndLineChar);
 {$endif}
 {$ifdef windows}
  MessageBox(GetForegroundWindow, PChar(MsgUserNewPasswordSet), MBInfoTitle, MB_OK + MB_ICONINFORMATION);
 {$endif}
- Result := True;
 end;
 
-function LainServerParamCreateDB(var OutPut :Text) :Boolean;
+procedure LainServerParamCreateDB;
 begin
  LainDBControlClass.CreateLainDB;
 {$ifdef unix}
  if LainDBControlClass.SaveLainDBToFile(DataBaseFileName) then
-  Writeln(OutPut, MsgNewDBCreate) else
-  Writeln(OutPut, MsgNewDBNotCreate);
+  Writeln(MsgNewDBCreate, EndLineChar) else
+  Writeln(MsgNewDBNotCreate, EndLineChar);
 {$endif}
 {$ifdef windows}
  if LainDBControlClass.SaveLainDBToRegistry(RegistryKey, RegistryValue) then
   MessageBox(GetForegroundWindow, PChar(MsgNewDBCreate), MBInfoTitle, MB_OK + MB_ICONINFORMATION) else
   MessageBox(GetForegroundWindow, PChar(MsgNewDBNotCreate), MBInfoTitle, MB_OK + MB_ICONINFORMATION);
 {$endif}
- Result := True;
 end;
 
 end.
