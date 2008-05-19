@@ -217,7 +217,6 @@ begin
   if LainClientData.Authorized = True then
   begin
    CMD_Logout(Params);
-   LainClientDoneQueryEngine(10000);
   end;
   Connection.Disconnect;
   LainClientData.Authorized := False;

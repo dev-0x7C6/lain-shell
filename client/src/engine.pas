@@ -34,10 +34,6 @@ Const
  Lain_Error = -1;
  Lain_Disconnect = 0;
  Lain_Logoff = 1;
- 
-var
- QueryEvent :PRTLEvent;
- EngineEvent :PRTLEvent;
 
  function CMD_Login(var Params :TParams) :Longint;
  function CMD_Logout(var Params :TParams) :Longint;
@@ -60,9 +56,6 @@ implementation
 
 uses Execute, Extensions, Lang, Process, SysInfo, Threads;
 
-var
- CriticalSection :TRTLCriticalSection;
-
 function CMD_Logout(var Params :TParams) :Longint;
 begin
  if ((LainClientData.Authorized = True) and (Connection.Connected = True)) then
@@ -76,9 +69,10 @@ begin
    Exit(CMD_Fail);
   end else
    LainClientData.Authorized := False;
+  LainClientWaitForQuery;
   Result := CMD_Done;
  end else
-  Exit(CMD_Fail);
+  Result := CMD_Done;
 end;
 
 function CMD_Login(var Params :TParams) :Longint;
@@ -156,6 +150,7 @@ var
  ControlSum :Longword;
  Verfication :Byte;
 begin
+ LainClientResetQueryEngine;
  ControlSum := $F8D6;
  if Connection.Send(ControlSum, SizeOf(ControlSum)) = SizeOf(ControlSum) then
  if Connection.Recv(Verfication, SizeOf(Verfication)) = SizeOf(Verfication) then
@@ -166,7 +161,6 @@ begin
   if Verfication = Byte(True) then
   begin
    LainClientData.Authorized := True;
-   LainClientResetQueryEngine;                                                   /// It's ok ?
    Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgAuthorized'), #13);
   {$ifdef unix}
    UnixThread := TUnixThread.Create(@UnixLainClientQueryLoopBind, nil);
@@ -189,10 +183,16 @@ begin
  Result := CMD_Fail;
 end;
 
+var
+ QueryEvent :PRTLEvent;
+ EngineEvent :PRTLEvent;
 
 procedure LainClientWaitForQuery;
 begin
  RTLEventWaitFor(QueryEvent);
+EnterCriticalSection(CriticalSection);
+ RTLEventSetEvent(QueryEvent);
+LeaveCriticalSection(CriticalSection);
 end;
 
 
@@ -296,11 +296,5 @@ EnterCriticalSection(CriticalSection);
  RTLEventSetEvent(EngineEvent);
 LeaveCriticalSection(CriticalSection);
 end;
-
-initialization
- InitCriticalSection(CriticalSection);
- 
-finalization
- DoneCriticalSection(CriticalSection);
 
 end.
