@@ -37,7 +37,7 @@ uses Extensions, Lang, Network;
 function CMD_About(var Params :TParams) :Longint;
 begin
  Writeln('  ', MultiLanguageSupport.GetString('MainProgramer'), EndLineChar);
- Writeln('  ', MultiLanguageSupport.GetString('MainTester'), EndLineChar);
+ Writeln('  ', MultiLanguageSupport.GetString('MainWebEditor'), EndLineChar);
  Writeln(EndLineChar);
  Writeln('  ', MultiLanguageSupport.GetString('EnLang'), EndLineChar);
  Writeln('  ', MultiLanguageSupport.GetString('EsLang'), EndLineChar);

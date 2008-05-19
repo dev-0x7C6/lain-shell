@@ -16,7 +16,7 @@
   MA 02111-1307, USA.
 }
 
-unit Security;
+unit LainDataBase;
 
 {$mode objfpc}{$H+}
 
@@ -80,15 +80,30 @@ type
   constructor Create;
   destructor Destroy; override;
  end;
+
+ function LoadLainDataBaseFromSystem(var LainDBControlClass :TLainDBControlClass; const PTPath :AnsiString) :Boolean;
  
 implementation
 
+uses
 {$ifdef windows}
- uses Windows, Registry;
+ Windows, Registry,
 {$endif}
 {$ifdef unix}
- uses BaseUnix;
+ BaseUnix,
+{$endif} Params;
+
+function LoadLainDataBaseFromSystem(var LainDBControlClass :TLainDBControlClass; const PTPath :AnsiString) :Boolean;
+begin
+{$ifdef unix}
+ Result := LainDBControlClass.LoadLainDBFromFile(PTPath);
 {$endif}
+{$ifdef windows}
+ Result := LainDBControlClass.LoadLainDBFromRegistry(RegistryKey, RegistryValue);
+{$endif}
+ if not Result then
+  LainDBControlClass.CreateLainDB;
+end;
 
 constructor TLainDBControlClass.Create;
 begin

@@ -39,18 +39,18 @@ const
 {$endif}
   
 var
- HelpMsg :String = 'Main functions :' + LineEnding +
-                   ' * config  - run configurator' + LineEnding +
-                   ' * help    - show this message' + LineEnding +
-                   ' * restart - restart running deamon' + LineEnding +
-                   ' * stop    - stop running deamon' + LineEnding + LineEnding  +
+ HelpMsg :String = 'Main functions:' + LineEnding +
+                   '  --config  - run configurator' + LineEnding +
+                   '  --help    - show this message' + LineEnding +
+                   '  --restart - restart running deamon' + LineEnding +
+                   '  --stop    - stop running deamon' + LineEnding + LineEnding  +
                    'User database functions:' + LineEnding +
-                   ' * createdb - create empty database' + LineEnding +
-                   ' * adduser - add new user' + LineEnding +
-                   ' * deluser - delete user' + LineEnding +
-                   ' * chkuser - check user md5sums' + LineEnding +
-                   ' * lstuser - show user list' + LineEnding +
-                   ' * pwduser - change user password';
+                   '  --createdb - create empty database' + LineEnding +
+                   '  --adduser - add new user' + LineEnding +
+                   '  --deluser - delete user' + LineEnding +
+                   '  --chkuser - check user md5sums' + LineEnding +
+                   '  --lstuser - show user list' + LineEnding +
+                   '  --pwduser - change user password';
 
 var
 {$ifdef windows}

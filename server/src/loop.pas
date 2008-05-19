@@ -16,51 +16,16 @@
   MA 02111-1307, USA.
 }
 
-unit UnixUtils;
+unit Loop;
 
 {$mode objfpc}{$H+}
 
 interface
 
 uses
-  Unix, BaseUnix, SysUtils;
-  
- function GetHomeDirectory :AnsiString;
- function CreateConfigDirectory(Directory :AnsiString) :Boolean;
+  Classes, SysUtils; 
 
 implementation
-
-uses DiskMgr;
-
-function GetHomeDirectory :AnsiString;
-var
- Pipe :Text;
-begin
- POpen(Pipe, 'echo $HOME', 'R');
- Readln(Pipe, Result);
- PClose(Pipe);
- Result := IsDir(Result);
-end;
-
-function CreateConfigDirectory(Directory :AnsiString) :Boolean;
-begin
- Result := True;
- if not DirectoryExists(Directory) then
- begin
-  if FpMkDir(Directory, S_IXUSR or S_IWUSR or S_IRUSR) <> 0 then
-  begin
-   Writeln('Can''t create directory: ', Directory);
-   Exit(False);
-  end
- end else
- begin
-  if FpChMod(Directory, S_IXUSR or S_IWUSR or S_IRUSR) <> 0 then
-  begin
-   Writeln('Can''t change access to: ', Directory);
-   Exit(False);
-  end;
- end;
-end;
 
 end.
 

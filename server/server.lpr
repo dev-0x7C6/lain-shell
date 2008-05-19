@@ -28,7 +28,8 @@ uses
   Windows, Registry, ShellApi,
 {$endif}
   Main, SysUtils, Authorize, Engine, Sockets, Config, Execute,
-  Sysinfo, Process, Security, Params, diskmgr, convnum, FSUtils, NetUtils;
+  Sysinfo, Process, LainDataBase, Params, diskmgr, convnum, FSUtils, NetUtils,
+  loop;
 
 
 Const
@@ -44,8 +45,6 @@ Const
 {$endif}
 
 var
- X :Longint;
- Item :TConnectionThread;
  Param :String;
 {$ifdef unix}
  Dump :LongWord;
@@ -79,6 +78,8 @@ var
 {$endif}
 
 function MainProc :Longint;
+var
+ X :Longint;
 begin
 {$ifdef windows}
  ShareMemory := CreateFileMapping(INVALID_HANDLE_VALUE, nil, PAGE_READONLY, 0, 4, 'lainshell-server');
@@ -161,25 +162,7 @@ begin
 {$endif}
 
 
- ClientConnection := TTcpIpSocketClient.Create;
- ServerConnection := TTcpIpSocketServer.Create;
-
-EnterCriticalSection(CriticalSection);
-{$ifdef unix}
- MainThreads[0].Created := (BeginThread(@ClientServiceThread, nil, MainThreads[0].Handle) <> 0);
- MainThreads[1].Created := (BeginThread(@ServerServiceThread, nil, MainThreads[1].Handle) <> 0);
-{$endif}
-
-{$ifdef windows}
- CreateThread(nil, 0, @ClientServiceThread, nil, 0, MainThreads[0].Handle);
- CreateThread(nil, 0, @ServerServiceThread, nil, 0, MainThreads[1].Handle);
- MainThreads[0].Created := MainThreads[0].Handle <> 0;
- MainThreads[1].Created := MainThreads[1].Handle <> 0;
-{$endif}
-
- if MainThreads[0].Created = True then MainThreads[0].Event := RTLEventCreate;
- if MainThreads[1].Created = True then MainThreads[1].Event := RTLEventCreate;
-LeaveCriticalSection(CriticalSection);
+ InitConnections(ClientConnection, ServerConnection);
 
 /// at the moment, the server app is only for tests
 {$ifdef unix}
@@ -217,162 +200,98 @@ LeaveCriticalSection(CriticalSection);
  while getmessage(msg, 0, 0, 0) do dispatchmessage(msg);
 {$endif}
 
- EnterCriticalSection(CriticalSection);
- TerminateApp := True;
- ClientConnection.Disconnect;
- ServerConnection.Shutdown;
- ServerConnection.CloseSocket;
- LeaveCriticalSection(CriticalSection);
-
- if MainThreads[0].Created = True then
- begin
-  RTLEventWaitFor(MainThreads[0].Event);
-  
-  RTLEventDestroy(MainThreads[0].Event);
- end;
-
- if MainThreads[1].Created = True then
- begin
-  RTLEventWaitFor(MainThreads[1].Event);
-  RTLEventDestroy(MainThreads[1].Event);
- end;
-
- ClientConnection.Free;
- ServerConnection.Free;
-
- if Length(CThreadList) > 0 then
- begin
-  for x := 0 to Length(CThreadList) - 1 do
-  begin
-   EnterCriticalSection(CriticalSection);
-   Item := CThreadList[x];
-   LeaveCriticalSection(CriticalSection);
-
-   if Item.ThreadInfo.Created = True then
-   begin
-    EnterCriticalSection(CriticalSection);
-    Shutdown(Item.Connection.Sock, 2);
-    CloseSocket(Item.Connection.Sock);
-    LeaveCriticalSection(CriticalSection);
-
-    RTLEventWaitFor(Item.ThreadInfo.Event);
-    RTLEventDestroy(Item.ThreadInfo.Event);
-   end;
-
-  end;
- end;
-
- CThreadList := nil;
-
+ DoneConnections(CThreadList, ClientConnection, ServerConnection);
 end;
 
-procedure ExitProcedure;
-begin
-{$ifdef unix}
- LainDBControlClass.SaveLainDBToFile(LainDirectory + DataBaseFileName);
- Writeln(EndLineChar);
-{$endif}
-{$ifdef windows}
- LainDBControlClass.SaveLainDBToRegistry(RegistryKey, RegistryValue);
- if ShareMemory <> 0 then CloseHandle(ShareMemory);
- if ExecuteBlock <> 0 then CloseHandle(ExecuteBlock);
-{$endif}
- LainDBControlClass.Free;
- DoneCriticalSection(CriticalSection);
-end;
 
+function Main :Longint;
+var
+ X :Longint;
 begin
- InitCriticalSection(CriticalSection);
- LainDBControlClass := TLainDBControlClass.Create;
-  AddExitProc(@ExitProcedure);
-  
-{$ifdef unix}
- LainDirectory := IsDir(GetHomeDirectory + ConfigDirectory);
- if not LainDBControlClass.LoadLainDBFromFile(LainDirectory + DataBaseFileName) then
-  LainDBControlClass.CreateLainDB;
- if not DirectoryExists(LainDirectory) then
-  if FpMkDir(LainDirectory, OctToDec('700')) <> 0 then Exit;
-{$endif}
-{$ifdef windows}
- if not LainDBControlClass.LoadLainDBFromRegistry(RegistryKey, RegistryValue) then
-  LainDBControlClass.CreateLainDB;
-{$endif}
-
  if ParamCount > 0 then
   Param := LowerCase(ParamStr(1)) else
   Param := '';
+  
+{$ifdef unix}
+ LainDirectory := IsDir(GetHomeDirectory + ConfigDirectory);
+ if not CreateConfigDirectory(LainDirectory) then Exit;
+ LoadLainDataBaseFromSystem(LainDBControlClass, LainDirectory + DataBaseFileName);
+{$endif}
+{$ifdef windows}
+ LoadLainDataBaseFromSystem(LainDBControlClass, '');
+{$endif}
 
- if Param = 'config' then
+ if Param = '--config' then
   CreateConfig := True else
   CreateConfig := False;
    
- if Param = 'help' then
+ if Param = '--help' then
  begin
   LainServerParamHelp;
   Exit;
  end;
  
- if Param = 'stop' then
+ if Param = '--stop' then
  begin
   LainServerParamStop;
   Exit;
  end;
  
- if Param = 'adduser' then
+ if Param = '--adduser' then
  begin
   LainServerParamAddUser;
   Exit;
  end;
    
- if Param = 'deluser' then
+ if Param = '--deluser' then
  begin
   LainServerParamDelUser;
  end;
  
- if Param = 'chkuser' then
+ if Param = '--chkuser' then
  begin
   LainServerParamChkUser;
   Exit;
  end;
  
- if Param = 'lstuser' then
+ if Param = '--lstuser' then
  begin
   LainServerParamLstUser;
   Exit;
  end;
  
- if Param = 'pwduser' then
+ if Param = '--pwduser' then
  begin
   LainServerParamPwdUser;
   Exit;
  end;
  
- if Param = 'createdb' then
+ if Param = '--createdb' then
  begin
   LainServerParamCreateDB;
   Exit;
  end;
  
 {$ifdef windows}
- if ((Param <> 'stop') and (Param <> 'restart')) then
+ if ((Param <> '--stop') and (Param <> '--restart')) then
  begin
   ExecuteBlock := CreateFileMapping(INVALID_HANDLE_VALUE, nil, PAGE_READONLY, 0, 4, 'lainshell-block');
   if GetLastError = ERROR_ALREADY_EXISTS then Exit;
  end else
  begin
-  if Param = 'restart' then
+  if Param = '--restart' then
   begin
    RestartBlock := CreateFileMapping(INVALID_HANDLE_VALUE, nil, PAGE_READONLY, 0, 4, 'lainshell-restart-block');
    if GetLastError = ERROR_ALREADY_EXISTS then Exit;
   end;
   WindowHandle := FindWindow('lainshell-server', 'lainshell');
   if WindowHandle <> 0 then SendMessage(WindowHandle, WM_DESTROY, 0, 0);
-  if Param = 'stop' then Exit;
+  if Param = '--stop' then Exit;
   Sleep(1000);
   repeat
    ExecuteBlock := CreateFileMapping(INVALID_HANDLE_VALUE, nil, PAGE_READONLY, 0, 4, 'lainshell-block');
   until ExecuteBlock <> 0;
-  if Param = 'restart' then CloseHandle(RestartBlock);
+  if Param = '--restart' then CloseHandle(RestartBlock);
  end;
 {$endif}
 
@@ -398,7 +317,7 @@ begin
  if Length(LainDBControlClass.AccountList) = 0 then
  begin
  {$ifdef unix}
-  Writeln(OutPut, MsgDBNoUsers);
+  Writeln(MsgDBNoUsers);
  {$endif}
  {$ifdef windows}
   MessageBox(GetForegroundWindow, PChar(MsgDBNoUsers), MBInfoTitle, MB_OK + MB_ICONINFORMATION);
@@ -407,5 +326,23 @@ begin
  end;
 
  MainProc;
+end;
+
+begin
+ InitCriticalSection(CriticalSection);
+ LainDBControlClass := TLainDBControlClass.Create;
+ Main;
+{$ifdef unix}
+ LainDBControlClass.SaveLainDBToFile(LainDirectory + DataBaseFileName);
+ Writeln(EndLineChar);
+{$endif}
+{$ifdef windows}
+ LainDBControlClass.SaveLainDBToRegistry(RegistryKey, RegistryValue);
+ if ShareMemory <> 0 then CloseHandle(ShareMemory);
+ if ExecuteBlock <> 0 then CloseHandle(ExecuteBlock);
+{$endif}
+ LainDBControlClass.Free;
+ DoneCriticalSection(CriticalSection);
 end.
+
 

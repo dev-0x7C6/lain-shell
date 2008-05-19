@@ -25,7 +25,7 @@ interface
 uses
  {$ifdef windows}
   Windows,
- {$endif} Classes, SysUtils, NetUtils, Security;
+ {$endif} Classes, SysUtils, NetUtils, LainDataBase;
 
 {$ifdef unix}
  {$define verbose}
@@ -65,9 +65,13 @@ type
   ThreadInfo :TMainThread;
  end;
 
+type
+ TConnectionArray = Array of TConnectionThread;
+ 
+
 var
  MainThreads :Array[0..1] of TMainThread;
- CThreadList :Array of TConnectionThread; // Connections Thread List
+ CThreadList :TConnectionArray; // Connections Thread List
 
 var
 
@@ -79,6 +83,9 @@ var
  
  function ClientServiceThread(P :Pointer) :Longint;
  function ServerServiceThread(P :Pointer) :Longint;
+ 
+ procedure InitConnections(var ClientClass :TTcpIpSocketClient; var ServerClass :TTcpIpSocketServer);
+ procedure DoneConnections(var ConnectionArray :TConnectionArray; var ClientClass :TTcpIpSocketClient; var ServerClass :TTcpIpSocketServer);
 
 var
  TerminateApp :Boolean = False;
@@ -163,13 +170,82 @@ begin
  RTLEventSetEvent(MainThreads[1].Event);
 end;
 
- 
-initialization
+procedure InitConnections(var ClientClass :TTcpIpSocketClient; var ServerClass :TTcpIpSocketServer);
+var
+ ProcCriticalSection :TRTLCriticalSection;
 begin
+InitCriticalSection(ProcCriticalSection);
+ ClientClass := TTcpIpSocketClient.Create;
+ ServerClass := TTcpIpSocketServer.Create;
+
+EnterCriticalSection(ProcCriticalSection);
+{$ifdef unix}
+ MainThreads[0].Created := (BeginThread(@ClientServiceThread, nil, MainThreads[0].Handle) <> 0);
+ MainThreads[1].Created := (BeginThread(@ServerServiceThread, nil, MainThreads[1].Handle) <> 0);
+{$endif}
+
+{$ifdef windows}
+ CreateThread(nil, 0, @ClientServiceThread, nil, 0, MainThreads[0].Handle);
+ CreateThread(nil, 0, @ServerServiceThread, nil, 0, MainThreads[1].Handle);
+ MainThreads[0].Created := MainThreads[0].Handle <> 0;
+ MainThreads[1].Created := MainThreads[1].Handle <> 0;
+{$endif}
+
+ if MainThreads[0].Created = True then MainThreads[0].Event := RTLEventCreate;
+ if MainThreads[1].Created = True then MainThreads[1].Event := RTLEventCreate;
+ 
+LeaveCriticalSection(ProcCriticalSection);
+DoneCriticalSection(ProcCriticalSection);
 end;
 
-finalization
+procedure DoneConnections(var ConnectionArray :TConnectionArray; var ClientClass :TTcpIpSocketClient; var ServerClass :TTcpIpSocketServer);
+var
+ ProcCriticalSection :TRTLCriticalSection;
+ Item :TConnectionThread;
+ X :Longint;
 begin
+ InitCriticalSection(ProcCriticalSection);
+ EnterCriticalSection(ProcCriticalSection);
+ TerminateApp := True;
+ ClientClass.Disconnect;
+ ServerClass.Shutdown;
+ ServerClass.CloseSocket;
+ LeaveCriticalSection(ProcCriticalSection);
+
+ if MainThreads[0].Created = True then
+ begin
+  RTLEventWaitFor(MainThreads[0].Event);
+  RTLEventDestroy(MainThreads[0].Event);
+  ClientClass.Free;
+ end;
+
+ if MainThreads[1].Created = True then
+ begin
+  RTLEventWaitFor(MainThreads[1].Event);
+  RTLEventDestroy(MainThreads[1].Event);
+  ServerClass.Free;
+ end;
+
+ if Length(CThreadList) > 0 then
+ begin
+  for X := 0 to Length(ConnectionArray) - 1 do
+  begin
+   EnterCriticalSection(ProcCriticalSection);
+   Item := ConnectionArray[x];
+   LeaveCriticalSection(ProcCriticalSection);
+   if Item.ThreadInfo.Created = True then
+   begin
+    EnterCriticalSection(ProcCriticalSection);
+    Shutdown(Item.Connection.Sock, 2);
+    CloseSocket(Item.Connection.Sock);
+    LeaveCriticalSection(ProcCriticalSection);
+    RTLEventWaitFor(Item.ThreadInfo.Event);
+    RTLEventDestroy(Item.ThreadInfo.Event);
+   end;
+  end;
+ end;
+ ConnectionArray := nil;
+ DoneCriticalSection(ProcCriticalSection);
 end;
 
 end.
