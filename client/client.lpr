@@ -31,7 +31,7 @@ uses
  Engine, execute, sysinfo, process, NetUtils, Md5;
 
 type
- TUniStrikeApp = class(TCustomApplication)
+ TLainShellClient = class(TCustomApplication)
  protected
    procedure DoRun; override;
  public
@@ -41,7 +41,7 @@ type
 
 { TUniStrikeApp }
 
-procedure TUniStrikeApp.DoRun;
+procedure TLainShellClient.DoRun;
 begin
 
 {$ifdef windows}
@@ -79,36 +79,29 @@ begin
  MultiLanguageSupport.Free;
  Connection.Free;
  Writeln(EndLineChar);
- 
-
  Terminate;
 end;
 
-constructor TUniStrikeApp.Create(TheOwner: TComponent);
+constructor TLainShellClient.Create(TheOwner: TComponent);
 begin
  inherited Create(TheOwner);
  StopOnException := True;
 end;
 
-destructor TUniStrikeApp.Destroy;
+destructor TLainShellClient.Destroy;
 begin
  inherited Destroy;
 end;
 
 var
- Application: TUniStrikeApp;
+ LainShellClient: TLainShellClient;
  
 begin
  InitCriticalSection(CriticalSection);
- ConsoleEvent := RTLEventCreate;
- RTLEventResetEvent(ConsoleEvent);
-
- Application := TUniStrikeApp.Create(nil);
- Application.Title := 'Lain Shell Client';
- Application.Run;
- Application.Free;
-
- RTLEventDestroy(ConsoleEvent);
+ LainShellClient := TLainShellClient.Create(nil);
+ LainShellClient.Title := 'Lain Shell Client';
+ LainShellClient.Run;
+ LainShellClient.Free;
  DoneCriticalSection(CriticalSection);
 end.
 

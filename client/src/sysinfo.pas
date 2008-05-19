@@ -44,8 +44,7 @@ begin
  Writeln(EndLineChar);
  
  LainClientSendQuery(Lain_SysInfo_GetInfo);
- RTLEventWaitFor(ConsoleEvent);
- RTLEventResetEvent(ConsoleEvent);
+ LainClientWaitForQuery;
  Result := CMD_Done;
 end;
 

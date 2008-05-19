@@ -50,6 +50,10 @@ var
 
  function LainClientSendQuery(ID :Word) :Longint;
  function LainClientQueryLoop :Longint;
+ 
+ procedure LainClientWaitForQuery;
+ procedure LainClientEngineInit;
+ procedure LainClientEngineDone;
 
 
 implementation
@@ -78,7 +82,7 @@ function CMD_Login(var Params :TParams) :Longint;
 var
  X :Longint;
 begin
- CMD_Logout(Params);
+ CMD_Logout(nil);
  
  Write(Prefix, MultiLanguageSupport.GetString('MsgSetUsername') + ' ');
  LainClientData.Username := Extensions.GetText;
@@ -159,8 +163,8 @@ begin
   if Verfication = Byte(True) then
   begin
    LainClientData.Authorized := True;
+   LainClientResetQueryEngine;                                                   /// It's ok ?
    Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgAuthorized'), #13);
-   LainClientResetQueryEngine;
   {$ifdef unix}
    UnixThread := TUnixThread.Create(@UnixLainClientQueryLoopBind, nil);
    UnixThread.CreateThread;
@@ -175,14 +179,19 @@ begin
   end else
   begin
    LainClientData.Authorized := False;
-  {$ifdef unix}
    Writeln(Prefix, MultiLanguageSupport.GetString('MsgCantAuthorize'), #13);
-  {$endif}
    Exit(CMD_Fail);
   end;
  end;
  Result := CMD_Fail;
 end;
+
+
+procedure LainClientWaitForQuery;
+begin
+ RTLEventWaitFor(QueryEvent);
+end;
+
 
 function LainClientSendQuery(ID :Word) :Longint;
 var
@@ -191,27 +200,41 @@ begin
  if Connection.Connected = True then
  begin
   Query := ID;
-  RTLEventWaitFor(QueryEvent);
+  LainClientWaitForQuery;
+ EnterCriticalSection(CriticalSection);
+  RTLEventResetEvent(QueryEvent);
+ LeaveCriticalSection(CriticalSection);
   if Connection.Send(Query, SizeOf(Query)) = SizeOf(Query) then
-  begin
-   EnterCriticalSection(CriticalSection);
-   RTLEventResetEvent(QueryEvent);
-   LeaveCriticalSection(CriticalSection);
-   Exit(SendQueryDone);
-  end else
+   Exit(SendQueryDone) else
    Exit(SendQueryFail);
  end else
   Result := SendQueryFail;
 end;
 
+procedure LainClientEngineInit;
+begin
+ LainClientResetQueryEngine;
+EnterCriticalSection(CriticalSection);
+ RTLEventResetEvent(EngineEvent);
+ ConnectionClosedGracefullyErrorShow := True;
+LeaveCriticalSection(CriticalSection);
+end;
+
+procedure LainClientEngineDone;
+begin
+EnterCriticalSection(CriticalSection);
+ ConnectionClosedGracefullyErrorShow := False;
+ RTLEventSetEvent(QueryEvent);
+ RTLEventSetEvent(EngineEvent);
+LeaveCriticalSection(CriticalSection);
+end;
+
+
 function LainClientQueryLoop :Longint;
 var
  Value :Word;
 begin
- EnterCriticalSection(CriticalSection);
- ConnectionClosedGracefullyErrorShow := True;
- RTLEventResetEvent(EngineEvent);
- LeaveCriticalSection(CriticalSection);
+ LainClientEngineInit;
  repeat
   if Connection.Recv(Value, SizeOf(Value)) <> SizeOf(Value) then
   begin
@@ -220,7 +243,6 @@ begin
    EnterCriticalSection(CriticalSection);
    RTLEventSetEvent(QueryEvent);
    RTLEventSetEvent(EngineEvent);
-   RTLEventSetEvent(ConsoleEvent);
    if ConnectionClosedGracefullyErrorShow then
    begin
     Writeln(OutPut, #13);
@@ -240,35 +262,38 @@ begin
   end;
   EnterCriticalSection(CriticalSection);
   RTLEventSetEvent(QueryEvent);
-  RTLEventSetEvent(ConsoleEvent);
   LeaveCriticalSection(CriticalSection);
  until ((Value = 0) or (Value = 1));
- 
- EnterCriticalSection(CriticalSection);
- ConnectionClosedGracefullyErrorShow := False;
- RTLEventSetEvent(EngineEvent);
- LeaveCriticalSection(CriticalSection);
+ LainClientEngineDone;
 end;
 
 procedure LainClientInitQueryEngine;
+var
+ CriticalSection :TRTLCriticalSection;
 begin
+EnterCriticalSection(CriticalSection);
  QueryEvent := RTLEventCreate;
  EngineEvent := RTLEventCreate;
  RTLEventSetEvent(QueryEvent);
  RTLEventSetEvent(EngineEvent);
-end;
-
-procedure LainClientResetQueryEngine;
-begin
- RTLEventSetEvent(QueryEvent);
- RTLEventSetEvent(EngineEvent);
+LeaveCriticalSection(CriticalSection);
 end;
 
 procedure LainClientDoneQueryEngine(TimeOut :Longint);
 begin
+EnterCriticalSection(CriticalSection);
  RTLEventWaitFor(EngineEvent, TimeOut);
  RTLEventDestroy(EngineEvent);
  RTLEventDestroy(QueryEvent);
+LeaveCriticalSection(CriticalSection);
+end;
+
+procedure LainClientResetQueryEngine;
+begin
+EnterCriticalSection(CriticalSection);
+ RTLEventSetEvent(QueryEvent);
+ RTLEventSetEvent(EngineEvent);
+LeaveCriticalSection(CriticalSection);
 end;
 
 end.

@@ -75,7 +75,6 @@ var
  LainClientData :TLainClientData;
  Params :TParams;
  UserIdent :TUserIdent;
- ConsoleEvent :PRTLEvent;
 
  function CheckConnectionAndAuthorization :Boolean;
 

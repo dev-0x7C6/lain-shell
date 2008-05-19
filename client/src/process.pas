@@ -43,8 +43,7 @@ begin
  Writeln(EndLineChar);
 
  LainClientSendQuery(Lain_Process_GetList);
- RTLEventWaitFor(ConsoleEvent);
- RTLEventResetEvent(ConsoleEvent);
+ LainClientWaitForQuery;
  Result := CMD_Done;
 end;
 

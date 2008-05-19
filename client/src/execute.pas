@@ -64,8 +64,7 @@ begin
  
  Writeln(Prefix, MultiLanguageSupport.GetString('MsgWaitForResponse'), EndLineChar);
  LainClientSendQuery(Lain_Execute);
- RTLEventWaitFor(ConsoleEvent);
- RTLEventResetEvent(ConsoleEvent);
+ LainClientWaitForQuery;
  Result := CMD_Done;
 end;
 
