@@ -39,15 +39,12 @@ type
    destructor Destroy; override;
  end;
 
-{ TUniStrikeApp }
-
 procedure TLainShellClient.DoRun;
 begin
 
 {$ifdef windows}
  Variables := Variables + '\CodePage';
 {$endif}
-
  LainClientInitQueryEngine;
  MultiLanguageSupport := nil;
  MultiLanguageInit;
@@ -61,7 +58,6 @@ begin
  LainClientData.Port := '';
  UserIdent.Username := MD5String('');
  UserIdent.Password := MD5String('');
- 
  MainFunc;
  
 

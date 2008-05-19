@@ -60,6 +60,9 @@ implementation
 
 uses Execute, Extensions, Lang, Process, SysInfo, Threads;
 
+var
+ CriticalSection :TRTLCriticalSection;
+
 function CMD_Logout(var Params :TParams) :Longint;
 begin
  if ((LainClientData.Authorized = True) and (Connection.Connected = True)) then
@@ -82,7 +85,7 @@ function CMD_Login(var Params :TParams) :Longint;
 var
  X :Longint;
 begin
- CMD_Logout(nil);
+ CMD_Logout(Params);
  
  Write(Prefix, MultiLanguageSupport.GetString('MsgSetUsername') + ' ');
  LainClientData.Username := Extensions.GetText;
@@ -268,8 +271,6 @@ begin
 end;
 
 procedure LainClientInitQueryEngine;
-var
- CriticalSection :TRTLCriticalSection;
 begin
 EnterCriticalSection(CriticalSection);
  QueryEvent := RTLEventCreate;
@@ -295,5 +296,11 @@ EnterCriticalSection(CriticalSection);
  RTLEventSetEvent(EngineEvent);
 LeaveCriticalSection(CriticalSection);
 end;
+
+initialization
+ InitCriticalSection(CriticalSection);
+ 
+finalization
+ DoneCriticalSection(CriticalSection);
 
 end.
