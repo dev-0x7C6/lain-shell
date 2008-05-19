@@ -53,7 +53,7 @@ var
 begin
  Connection.RecvString(Str);
  EnterCriticalSection(CriticalSection);
- Writeln(Str, EndLineChar);
+ Writeln(Str);
  LeaveCriticalSection(CriticalSection);
 end;
 

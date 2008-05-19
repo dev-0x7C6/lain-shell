@@ -7,7 +7,7 @@
       <MainUnit Value="0"/>
       <IconPath Value=".\"/>
       <TargetFileExt Value=""/>
-      <ActiveEditorIndexAtStart Value="0"/>
+      <ActiveEditorIndexAtStart Value="1"/>
     </General>
     <VersionInfo>
       <ProjectVersion Value=""/>
@@ -37,8 +37,8 @@
         <Filename Value="server.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uniserver"/>
-        <CursorPos X="51" Y="221"/>
-        <TopLine Value="202"/>
+        <CursorPos X="22" Y="210"/>
+        <TopLine Value="315"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="179"/>
         <Loaded Value="True"/>
@@ -63,7 +63,7 @@
         <UnitName Value="Main"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="6"/>
         <UsageCount Value="179"/>
         <Loaded Value="True"/>
       </Unit3>
@@ -142,7 +142,7 @@
         <UnitName Value="Config"/>
         <CursorPos X="11" Y="68"/>
         <TopLine Value="57"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="4"/>
         <UsageCount Value="139"/>
         <Loaded Value="True"/>
       </Unit14>
@@ -180,9 +180,11 @@
         <Filename Value="src\process.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Process"/>
-        <CursorPos X="1" Y="25"/>
-        <TopLine Value="30"/>
+        <CursorPos X="20" Y="64"/>
+        <TopLine Value="38"/>
+        <EditorIndex Value="1"/>
         <UsageCount Value="89"/>
+        <Loaded Value="True"/>
       </Unit19>
       <Unit20>
         <Filename Value="C:\lazarus\fpc\2.2.1\source\rtl\win32\winsysut.pp"/>
@@ -204,7 +206,7 @@
         <UnitName Value="LainDataBase"/>
         <CursorPos X="17" Y="94"/>
         <TopLine Value="67"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="3"/>
         <UsageCount Value="86"/>
         <Loaded Value="True"/>
       </Unit22>
@@ -227,7 +229,7 @@
         <UnitName Value="Params"/>
         <CursorPos X="2" Y="121"/>
         <TopLine Value="23"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <UsageCount Value="74"/>
         <Loaded Value="True"/>
       </Unit25>
@@ -291,7 +293,7 @@
         <UsageCount Value="25"/>
       </Unit33>
       <Unit34>
-        <Filename Value="\usr\src\fpc\rtl\unix\bunxovlh.inc"/>
+        <Filename Value="usr\src\fpc\rtl\unix\bunxovlh.inc"/>
         <CursorPos X="20" Y="20"/>
         <TopLine Value="1"/>
         <UsageCount Value="10"/>
@@ -302,29 +304,12 @@
         <UnitName Value="Loop"/>
         <CursorPos X="7" Y="19"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="2"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
       </Unit35>
     </Units>
-    <JumpHistory Count="4" HistoryIndex="3">
-      <Position1>
-        <Filename Value="src\laindatabase.pas"/>
-        <Caret Line="73" Column="28" TopLine="73"/>
-      </Position1>
-      <Position2>
-        <Filename Value="server.lpr"/>
-        <Caret Line="32" Column="7" TopLine="1"/>
-      </Position2>
-      <Position3>
-        <Filename Value="server.lpr"/>
-        <Caret Line="82" Column="13" TopLine="71"/>
-      </Position3>
-      <Position4>
-        <Filename Value="server.lpr"/>
-        <Caret Line="216" Column="2" TopLine="198"/>
-      </Position4>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>

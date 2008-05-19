@@ -56,7 +56,7 @@ begin
  Connection.Recv(Fammily, SizeOf(Fammily));
  Connection.RecvString(Str);
  EnterCriticalSection(CriticalSection);
- Writeln(Str, EndLineChar);
+ Writeln(Str);
  LeaveCriticalSection(CriticalSection);
 end;
 
