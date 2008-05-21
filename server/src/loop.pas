@@ -70,7 +70,7 @@ uses
      sleep(10);
     end;
     EnterCriticalSection(CriticalSection);
-     LainWriteSharedMemory(SharedMemoryRec, $F0);
+     LainWriteSharedMemory(SharedMemoryRec, $00);
     LeaveCriticalSection(CriticalSection);
    end;
    LainCloseSharedMemory(SharedMemoryRec);
@@ -94,8 +94,7 @@ uses
    LainWriteSharedMemory(SharedMemoryRec, $FF);
   LeaveCriticalSection(CriticalSection);
    LainCloseSharedMemory(SharedMemoryRec);
-  end else
-   Writeln('Fuck problem :P');
+  end;
   DoneCriticalSection(CriticalSection);
  end;
  
