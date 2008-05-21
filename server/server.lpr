@@ -161,17 +161,25 @@ begin
 {$endif}
 
 
- InitConnections(ClientConnection, ServerConnection);
-
 {$ifdef unix}
- UnixMainLoop(@TerminateApp, Dump);
+
+ if UnixMainLoopInit then
+ begin
+  InitConnections(ClientConnection, ServerConnection);
+  UnixMainLoop(@TerminateApp, Dump);
+  DoneConnections(CThreadList, ClientConnection, ServerConnection);
+  UnixMainLoopDone;
+ end;
+ 
 {$endif}
 
 {$ifdef windows}
+ InitConnections(ClientConnection, ServerConnection);
  while getmessage(msg, 0, 0, 0) do dispatchmessage(msg);
+ DoneConnections(CThreadList, ClientConnection, ServerConnection);
 {$endif}
 
- DoneConnections(CThreadList, ClientConnection, ServerConnection);
+
 end;
 
 

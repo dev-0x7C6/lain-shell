@@ -26,8 +26,15 @@ uses
   Classes, SysUtils; 
   
 {$ifdef unix}
+
  function UnixMainLoop(QuitLoop :PBoolean; var CodeStat :Longint) :Boolean;
+
+ function UnixMainLoopInit :Boolean;
+ 
+ procedure UnixMainLoopDone;
  procedure UnixMainLoopKill;
+ 
+ 
 {$endif}
 {$ifdef windows}
  procedure WindowsMainLoop;
@@ -45,39 +52,6 @@ uses
 
 {$ifdef unix}
 
- function UnixMainLoop(QuitLoop :PBoolean; var CodeStat :Longint) :Boolean;
- var
-  SharedMemoryConfig :TSharedMemoryConfig;
-  SharedMemoryRec :TSharedMemoryRec;
-  CriticalSection :TRTLCriticalSection;
-  Dump :Longint;
- begin
-  InitCriticalSection(CriticalSection);
-  DefaultConfigForSharedMemory(SharedMemoryConfig);
-  if LainOpenSharedMemory(SharedMemoryRec, SharedMemoryConfig) then
-  begin
-   if LainReadSheredMemory(SharedMemoryRec) <> $F0 then
-   begin
-   EnterCriticalSection(CriticalSection);
-    LainWriteSharedMemory(SharedMemoryRec, $F0);
-   LeaveCriticalSection(CriticalSection);
-    Dump := $00;
-    while ((Dump <> $FF) and (QuitLoop^ <> True)) do
-    begin
-    EnterCriticalSection(CriticalSection);
-     Dump := LainReadSheredMemory(SharedMemoryRec);
-    LeaveCriticalSection(CriticalSection);
-     sleep(10);
-    end;
-    EnterCriticalSection(CriticalSection);
-     LainWriteSharedMemory(SharedMemoryRec, $00);
-    LeaveCriticalSection(CriticalSection);
-   end;
-   LainCloseSharedMemory(SharedMemoryRec);
-  end;
-  DoneCriticalSection(CriticalSection);
- end;
- 
  procedure UnixMainLoopKill;
  var
   SharedMemoryConfig :TSharedMemoryConfig;
@@ -97,7 +71,47 @@ uses
   end;
   DoneCriticalSection(CriticalSection);
  end;
+
+var
+ SharedMemoryConfig :TSharedMemoryConfig;
+ SharedMemoryRec :TSharedMemoryRec;
+ CriticalSection :TRTLCriticalSection;
+ Dump :Longint;
+
+ function UnixMainLoopInit :Boolean;
+ begin
+  InitCriticalSection(CriticalSection);
+  DefaultConfigForSharedMemory(SharedMemoryConfig);
+  if LainOpenSharedMemory(SharedMemoryRec, SharedMemoryConfig) then
+   Result := LainReadSheredMemory(SharedMemoryRec) <> $F0 else
+   Result := False;
+ end;
  
+ procedure UnixMainLoopDone;
+ begin
+ EnterCriticalSection(CriticalSection);
+  LainWriteSharedMemory(SharedMemoryRec, $00);
+ LeaveCriticalSection(CriticalSection);
+  LainCloseSharedMemory(SharedMemoryRec);
+  DoneCriticalSection(CriticalSection);
+ end;
+ 
+ 
+ function UnixMainLoop(QuitLoop :PBoolean; var CodeStat :Longint) :Boolean;
+ begin
+ EnterCriticalSection(CriticalSection);
+  LainWriteSharedMemory(SharedMemoryRec, $F0);
+ LeaveCriticalSection(CriticalSection);
+  Dump := $F0;
+  while ((Dump <> $FF) and (QuitLoop^ <> True)) do
+  begin
+  EnterCriticalSection(CriticalSection);
+   Dump := LainReadSheredMemory(SharedMemoryRec);
+  LeaveCriticalSection(CriticalSection);
+   sleep(10);
+  end;
+ end;
+
 {$endif}
 
 end.
