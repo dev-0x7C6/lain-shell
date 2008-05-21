@@ -26,18 +26,6 @@ uses
   {$ifdef unix} BaseUnix, Unix, IPC, {$endif} Classes, SysUtils, Md5;
 
 
-const
-{$ifdef unix}
- DataBaseFileName :WideString = 'laindb';
- AccessMode = SHM_R or SHM_W;
- SegmentSize = SizeOf(LongWord);
- IdentValue = $F3D8;
-{$endif}
-{$ifdef windows}
- RegistryKey = 'Software\LainShell';
- RegistryValue = 'Accounts';
-{$endif}
-  
 var
  HelpMsg :String = 'Main functions:' + LineEnding +
                    '  --config  - run configurator' + LineEnding +
@@ -76,11 +64,6 @@ var
  
  
 var
-{$ifdef unix}
- shmid :Integer;
- pMemory :Pointer;
- MemLongWord :^Longword;
-{$endif}
  Param :AnsiString;
 
  procedure LainServerParamHelp;
@@ -95,7 +78,7 @@ var
  
 implementation
 
-uses {$ifdef windows} Windows, {$endif} Main;
+uses {$ifdef windows} Windows, {$endif} Main, Consts, Loop;
 
 procedure LainServerParamHelp;
 begin
@@ -110,23 +93,7 @@ end;
 procedure LainServerParamStop;
 begin
 {$ifdef unix}
- shmid := shmget(IdentValue, 0, 0);
- if shmid =-1 then
- begin
-  Writeln('nothing to stop', EndLineChar);
-  Exit;
- end;
- pMemory := shmat(shmid, nil, 0);
- if Integer(pMemory) = -1 then
- begin
-  shmdt(pMemory);
-  Writeln('access denided', EndLineChar);
-  Exit;
- end;
- MemLongWord := pMemory;
- MemLongWord^ := $FF;
- Writeln('Done', EndLineChar);
- shmdt(pMemory);
+ UnixMainLoopKill;
 {$endif}
 {$ifdef windows}
 {$endif}

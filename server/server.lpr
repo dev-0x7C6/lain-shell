@@ -29,7 +29,7 @@ uses
 {$endif}
   Main, SysUtils, Authorize, Engine, Sockets, Config, Execute,
   Sysinfo, Process, LainDataBase, Params, diskmgr, convnum, FSUtils, NetUtils,
-  loop;
+  loop, consts, sharemem;
 
 
 Const
@@ -45,9 +45,8 @@ Const
 {$endif}
 
 var
- Param :String;
 {$ifdef unix}
- Dump :LongWord;
+ Dump :LongInt;
  LainDirectory :AnsiString;
  ConfigExists :Boolean = False;
  NanoPath :WideString;
@@ -164,36 +163,8 @@ begin
 
  InitConnections(ClientConnection, ServerConnection);
 
-/// at the moment, the server app is only for tests
 {$ifdef unix}
- shmid := shmget(IdentValue, SegmentSize, IPC_CREAT or AccessMode);
- if shmid <> -1 then
- begin
-  pMemory := shmat(shmid, nil, 0);
-  if Integer(pMemory) <> -1 then
-  begin
-   MemLongWord := pMemory;
-   if MemLongWord^ <> $F0 then
-   begin
-    EnterCriticalSection(CriticalSection);
-    MemLongWord^ := $F0;
-    Dump := MemLongWord^;
-    LeaveCriticalSection(CriticalSection);
-    while ((Dump <> $FF) and (TerminateApp <> True)) do
-    begin
-     EnterCriticalSection(CriticalSection);
-     Dump := MemLongWord^;
-     LeaveCriticalSection(CriticalSection);
-     sleep(10);
-    end
-   end;
-  end else
-   Writeln('Can''t include shared memory', EndLineChar);
-  MemLongWord^ := $00;
-  shmdt(pMemory);
- end else
-  Writeln('Can''t create shared memory', EndLineChar);
-
+ UnixMainLoop(@TerminateApp, Dump);
 {$endif}
 
 {$ifdef windows}
@@ -207,6 +178,7 @@ end;
 function Main :Longint;
 var
  X :Longint;
+ Param :String;
 begin
  if ParamCount > 0 then
   Param := LowerCase(ParamStr(1)) else

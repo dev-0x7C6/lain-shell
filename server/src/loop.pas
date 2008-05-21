@@ -24,8 +24,82 @@ interface
 
 uses
   Classes, SysUtils; 
+  
+{$ifdef unix}
+ function UnixMainLoop(QuitLoop :PBoolean; var CodeStat :Longint) :Boolean;
+ procedure UnixMainLoopKill;
+{$endif}
+{$ifdef windows}
+ procedure WindowsMainLoop;
+{$endif}
 
 implementation
+
+uses
+{$ifdef unix}
+ BaseUnix, ShareMem, IPC;
+{$endif}
+{$ifdef windows}
+ Windows;
+{$endif}
+
+{$ifdef unix}
+
+ function UnixMainLoop(QuitLoop :PBoolean; var CodeStat :Longint) :Boolean;
+ var
+  SharedMemoryConfig :TSharedMemoryConfig;
+  SharedMemoryRec :TSharedMemoryRec;
+  CriticalSection :TRTLCriticalSection;
+  Dump :Longint;
+ begin
+  InitCriticalSection(CriticalSection);
+  DefaultConfigForSharedMemory(SharedMemoryConfig);
+  if LainOpenSharedMemory(SharedMemoryRec, SharedMemoryConfig) then
+  begin
+   if LainReadSheredMemory(SharedMemoryRec) <> $F0 then
+   begin
+   EnterCriticalSection(CriticalSection);
+    LainWriteSharedMemory(SharedMemoryRec, $F0);
+   LeaveCriticalSection(CriticalSection);
+    Dump := $00;
+    while ((Dump <> $FF) and (QuitLoop^ <> True)) do
+    begin
+    EnterCriticalSection(CriticalSection);
+     Dump := LainReadSheredMemory(SharedMemoryRec);
+    LeaveCriticalSection(CriticalSection);
+     sleep(10);
+    end;
+    EnterCriticalSection(CriticalSection);
+     LainWriteSharedMemory(SharedMemoryRec, $F0);
+    LeaveCriticalSection(CriticalSection);
+   end;
+   LainCloseSharedMemory(SharedMemoryRec);
+  end;
+  DoneCriticalSection(CriticalSection);
+ end;
+ 
+ procedure UnixMainLoopKill;
+ var
+  SharedMemoryConfig :TSharedMemoryConfig;
+  SharedMemoryRec :TSharedMemoryRec;
+  CriticalSection :TRTLCriticalSection;
+ begin
+  InitCriticalSection(CriticalSection);
+  DefaultConfigForSharedMemory(SharedMemoryConfig);
+  SharedMemoryConfig.AccessMode := 0;
+  SharedMemoryConfig.BlockSize := 0;
+  if LainOpenSharedMemory(SharedMemoryRec, SharedMemoryConfig) then
+  begin
+  EnterCriticalSection(CriticalSection);
+   LainWriteSharedMemory(SharedMemoryRec, $FF);
+  LeaveCriticalSection(CriticalSection);
+   LainCloseSharedMemory(SharedMemoryRec);
+  end else
+   Writeln('Fuck problem :P');
+  DoneCriticalSection(CriticalSection);
+ end;
+ 
+{$endif}
 
 end.
 
