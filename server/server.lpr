@@ -147,17 +147,7 @@ begin
 
  LainShellDataConfigure;
 
- with Window do
- begin
-  lpfnwndproc := @wndproc;
-  hinstance := hinstance;
-  lpszclassname := 'lainshell-server';
-  hbrBackground := color_window;
- end;
 
- RegisterClass(Window);
- WindowControl := CreateWindow('lainshell-server', 'lainshell', 0, 100, 100, 100,
-                               100, 0, 0, system.HINSTANCE, nil);
 {$endif}
 
 
@@ -175,7 +165,7 @@ begin
 
 {$ifdef windows}
  InitConnections(ClientConnection, ServerConnection);
- while getmessage(msg, 0, 0, 0) do dispatchmessage(msg);
+
  DoneConnections(CThreadList, ClientConnection, ServerConnection);
 {$endif}
 

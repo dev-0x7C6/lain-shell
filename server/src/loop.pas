@@ -37,7 +37,11 @@ uses
  
 {$endif}
 {$ifdef windows}
+
+ function WindowsMainLoopInit :Boolean;
+ 
  procedure WindowsMainLoop;
+ procedure WindowsMainLoopDone;
 {$endif}
 
 implementation
@@ -110,6 +114,37 @@ var
   LeaveCriticalSection(CriticalSection);
    sleep(10);
   end;
+ end;
+
+{$endif}
+
+{$ifdef windows}
+
+ var
+  Window :TWNDClass;
+  WindowControl :HWND;
+  Msg :TMsg;
+
+ function WindowsMainLoopInit :Boolean;
+ begin
+  with Window do
+  begin
+   lpfnwndproc := @wndproc;
+   hinstance := hinstance;
+   lpszclassname := 'lainshell-server';
+   hbrBackground := color_window;
+  end;
+
+  RegisterClass(Window);
+  WindowControl := CreateWindow('lainshell-server', 'lainshell', 0, 100, 100, 100,
+                                100, 0, 0, system.HINSTANCE, nil);
+  Result := (WindowControl > 0);
+ end;
+ 
+ 
+ procedure WindowsMainLoop;
+ begin
+  while GetMessage(msg, 0, 0, 0) do DispatchMessage(msg);
  end;
 
 {$endif}
