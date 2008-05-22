@@ -125,6 +125,16 @@ var
   WindowControl :HWND;
   Msg :TMsg;
 
+ function WndProc(wnd :hwnd; umsg :uint; wpar :wparam; lpar :lparam) :lresult; stdcall;
+ begin
+ Result := 0;
+  case UMsg of
+   wm_destroy: PostQuitMessage(0);
+   wm_queryendsession: PostQuitMessage(0);
+   else Result := DefWindowProc(wnd, umsg, wpar, lpar);
+  end;
+ end;
+
  function WindowsMainLoopInit :Boolean;
  begin
   with Window do
@@ -145,6 +155,10 @@ var
  procedure WindowsMainLoop;
  begin
   while GetMessage(msg, 0, 0, 0) do DispatchMessage(msg);
+ end;
+
+ procedure WindowsMainLoopDone;
+ begin
  end;
 
 {$endif}

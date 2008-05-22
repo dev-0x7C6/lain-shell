@@ -52,10 +52,8 @@ var
  NanoPath :WideString;
 {$endif}
 {$ifdef windows}
- Handle :THandle;
- Window :TWNDClass;
- WindowControl :HWND;
- Msg :TMsg;
+ SharedMemoryRec :TSharedMemoryRec;
+ SharedMemoryCfg :TSharedMemoryCfg;
  WindowHandle :THandle;
  ShareMemory :THandle = 0;
  ExecuteBlock :THandle = 0;
@@ -64,40 +62,21 @@ var
 {$endif}
  CreateConfig :Boolean = False;
 
-{$ifdef windows}
- function WndProc(wnd :hwnd; umsg :uint; wpar :wparam; lpar :lparam) :lresult; stdcall;
- begin
- Result := 0;
-  case UMsg of
-   wm_destroy: PostQuitMessage(0);
-   wm_queryendsession: PostQuitMessage(0);
-   else Result := DefWindowProc(wnd, umsg, wpar, lpar);
-  end;
- end;
-{$endif}
 
 function MainProc :Longint;
 var
  X :Longint;
 begin
 {$ifdef windows}
- ShareMemory := CreateFileMapping(INVALID_HANDLE_VALUE, nil, PAGE_READONLY, 0, 4, 'lainshell-server');
- if GetLastError = ERROR_ALREADY_EXISTS then
+ DefaultConfigForSharedMemory(SharedMemoryCfg);
+ SharedMemoryCfg.IdentCharSet := 'lainshell-server-blocker';
+ while LainCreateSharedMemory(SharedMemoryRec, SharedMemoryCfg) = False do
  begin
   WindowHandle := FindWindow('lainshell-server', 'lainshell');
   if WindowHandle <> 0 then
   begin
    SendMessage(WindowHandle, WM_DESTROY, 0, 0);
-
-   while true do
-   begin
-    Sleep(1);
-    WindowHandle := FindWindow('lainshell-server', 'lainshell');
-    if ((WindowHandle = 0)) then break;
-   end;
-   Sleep(1000);
   end;
-  ShareMemory := CreateFileMapping(INVALID_HANDLE_VALUE, nil, PAGE_READONLY, 0, 4, 'lainshell-server');
  end;
  
  RegEdit := TRegistry.Create;
@@ -118,7 +97,7 @@ begin
   RegEdit.OpenKey('Software\LainShell', true);
   RegEdit.WriteInteger('IsConfigured', 0);
   RegEdit.Free;
-  ShellExecuteA(WindowControl, 'open', 'notepad.exe', Pchar(ConfigFileName), '', SW_SHOW);
+  ShellExecuteA(GetForegroundWindow, 'open', 'notepad.exe', Pchar(ConfigFileName), '', SW_SHOW);
   Exit;
  end;
  
@@ -146,13 +125,10 @@ begin
  RegEdit.Free;
 
  LainShellDataConfigure;
-
-
 {$endif}
 
 
 {$ifdef unix}
-
  if UnixMainLoopInit then
  begin
   InitConnections(ClientConnection, ServerConnection);
@@ -160,15 +136,17 @@ begin
   DoneConnections(CThreadList, ClientConnection, ServerConnection);
   UnixMainLoopDone;
  end;
- 
 {$endif}
 
 {$ifdef windows}
- InitConnections(ClientConnection, ServerConnection);
-
- DoneConnections(CThreadList, ClientConnection, ServerConnection);
+ if WindowsMainLoopInit = true then
+ begin
+  InitConnections(ClientConnection, ServerConnection);
+  WindowsMainLoop;
+  DoneConnections(CThreadList, ClientConnection, ServerConnection);
+  WindowsMainLoopDone;
+ end;
 {$endif}
-
 
 end;
 
@@ -243,7 +221,7 @@ begin
  end;
  
 {$ifdef windows}
- if ((Param <> '--stop') and (Param <> '--restart')) then
+ if ((Param = '--stop') or (Param = '--restart')) then
  begin
   ExecuteBlock := CreateFileMapping(INVALID_HANDLE_VALUE, nil, PAGE_READONLY, 0, 4, 'lainshell-block');
   if GetLastError = ERROR_ALREADY_EXISTS then Exit;
@@ -308,6 +286,7 @@ begin
 {$endif}
 {$ifdef windows}
  LainDBControlClass.SaveLainDBToRegistry(RegistryKey, RegistryValue);
+ LainCloseSharedMemory(SharedMemoryRec);
  if ShareMemory <> 0 then CloseHandle(ShareMemory);
  if ExecuteBlock <> 0 then CloseHandle(ExecuteBlock);
 {$endif}

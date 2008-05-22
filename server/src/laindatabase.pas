@@ -86,12 +86,8 @@ type
 implementation
 
 uses
-{$ifdef windows}
- Windows, Registry,
-{$endif}
-{$ifdef unix}
- BaseUnix,
-{$endif} Params;
+{$ifdef unix} BaseUnix, {$endif}{$ifdef windows} Windows, Registry, {$endif}
+ Consts, Params;
 
 function LoadLainDataBaseFromSystem(var LainDBControlClass :TLainDBControlClass; const PTPath :AnsiString) :Boolean;
 begin
