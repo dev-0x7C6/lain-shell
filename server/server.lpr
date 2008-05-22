@@ -124,7 +124,8 @@ begin
   UnixMainLoop(@TerminateApp, Dump);
   DoneConnections(CThreadList, ClientConnection, ServerConnection);
   UnixMainLoopDone;
- end;
+ end else
+  Writeln('Can''t create shared memory, try with param --restart')
 {$endif}
 
 {$ifdef windows}
