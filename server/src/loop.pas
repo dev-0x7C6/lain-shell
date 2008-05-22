@@ -26,22 +26,18 @@ uses
   Classes, SysUtils; 
   
 {$ifdef unix}
-
  function UnixMainLoop(QuitLoop :PBoolean; var CodeStat :Longint) :Boolean;
-
  function UnixMainLoopInit :Boolean;
- 
  procedure UnixMainLoopDone;
  procedure UnixMainLoopKill;
  
- 
 {$endif}
 {$ifdef windows}
-
+ function CheckForCopy(Param :String) :Boolean;
  function WindowsMainLoopInit :Boolean;
- 
  procedure WindowsMainLoop;
  procedure WindowsMainLoopDone;
+ 
 {$endif}
 
 implementation
@@ -135,7 +131,27 @@ var
   end;
  end;
 
+ function CheckForCopy(Param :String) :Boolean;
+ var
+  WindowHandle :THandle;
+ begin
+  Result := True;
+  WindowHandle := FindWindow('lainshell-server', 'lainshell');
+  if (WindowHandle <> 0) then
+  begin
+   if ((Param = '--restart') or (Param = '--stop')) then
+   begin
+    SendMessage(WindowHandle, WM_DESTROY, 0, 0);
+    while FindWindow('lainshell-server', 'lainshell') = 0 do sleep(10);
+    if Param = '--stop' then
+     Exit(False);
+   end else
+    Exit(False);
+ end;
+
  function WindowsMainLoopInit :Boolean;
+ var
+  WindowHandle :THandle;
  begin
   with Window do
   begin

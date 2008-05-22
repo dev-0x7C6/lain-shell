@@ -128,7 +128,7 @@ implementation
  function LainCreateSharedMemory(var SharedMemoryRec :TSharedMemoryRec; Config :TSharedMemoryCfg) :Boolean;
  begin
   SharedMemoryRec.Handle := CreateFileMapping(INVALID_HANDLE_VALUE, nil, Config.Flags, 0, Config.MemPtrSize, PChar(Config.IdentCharSet));
-  Result := ((SharedMemoryRec.Handle <> 0) and (GetLastError <> ERROR_ALREADY_EXISTS));
+  Result := ((GetLastError <> ERROR_ALREADY_EXISTS));
   SharedMemoryRec.Usesful := Result;
  end;
 

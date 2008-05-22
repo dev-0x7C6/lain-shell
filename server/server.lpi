@@ -37,8 +37,8 @@
         <Filename Value="server.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uniserver"/>
-        <CursorPos X="1" Y="82"/>
-        <TopLine Value="65"/>
+        <CursorPos X="1" Y="203"/>
+        <TopLine Value="199"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="186"/>
         <Loaded Value="True"/>
@@ -61,8 +61,8 @@
         <Filename Value="src\main.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Main"/>
-        <CursorPos X="1" Y="1"/>
-        <TopLine Value="73"/>
+        <CursorPos X="22" Y="89"/>
+        <TopLine Value="1"/>
         <EditorIndex Value="7"/>
         <UsageCount Value="186"/>
         <Loaded Value="True"/>
@@ -300,8 +300,8 @@
         <Filename Value="src\loop.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Loop"/>
-        <CursorPos X="11" Y="138"/>
-        <TopLine Value="118"/>
+        <CursorPos X="11" Y="36"/>
+        <TopLine Value="12"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="27"/>
         <Loaded Value="True"/>
@@ -320,39 +320,14 @@
         <Filename Value="src\sharemem.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="ShareMem"/>
-        <CursorPos X="43" Y="125"/>
+        <CursorPos X="14" Y="131"/>
         <TopLine Value="113"/>
         <EditorIndex Value="4"/>
         <UsageCount Value="27"/>
         <Loaded Value="True"/>
       </Unit37>
     </Units>
-    <JumpHistory Count="6" HistoryIndex="5">
-      <Position1>
-        <Filename Value="server.lpr"/>
-        <Caret Line="83" Column="1" TopLine="66"/>
-      </Position1>
-      <Position2>
-        <Filename Value="server.lpr"/>
-        <Caret Line="71" Column="1" TopLine="54"/>
-      </Position2>
-      <Position3>
-        <Filename Value="server.lpr"/>
-        <Caret Line="72" Column="1" TopLine="55"/>
-      </Position3>
-      <Position4>
-        <Filename Value="server.lpr"/>
-        <Caret Line="73" Column="1" TopLine="56"/>
-      </Position4>
-      <Position5>
-        <Filename Value="server.lpr"/>
-        <Caret Line="71" Column="1" TopLine="65"/>
-      </Position5>
-      <Position6>
-        <Filename Value="server.lpr"/>
-        <Caret Line="72" Column="1" TopLine="83"/>
-      </Position6>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
@@ -390,32 +365,6 @@
     </Other>
   </CompilerOptions>
   <Debugging>
-    <BreakPoints Count="6">
-      <Item1>
-        <Source Value="server.lpr"/>
-        <Line Value="75"/>
-      </Item1>
-      <Item2>
-        <Source Value="server.lpr"/>
-        <Line Value="76"/>
-      </Item2>
-      <Item3>
-        <Source Value="server.lpr"/>
-        <Line Value="77"/>
-      </Item3>
-      <Item4>
-        <Source Value="server.lpr"/>
-        <Line Value="78"/>
-      </Item4>
-      <Item5>
-        <Source Value="server.lpr"/>
-        <Line Value="79"/>
-      </Item5>
-      <Item6>
-        <Source Value="server.lpr"/>
-        <Line Value="80"/>
-      </Item6>
-    </BreakPoints>
     <Exceptions Count="2">
       <Item1>
         <Name Value="ECodetoolError"/>

@@ -68,17 +68,6 @@ var
  X :Longint;
 begin
 {$ifdef windows}
- DefaultConfigForSharedMemory(SharedMemoryCfg);
- SharedMemoryCfg.IdentCharSet := 'lainshell-server-blocker';
- while LainCreateSharedMemory(SharedMemoryRec, SharedMemoryCfg) = False do
- begin
-  WindowHandle := FindWindow('lainshell-server', 'lainshell');
-  if WindowHandle <> 0 then
-  begin
-   SendMessage(WindowHandle, WM_DESTROY, 0, 0);
-  end;
- end;
- 
  RegEdit := TRegistry.Create;
  RegEdit.RootKey := HKEY_CURRENT_USER;
  RegEdit.OpenKey('Software\LainShell', true);
@@ -179,11 +168,13 @@ begin
   Exit;
  end;
  
+{$ifdef unix}
  if Param = '--stop' then
  begin
   LainServerParamStop;
   Exit;
  end;
+{$endif}
  
  if Param = '--adduser' then
  begin
@@ -221,26 +212,8 @@ begin
  end;
  
 {$ifdef windows}
- if ((Param = '--stop') or (Param = '--restart')) then
- begin
-  ExecuteBlock := CreateFileMapping(INVALID_HANDLE_VALUE, nil, PAGE_READONLY, 0, 4, 'lainshell-block');
-  if GetLastError = ERROR_ALREADY_EXISTS then Exit;
- end else
- begin
-  if Param = '--restart' then
-  begin
-   RestartBlock := CreateFileMapping(INVALID_HANDLE_VALUE, nil, PAGE_READONLY, 0, 4, 'lainshell-restart-block');
-   if GetLastError = ERROR_ALREADY_EXISTS then Exit;
-  end;
-  WindowHandle := FindWindow('lainshell-server', 'lainshell');
-  if WindowHandle <> 0 then SendMessage(WindowHandle, WM_DESTROY, 0, 0);
-  if Param = '--stop' then Exit;
-  Sleep(1000);
-  repeat
-   ExecuteBlock := CreateFileMapping(INVALID_HANDLE_VALUE, nil, PAGE_READONLY, 0, 4, 'lainshell-block');
-  until ExecuteBlock <> 0;
-  if Param = '--restart' then CloseHandle(RestartBlock);
- end;
+ if not CheckForCopy(Param) then
+  Exit;
 {$endif}
 
 {$ifdef unix}
