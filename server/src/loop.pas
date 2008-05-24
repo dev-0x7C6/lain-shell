@@ -147,6 +147,7 @@ var
      Exit(False);
    end else
     Exit(False);
+  end;
  end;
 
  function WindowsMainLoopInit :Boolean;
