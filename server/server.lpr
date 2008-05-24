@@ -125,7 +125,7 @@ begin
   DoneConnections(CThreadList, ClientConnection, ServerConnection);
   UnixMainLoopDone;
  end else
-  Writeln('Can''t create shared memory, try with param --restart')
+  Writeln('Can''t create shared memory, try with param --restart');
 {$endif}
 
 {$ifdef windows}
@@ -150,6 +150,10 @@ begin
   Param := LowerCase(ParamStr(1)) else
   Param := '';
   
+ if Param = '--config' then
+  CreateConfig := True else
+  CreateConfig := False;
+  
 {$ifdef unix}
  LainDirectory := IsDir(GetHomeDirectory + ConfigDirectory);
  if not CreateConfigDirectory(LainDirectory) then Exit;
@@ -159,10 +163,6 @@ begin
  LoadLainDataBaseFromSystem(LainDBControlClass, '');
 {$endif}
 
- if Param = '--config' then
-  CreateConfig := True else
-  CreateConfig := False;
-   
  if Param = '--help' then
  begin
   LainServerParamHelp;

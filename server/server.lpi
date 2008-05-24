@@ -31,13 +31,13 @@
         <PackageName Value="LCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="38">
+    <Units Count="39">
       <Unit0>
         <Filename Value="server.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uniserver"/>
-        <CursorPos X="65" Y="128"/>
-        <TopLine Value="108"/>
+        <CursorPos X="31" Y="223"/>
+        <TopLine Value="228"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="186"/>
         <Loaded Value="True"/>
@@ -62,9 +62,7 @@
         <UnitName Value="Main"/>
         <CursorPos X="22" Y="89"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="7"/>
         <UsageCount Value="186"/>
-        <Loaded Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="src/authorize.pas"/>
@@ -141,9 +139,7 @@
         <UnitName Value="Config"/>
         <CursorPos X="1" Y="30"/>
         <TopLine Value="25"/>
-        <EditorIndex Value="5"/>
         <UsageCount Value="146"/>
-        <Loaded Value="True"/>
       </Unit14>
       <Unit15>
         <Filename Value="src/execute.pas"/>
@@ -203,9 +199,7 @@
         <UnitName Value="LainDataBase"/>
         <CursorPos X="28" Y="88"/>
         <TopLine Value="72"/>
-        <EditorIndex Value="3"/>
         <UsageCount Value="93"/>
-        <Loaded Value="True"/>
       </Unit22>
       <Unit23>
         <Filename Value="usr/src/fpc/packages/libc/src/libc.pp"/>
@@ -226,9 +220,7 @@
         <UnitName Value="Params"/>
         <CursorPos X="51" Y="75"/>
         <TopLine Value="58"/>
-        <EditorIndex Value="6"/>
         <UsageCount Value="81"/>
-        <Loaded Value="True"/>
       </Unit25>
       <Unit26>
         <Filename Value="C:/lazarus/fpc/2.2.1/source/rtl/inc/heaptrc.pp"/>
@@ -241,9 +233,11 @@
         <Filename Value="src/diskmgr.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="DiskMgr"/>
-        <CursorPos X="27" Y="13"/>
-        <TopLine Value="2"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
+        <EditorIndex Value="0"/>
         <UsageCount Value="72"/>
+        <Loaded Value="True"/>
       </Unit27>
       <Unit28>
         <Filename Value="src/unixutils.pas"/>
@@ -301,9 +295,7 @@
         <UnitName Value="Loop"/>
         <CursorPos X="11" Y="36"/>
         <TopLine Value="12"/>
-        <EditorIndex Value="0"/>
         <UsageCount Value="27"/>
-        <Loaded Value="True"/>
       </Unit35>
       <Unit36>
         <Filename Value="src/consts.pas"/>
@@ -311,20 +303,23 @@
         <UnitName Value="Consts"/>
         <CursorPos X="2" Y="7"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="2"/>
         <UsageCount Value="27"/>
-        <Loaded Value="True"/>
       </Unit36>
       <Unit37>
         <Filename Value="src/sharemem.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="ShareMem"/>
         <CursorPos X="14" Y="131"/>
-        <TopLine Value="100"/>
-        <EditorIndex Value="4"/>
+        <TopLine Value="80"/>
         <UsageCount Value="27"/>
-        <Loaded Value="True"/>
       </Unit37>
+      <Unit38>
+        <Filename Value="../../../mathutils/mathutils/qfunc/qfunc.pas"/>
+        <UnitName Value="qfunction"/>
+        <CursorPos X="2" Y="17"/>
+        <TopLine Value="85"/>
+        <UsageCount Value="10"/>
+      </Unit38>
     </Units>
     <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
