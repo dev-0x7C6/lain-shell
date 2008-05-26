@@ -53,30 +53,6 @@ end;
  
 {$endif}
 
-{$ifdef windows}
-
-const
- Default_Flags = PAGE_READONLY;
- Default_MemPtrSize = SizeOf(Longword);
-
-type TSharedMemoryRec = packed record
- Handle :THandle;
- MemPtr :Pointer;
- Usesful :Boolean;
-end;
-
-type TSharedMemoryCfg = packed record
- IdentCharSet :AnsiString;
- MemPtrSize :Longint;
- Flags :Longint;
-end;
-
- procedure DefaultConfigForSharedMemory(var Config :TSharedMemoryCfg);
- 
- function LainCreateSharedMemory(var SharedMemoryRec :TSharedMemoryRec; Config :TSharedMemoryCfg) :Boolean;
- procedure LainCloseSharedMemory(var SharedMemoryRec :TSharedMemoryRec);
-{$endif}
-
 implementation
 
 {$ifdef unix}
@@ -112,31 +88,6 @@ implementation
  procedure LainCloseSharedMemory(var SharedMemoryRec :TSharedMemoryRec);
  begin
   shmdt(SharedMemoryRec.MemLongInt);
-  SharedMemoryRec.Usesful := False;
- end;
-
-{$endif}
-
-{$ifdef windows}
-
- procedure DefaultConfigForSharedMemory(var Config :TSharedMemoryCfg);
- begin
-  Config.Flags := Default_Flags;
-  Config.MemPtrSize := Default_MemPtrSize;
- end;
-
- function LainCreateSharedMemory(var SharedMemoryRec :TSharedMemoryRec; Config :TSharedMemoryCfg) :Boolean;
- begin
-  SharedMemoryRec.Handle := CreateFileMapping(INVALID_HANDLE_VALUE, nil, Config.Flags, 0, Config.MemPtrSize, PChar(Config.IdentCharSet));
-  Result := ((GetLastError <> ERROR_ALREADY_EXISTS));
-  SharedMemoryRec.Usesful := Result;
- end;
-
- procedure LainCloseSharedMemory(var SharedMemoryRec :TSharedMemoryRec);
- begin
-  CloseHandle(SharedMemoryRec.Handle);
-  SharedMemoryRec.Handle := 0;
-  SharedMemoryRec.MemPtr := nil;
   SharedMemoryRec.Usesful := False;
  end;
 

@@ -31,34 +31,10 @@ uses
   Sysinfo, Process, LainDataBase, Params, diskmgr, convnum, FSUtils, NetUtils,
   loop, consts, sharemem;
 
-
-Const
- MsgDBNoUsers :String = 'Please add user to database, run program with parametrs adduser <username> <password>';
-
-Const
-{$ifdef unix}
- ConfigFileName :AnsiString = 'lainconf.conf';
- ConfigDirectory :AnsiString = '.lainconf';
-{$endif}
-{$ifdef windows}
- ConfigFileName :AnsiString = 'lainconf.txt';
-{$endif}
-
 var
 {$ifdef unix}
- Dump :LongInt;
  LainDirectory :AnsiString;
  ConfigExists :Boolean = False;
- NanoPath :WideString;
-{$endif}
-{$ifdef windows}
- SharedMemoryRec :TSharedMemoryRec;
- SharedMemoryCfg :TSharedMemoryCfg;
- WindowHandle :THandle;
- ShareMemory :THandle = 0;
- ExecuteBlock :THandle = 0;
- RestartBlock :THandle = 0;
- RegEdit :TRegistry;
 {$endif}
  CreateConfig :Boolean = False;
 
@@ -66,6 +42,12 @@ var
 function MainProc :Longint;
 var
  X :Longint;
+{$ifdef unix}
+ Dump :Longint;
+{$endif}
+{$ifdef windows}
+ RegEdit :TRegistry;
+{$endif}
 begin
 {$ifdef windows}
  RegEdit := TRegistry.Create;
@@ -112,11 +94,10 @@ begin
  for X := 0 to ConfigVariablesCount do
   DefaultConfigVariables[X][1] := RegEdit.ReadString(DefaultConfigVariables[X][0]);
  RegEdit.Free;
-
- LainShellDataConfigure;
 {$endif}
 
 
+ LainShellDataConfigure;
 {$ifdef unix}
  if UnixMainLoopInit then
  begin
@@ -233,7 +214,6 @@ begin
  for X := 0 to ConfigVariablesCount do
   DefaultConfigVariables[X][1] := ConfigFile.GetString(DefaultConfigVariables[X][0]);
  ConfigFile.Free;
- LainShellDataConfigure;
 {$endif}
 
  if Length(LainDBControlClass.AccountList) = 0 then
@@ -260,9 +240,6 @@ begin
 {$endif}
 {$ifdef windows}
  LainDBControlClass.SaveLainDBToRegistry(RegistryKey, RegistryValue);
- LainCloseSharedMemory(SharedMemoryRec);
- if ShareMemory <> 0 then CloseHandle(ShareMemory);
- if ExecuteBlock <> 0 then CloseHandle(ExecuteBlock);
 {$endif}
  LainDBControlClass.Free;
  DoneCriticalSection(CriticalSection);

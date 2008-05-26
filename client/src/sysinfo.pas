@@ -50,14 +50,18 @@ end;
 
 function CMD_SysInfo_Query :Longint;
 var
- Str :AnsiString;
+ StrList :TStringList;
+ Text :AnsiString;
  Fammily :Byte;
 begin
+ StrList := TStringList.Create;
  Connection.Recv(Fammily, SizeOf(Fammily));
- Connection.RecvString(Str);
+ Connection.RecvString(Text);
+ StrList.Add(Text);
  EnterCriticalSection(CriticalSection);
- Writeln(Str);
+ Writeln(StrList.Text);
  LeaveCriticalSection(CriticalSection);
+ StrList.Free;
 end;
 
 end.

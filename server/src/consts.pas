@@ -34,6 +34,18 @@ Const
  RegistryValue = 'Accounts';
 {$endif}
 
+Const
+ MsgDBNoUsers :String = 'Please add user to database, run program with parametrs adduser <username> <password>';
+
+Const
+{$ifdef unix}
+ ConfigFileName :AnsiString = 'lainconf.conf';
+ ConfigDirectory :AnsiString = '.lainconf';
+{$endif}
+{$ifdef windows}
+ ConfigFileName :AnsiString = 'lainconf.txt';
+{$endif}
+
 implementation
 
 end.

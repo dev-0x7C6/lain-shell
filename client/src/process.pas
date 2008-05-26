@@ -49,12 +49,16 @@ end;
 
 function CMD_ProcessList_Query :Longint;
 var
- Str :AnsiString;
+ StrList :TStringList;
+ Text :AnsiString;
 begin
- Connection.RecvString(Str);
+ StrList := TStringList.Create;
+ Connection.RecvString(Text);
+ StrList.Add(Text);
  EnterCriticalSection(CriticalSection);
- Writeln(Str);
+ Writeln(StrList.Text);
  LeaveCriticalSection(CriticalSection);
+ StrList.Free;
 end;
 
 end.
