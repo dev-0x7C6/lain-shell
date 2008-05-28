@@ -27,16 +27,12 @@ uses
 {$ifdef windows}
   Windows, Registry, ShellApi,
 {$endif}
-  Main, SysUtils, Authorize, Engine, Sockets, Config, Execute,
-  Sysinfo, Process, LainDataBase, Params, diskmgr, convnum, FSUtils, NetUtils,
-  loop, consts, sharemem;
+  Main, SysUtils, Authorize, Engine, Sockets, Config, Execute, Sysinfo, Process,
+  LainDataBase, Params, Diskmgr, ConvNum, FSUtils, NetUtils, Loop, Consts,
+  ShareMem;
 
 var
-{$ifdef unix}
- LainDirectory :AnsiString;
- ConfigExists :Boolean = False;
-{$endif}
- CreateConfig :Boolean = False;
+ Reconfigure :Boolean;
 
 
 function MainProc :Longint;
@@ -52,12 +48,12 @@ begin
 {$ifdef windows}
  RegEdit := TRegistry.Create;
  RegEdit.RootKey := HKEY_CURRENT_USER;
- RegEdit.OpenKey('Software\LainShell', true);
+ RegEdit.OpenKey(RegistryKey, true);
  if not RegEdit.ValueExists('IsConfigured') then
-  CreateConfig := True;
+  Reconfigure := True;
  RegEdit.Free;
 
- if CreateConfig = True then
+ if Reconfigure = True then
  begin
   ConfigFile := TConfigFile.Create;
   ConfigFile.GenerateConfig;
@@ -65,7 +61,7 @@ begin
   ConfigFile.Free;
   RegEdit := TRegistry.Create;
   RegEdit.RootKey := HKEY_CURRENT_USER;
-  RegEdit.OpenKey('Software\LainShell', true);
+  RegEdit.OpenKey(RegistryKey, true);
   RegEdit.WriteInteger('IsConfigured', 0);
   RegEdit.Free;
   ShellExecuteA(GetForegroundWindow, 'open', 'notepad.exe', Pchar(ConfigFileName), '', SW_SHOW);
@@ -122,19 +118,31 @@ begin
 end;
 
 
-function Main :Longint;
 var
+ FirstParametr :String;
  X :Longint;
- Param :String;
+{$ifdef unix}
+ LainDirectory :String;
+{$endif}
+
+procedure Exit_LainShellServer;
 begin
- if ParamCount > 0 then
-  Param := LowerCase(ParamStr(1)) else
-  Param := '';
-  
- if Param = '--config' then
-  CreateConfig := True else
-  CreateConfig := False;
-  
+{$ifdef unix}
+ LainDBControlClass.SaveLainDBToFile(LainDirectory + DataBaseFileName);
+ Writeln(EndLineChar);
+{$endif}
+{$ifdef windows}
+ LainDBControlClass.SaveLainDBToRegistry(RegistryKey, RegistryValue);
+{$endif}
+ LainDBControlClass.Free;
+ DoneCriticalSection(CriticalSection);
+end;
+
+begin
+ InitCriticalSection(CriticalSection);
+ LainDBControlClass := TLainDBControlClass.Create;
+ System.AddExitProc(@Exit_LainShellServer);
+
 {$ifdef unix}
  LainDirectory := IsDir(GetHomeDirectory + ConfigDirectory);
  if not CreateConfigDirectory(LainDirectory) then Exit;
@@ -143,64 +151,35 @@ begin
 {$ifdef windows}
  LoadLainDataBaseFromSystem(LainDBControlClass, '');
 {$endif}
+ if ParamCount > 0 then
+  FirstParametr := LowerCase(ParamStr(1)) else
+  FirstParametr := '';
 
- if Param = '--help' then
- begin
-  LainServerParamHelp;
-  Exit;
- end;
- 
+ if FirstParametr = '--config' then
+  Reconfigure := True else
+  Reconfigure := False;
+
+ if FirstParametr = '--help' then LainServerParamHelp;
 {$ifdef unix}
- if Param = '--stop' then
- begin
-  LainServerParamStop;
-  Exit;
- end;
+ if FirstParametr = '--stop' then LainServerParamStop;
 {$endif}
- 
- if Param = '--adduser' then
- begin
-  LainServerParamAddUser;
-  Exit;
- end;
-   
- if Param = '--deluser' then
- begin
-  LainServerParamDelUser;
- end;
- 
- if Param = '--chkuser' then
- begin
-  LainServerParamChkUser;
-  Exit;
- end;
- 
- if Param = '--lstuser' then
- begin
-  LainServerParamLstUser;
-  Exit;
- end;
- 
- if Param = '--pwduser' then
- begin
-  LainServerParamPwdUser;
-  Exit;
- end;
- 
- if Param = '--createdb' then
- begin
-  LainServerParamCreateDB;
-  Exit;
- end;
- 
+ if FirstParametr = '--adduser' then LainServerParamAddUser;
+ if FirstParametr = '--deluser' then LainServerParamDelUser;
+ if FirstParametr = '--chkuser' then LainServerParamChkUser;
+ if FirstParametr = '--lstuser' then LainServerParamLstUser;
+ if FirstParametr = '--pwduser' then LainServerParamPwdUser;
+ if FirstParametr = '--createdb' then LainServerParamCreateDB;
+
+ for X := Low(ExitParams) to High(ExitParams) do
+  if ExitParams[X] = FirstParametr then Exit;
+
 {$ifdef windows}
- if not CheckForCopy(Param) then
-  Exit;
+ if not CheckForCopy(Param) then Exit;
 {$endif}
 
 {$ifdef unix}
- CreateConfig := not FileExists(LainDirectory + ConfigFileName) or CreateConfig;
- if CreateConfig = True then
+ Reconfigure := not FileExists(LainDirectory + ConfigFileName) or Reconfigure;
+ if Reconfigure = True then
  begin
   ConfigFile := TConfigFile.Create;
   ConfigFile.GenerateConfig;
@@ -228,21 +207,7 @@ begin
  end;
 
  MainProc;
-end;
-
-begin
- InitCriticalSection(CriticalSection);
- LainDBControlClass := TLainDBControlClass.Create;
- Main;
-{$ifdef unix}
- LainDBControlClass.SaveLainDBToFile(LainDirectory + DataBaseFileName);
- Writeln(EndLineChar);
-{$endif}
-{$ifdef windows}
- LainDBControlClass.SaveLainDBToRegistry(RegistryKey, RegistryValue);
-{$endif}
- LainDBControlClass.Free;
- DoneCriticalSection(CriticalSection);
+ 
 end.
 
 

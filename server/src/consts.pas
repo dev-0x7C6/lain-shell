@@ -34,6 +34,9 @@ Const
  RegistryValue = 'Accounts';
 {$endif}
 
+ ExitParams :Array[0..6] of String = ('--help', '--stop', '--deluser', '--chkuser',
+                                      '--lstuser', '--pwduser', '--createdb');
+
 Const
  MsgDBNoUsers :String = 'Please add user to database, run program with parametrs adduser <username> <password>';
 
