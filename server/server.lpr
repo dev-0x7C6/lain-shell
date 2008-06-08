@@ -93,6 +93,7 @@ begin
 {$endif}
 
 
+
  LainShellDataConfigure;
 {$ifdef unix}
  if UnixMainLoopInit then
@@ -138,6 +139,17 @@ begin
  DoneCriticalSection(CriticalSection);
 end;
 
+
+const
+ ParamList :Array[0..9] of String = ('config', 'restart', 'stop', 'help', 'adduser',
+'deluser', 'chkuser', 'lstuser', 'pwduser', 'createdb');
+
+ ParamCnt :Array[0..0] of String = ('restart');
+
+var
+ ParamCount :Longint;
+ ParamExist :Boolean = False;
+
 begin
  InitCriticalSection(CriticalSection);
  LainDBControlClass := TLainDBControlClass.Create;
@@ -151,9 +163,22 @@ begin
 {$ifdef windows}
  LoadLainDataBaseFromSystem(LainDBControlClass, '');
 {$endif}
- if ParamCount > 0 then
-  FirstParametr := LowerCase(ParamStr(1)) else
-  FirstParametr := '';
+ FirstParametr := LowerCase(ParamStr(1));
+ 
+ for ParamCount := Low(ParamList) to High(ParamList) do
+  if (FirstParametr = ('--' + ParamList[ParamCount])) then
+  begin
+   ParamExist := True;
+   Break;
+  end;
+
+ if not ParamExist then
+ begin
+  Writeln('Unknown parametr: ''', FirstParametr, '''');
+  Writeln;
+  LainServerParamHelp;
+  Exit;
+ end;
 
  if FirstParametr = '--config' then
   Reconfigure := True else
@@ -169,9 +194,6 @@ begin
  if FirstParametr = '--lstuser' then LainServerParamLstUser;
  if FirstParametr = '--pwduser' then LainServerParamPwdUser;
  if FirstParametr = '--createdb' then LainServerParamCreateDB;
-
- for X := Low(ExitParams) to High(ExitParams) do
-  if ExitParams[X] = FirstParametr then Exit;
 
 {$ifdef windows}
  if not CheckForCopy(Param) then Exit;
@@ -194,6 +216,16 @@ begin
   DefaultConfigVariables[X][1] := ConfigFile.GetString(DefaultConfigVariables[X][0]);
  ConfigFile.Free;
 {$endif}
+
+ ParamExist := False;
+ for ParamCount := Low(ParamCnt) to High(ParamCnt) do
+  if (FirstParametr = ('--' + ParamCnt[ParamCount])) then
+  begin
+   ParamExist := True;
+   Break;
+  end;
+  
+ if not ParamExist then Exit;
 
  if Length(LainDBControlClass.AccountList) = 0 then
  begin

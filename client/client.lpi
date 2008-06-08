@@ -286,7 +286,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="Sysinfo"/>
         <CursorPos X="1" Y="53"/>
-        <TopLine Value="11"/>
+        <TopLine Value="7"/>
         <EditorIndex Value="3"/>
         <UsageCount Value="39"/>
         <Loaded Value="True"/>
@@ -308,7 +308,7 @@
         <Filename Value="src/process.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Process"/>
-        <CursorPos X="15" Y="61"/>
+        <CursorPos X="54" Y="25"/>
         <TopLine Value="4"/>
         <EditorIndex Value="4"/>
         <UsageCount Value="33"/>
