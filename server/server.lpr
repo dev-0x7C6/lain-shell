@@ -139,22 +139,11 @@ begin
  DoneCriticalSection(CriticalSection);
 end;
 
-
-const
- ParamList :Array[0..9] of String = ('config', 'restart', 'stop', 'help', 'adduser',
-'deluser', 'chkuser', 'lstuser', 'pwduser', 'createdb');
-
- ParamCnt :Array[0..0] of String = ('restart');
-
-var
- ParamCount :Longint;
- ParamExist :Boolean = False;
-
 begin
  InitCriticalSection(CriticalSection);
  LainDBControlClass := TLainDBControlClass.Create;
  System.AddExitProc(@Exit_LainShellServer);
-
+ 
 {$ifdef unix}
  LainDirectory := IsDir(GetHomeDirectory + ConfigDirectory);
  if not CreateConfigDirectory(LainDirectory) then Exit;
@@ -164,40 +153,35 @@ begin
  LoadLainDataBaseFromSystem(LainDBControlClass, '');
 {$endif}
  FirstParametr := LowerCase(ParamStr(1));
- 
- for ParamCount := Low(ParamList) to High(ParamList) do
-  if (FirstParametr = ('--' + ParamList[ParamCount])) then
-  begin
-   ParamExist := True;
-   Break;
-  end;
 
- if not ParamExist then
- begin
-  Writeln('Unknown parametr: ''', FirstParametr, '''');
-  Writeln;
-  LainServerParamHelp;
-  Exit;
- end;
-
- if FirstParametr = '--config' then
-  Reconfigure := True else
-  Reconfigure := False;
-
- if FirstParametr = '--help' then LainServerParamHelp;
+ Reconfigure := False;
+ if FirstParametr = '--config' then Reconfigure := True else
+ if FirstParametr = '--help' then LainServerParamHelp else
 {$ifdef unix}
- if FirstParametr = '--stop' then LainServerParamStop;
+ if FirstParametr = '--stop' then LainServerParamStop else
 {$endif}
- if FirstParametr = '--adduser' then LainServerParamAddUser;
- if FirstParametr = '--deluser' then LainServerParamDelUser;
- if FirstParametr = '--chkuser' then LainServerParamChkUser;
- if FirstParametr = '--lstuser' then LainServerParamLstUser;
- if FirstParametr = '--pwduser' then LainServerParamPwdUser;
- if FirstParametr = '--createdb' then LainServerParamCreateDB;
-
 {$ifdef windows}
- if not CheckForCopy(Param) then Exit;
+ if FirstParametr = '--stop' then begin
+  if not CheckForCopy(FirstParametr) then Exit;
+ end else
 {$endif}
+ if FirstParametr = '--adduser' then LainServerParamAddUser else
+ if FirstParametr = '--deluser' then LainServerParamDelUser else
+ if FirstParametr = '--chkuser' then LainServerParamChkUser else
+ if FirstParametr = '--lstuser' then LainServerParamLstUser else
+ if FirstParametr = '--pwduser' then LainServerParamPwdUser else
+ if FirstParametr = '--createdb' then LainServerParamCreateDB else
+ begin
+  if FirstParametr <> '' then
+  begin
+  {$ifdef unix}
+   Writeln('Unknown parametr: ''', FirstParametr, '''');
+   Writeln;
+  {$endif}
+   LainServerParamHelp;
+   Exit;
+  end;
+ end;
 
 {$ifdef unix}
  Reconfigure := not FileExists(LainDirectory + ConfigFileName) or Reconfigure;
@@ -217,15 +201,7 @@ begin
  ConfigFile.Free;
 {$endif}
 
- ParamExist := False;
- for ParamCount := Low(ParamCnt) to High(ParamCnt) do
-  if (FirstParametr = ('--' + ParamCnt[ParamCount])) then
-  begin
-   ParamExist := True;
-   Break;
-  end;
-  
- if not ParamExist then Exit;
+ if FirstParametr <> '' then Exit;
 
  if Length(LainDBControlClass.AccountList) = 0 then
  begin

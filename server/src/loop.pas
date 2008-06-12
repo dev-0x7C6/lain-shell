@@ -139,12 +139,11 @@ var
   WindowHandle := FindWindow('lainshell-server', 'lainshell');
   if (WindowHandle <> 0) then
   begin
-   if ((Param = '--restart') or (Param = '--stop')) then
+   if (Param = '--stop') then
    begin
     SendMessage(WindowHandle, WM_DESTROY, 0, 0);
     while FindWindow('lainshell-server', 'lainshell') = 0 do sleep(10);
-    if Param = '--stop' then
-     Exit(False);
+    Exit(False);
    end else
     Exit(False);
   end;

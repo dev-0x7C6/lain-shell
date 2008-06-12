@@ -30,7 +30,6 @@ var
  HelpMsg :String = 'Main functions:' + LineEnding +
                    '  --config  - run configurator' + LineEnding +
                    '  --help    - show this message' + LineEnding +
-                   '  --restart - restart running deamon' + LineEnding +
                    '  --stop    - stop running deamon' + LineEnding + LineEnding  +
                    'User database functions:' + LineEnding +
                    '  --createdb - create empty database' + LineEnding +
