@@ -65,9 +65,14 @@ uses
   if LainOpenSharedMemory(SharedMemoryRec, SharedMemoryConfig) then
   begin
   EnterCriticalSection(CriticalSection);
-   LainWriteSharedMemory(SharedMemoryRec, $FF);
-  LeaveCriticalSection(CriticalSection);
+   if LainReadSheredMemory(SharedMemoryRec) = $F0 then
+   begin
+    Writeln('Kill server...');
+    LainWriteSharedMemory(SharedMemoryRec, $FF);
+   end else
+    Writeln('Can''t kill server');
    LainCloseSharedMemory(SharedMemoryRec);
+  LeaveCriticalSection(CriticalSection);
   end;
   DoneCriticalSection(CriticalSection);
  end;
