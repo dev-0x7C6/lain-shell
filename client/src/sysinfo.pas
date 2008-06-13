@@ -39,7 +39,11 @@ uses Engine, Lang;
 function CMD_SysInfo(var Params :TParams) :Longint;
 begin
  if CheckConnectionAndAuthorization = False then
+ begin
+  Writeln(Prefix, MultiLanguageSupport.GetString('MsgNotConnectedAndAuthorized'), EndLineChar);
   Exit(CMD_Fail);
+ end;
+ 
  Writeln(Prefix, MultiLanguageSupport.GetString('MsgWaitForResponse'), EndLineChar);
  Writeln(EndLineChar);
  
@@ -51,15 +55,22 @@ end;
 function CMD_SysInfo_Query :Longint;
 var
  StrList :TStringList;
- Text :AnsiString;
+ StrNum :Longint;
+ Text :String;
  Fammily :Byte;
+
 begin
  StrList := TStringList.Create;
  Connection.Recv(Fammily, SizeOf(Fammily));
  Connection.RecvString(Text);
  StrList.Add(Text);
  EnterCriticalSection(CriticalSection);
- Writeln(StrList.Text);
+ if StrList.Count > 0 then
+ begin
+  For StrNum := 0 to StrList.Count - 1 do
+   Writeln(StrList[StrNum]);
+ end;
+ Writeln(MultiLanguageSupport.GetString('MsgEndOfData'), EndLineChar);
  LeaveCriticalSection(CriticalSection);
  StrList.Free;
 end;

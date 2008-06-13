@@ -39,6 +39,7 @@ MsgNotAuthorized: "You're not autohrized" ///// NEW
 MsgNotConnectedAndAuthorized: "You're not connected and authorized" ///// NEW
 MsgWaitForResponse: "Waiting for response..." ///// NEW
 MsgCommandExecuted: "Command has been executed"  /////NEW
+MsgEndOfData: "End of data..."  ///New
 
 // Help
 HelpAbout: "Show about page"

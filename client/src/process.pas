@@ -50,7 +50,7 @@ end;
 function CMD_ProcessList_Query :Longint;
 var
  StrList :TStringList;
- Text :AnsiString;
+ Text :String;
 begin
  StrList := TStringList.Create;
  Connection.RecvString(Text);
