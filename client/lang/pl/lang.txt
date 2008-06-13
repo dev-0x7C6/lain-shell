@@ -1,98 +1,98 @@
-    1 // Operating System
-    2 WindowsConsoleCodePage: "852"
-    3 
-    4 // Messages
-    5 MsgWelcome: "Witaj w %s , życzymy udanej pracy"
-    6 MsgCmdFail: "Polecenie nie powiodło się"
-    7 MsgLogoff: "Wylogowywanie, proszę czekać..."
-    8 MsgCantLogoff: "Nie można ukończyć operacji wylogowywania, nastąpi rozłączenie..."
-    9 MsgCmdNotFound: "Polecenie '%s' jest nieznane"
-   10 MsgSetUsername: "Podaj nazwę użytkownika:"
-   11 MsgSetPassword: "Podaj hasło:"
-   12 MsgLongUsername: "Nazwa użytkownika jest za długa"
-   13 MsgLongPassword: "Hasło jest za długie"
-   14 MsgPreparAuthorize: "Przygotowywanie do autoryzacji"
-   15 MsgCantAuthorize: "Nie można autoryzować połączenia"
-   16 MsgAuthorized: "Połączenie zostało autoryzowane"
-   17 MsgAlreadyConnected: "Jesteś już połączony"
-   18 MsgDisconnectConnection: "Rozłanczanie..."
-   19 MsgCantFindHostname: "Nie można znaleźć hosta"
-   20 MsgCancelConnect: "Naciśnij Enter, aby przerwać"
-   21 MsgCloseSocket: "Zamykanie gniazda..."
-   22 MsgConnected: "Jesteś połączony"
-   23 MsgCantConnect: Nie można połączyć się"
-   24 MsgUnknownProto: "Nieznany protokół"
-   25 MsgDisconnect: "Rozłączenie"
-   26 MsgDisconnected: "Rozłączono"
-   27 MsgNotConnected: "Nie połączono"
-   28 MsgRConnectPressEnter: "Naciśnij enter aby przerwać"
-   29 MsgRConnectWaiting: "Oczekiwanie połączeń..."
-   30 MsgRConnectThreadEnd: "Zamykanie wątku..."
-   31 MsgRConnectChose: "Wybierz połączenie :"
-   32 MsgRConnectUnknownID: "Nieznane ID połączenia"
-   33 MsgSetVariableDone: "Zmienna została ustawiona pomyślnie"
-   34 MsgSetVariableFail: "Zmienna nie została zmieniona"
-   35 MsgSetVariableUnknown: "Nieznana zmienna '%s' do ustawienia"
-   36 
-   37 MsgNotConnected: "Nie jesteś połączony" ///// NEW
-   38 MsgNotAuthorized: "Twoje połączenie wymaga autoryzacji" ///// NEW
-   39 MsgNotConnectedAndAuthorized: "Nie jesteś połączony ani autoryzowany" ///// NEW
-   40 MsgWaitForResponse: "Oczekiwanie na odpowiedź..." ///// NEW
-   41 MsgCommandExecuted: "Polecenie zostało wykonane"  /////NEW
-   42 MsgEndOfData: "Koniec strumienia..."  ///NEW
-   43 
-   44 // Help
-   45 HelpAbout: "Strona o autorach"
-   46 HelpConnect: "Połącz się z serwerem"
-   47 HelpClear: "Czyść konsole"
-   48 HelpDisconnect: "Rozłącz wszystkie połączenia"
-   49 HelpExecute: "Wywołaj zdalnie polecenie"
-   50 HelpExit: "Zamknij aplikacje"
-   51 HelpHelp: "Pokaż stronę pomocy"
-   52 HelpLogin: "Logowanie"
-   53 HelpLogout: "Wylogowywanie"
-   54 HelpProcessList: "Pobierz list procesów z zdalnego hosta" ///// NEW
-   55 HelpRConnect: "Połączenie odwrotne (oczekiwanie połączeń)"
-   56 HelpSet: "Ustaw zmienną"
-   57 HelpStatus: "Pokaż status"
-   58 HelpSysInfo: "Pobierz informacje o systemie z zdalnego hosta" ///// NEW
-   59 HelpQuit: "To samo co Exit"
-   60 
-   61 // Status
-   62 StatusAuthorized: "Autoryzowano"
-   63 StatusConnected: "Połączono"
-   64 StatusHostname: "Nazwa Hosta"
-   65 StatusPort: "Port"
-   66 StatusUsername: "Użytkownik"
-   67 StatusPassword: "Hasło"
-   68 
-   69 // Words
-   70 BoolTrue: "Tak"
-   71 BoolFalse: "Nie"
-   72 WordUsername: "Użytkownik"
-   73 WordPassword: "Hasło"
-   74 WordPort: "Port"
-   75 WordHostname: "Host"
-   76 
-   77 // Using
-   78 UsingConnect: "Connect [hostname(:port)]"
-   79 UsingRConnect: "RConnect [localport] [maxconnections]"
-   80 UsingExecute: "Execute [polecenie] <parametry>" //New
-   81 UsingSet: "Ustaw zmienną [%s]"
-   82 UsingSetLang: "Ustaw język [paczka]"
-   83 UsingSetCodePage: "Zmień kodowanie [numer]"
-   84 
-   85 // Field
-   86 FieldDone: "[zrobione]"
-   87 FieldFail: "[błąd]"
-   88 FieldEmpty: "<puste>"
-   89 FieldUsername: "domyślny"
-   90 FieldLocation: "nigdzie"
-   91 
-   92 //Authors
-   93 MainProgramer: "Main Programer: Bartlomiej Burdukiewicz <strikeu@poczta.linux.pl>"
-   94 MainWebEditor: "Main Web Editor/Tester: Jarek Bojko <vazir.pl@gmail.com>"
-   95 
-   96 EnLang: "English language support: Pawel Parcianko <pawelparcianko@wp.pl>, Main Programer"
-   97 EsLang: "Spanish language support: Jose Ruben <ruben_balea@hotmail.com>"
-   98 PlLang: "Polisch language support: Main Programer"
+// Operating System
+WindowsConsoleCodePage: "852"
+
+// Messages
+MsgWelcome: "Witaj w %s , życzymy udanej pracy"
+MsgCmdFail: "Polecenie nie powiodło się"
+MsgLogoff: "Wylogowywanie, proszę czekać..."
+MsgCantLogoff: "Nie można ukończyć operacji wylogowywania, nastąpi rozłączenie..."
+MsgCmdNotFound: "Polecenie '%s' jest nieznane"
+MsgSetUsername: "Podaj nazwę użytkownika:"
+MsgSetPassword: "Podaj hasło:"
+MsgLongUsername: "Nazwa użytkownika jest za długa"
+MsgLongPassword: "Hasło jest za długie"
+MsgPreparAuthorize: "Przygotowywanie do autoryzacji"
+MsgCantAuthorize: "Nie można autoryzować połączenia"
+MsgAuthorized: "Połączenie zostało autoryzowane"
+MsgAlreadyConnected: "Jesteś już połączony"
+MsgDisconnectConnection: "Rozłanczanie..."
+MsgCantFindHostname: "Nie można znaleźć hosta"
+MsgCancelConnect: "Naciśnij Enter, aby przerwać"
+MsgCloseSocket: "Zamykanie gniazda..."
+MsgConnected: "Jesteś połączony"
+MsgCantConnect: Nie można połączyć się"
+MsgUnknownProto: "Nieznany protokół"
+MsgDisconnect: "Rozłączenie"
+MsgDisconnected: "Rozłączono"
+MsgNotConnected: "Nie połączono"
+MsgRConnectPressEnter: "Naciśnij enter aby przerwać"
+MsgRConnectWaiting: "Oczekiwanie połączeń..."
+MsgRConnectThreadEnd: "Zamykanie wątku..."
+MsgRConnectChose: "Wybierz połączenie :"
+MsgRConnectUnknownID: "Nieznane ID połączenia"
+MsgSetVariableDone: "Zmienna została ustawiona pomyślnie"
+MsgSetVariableFail: "Zmienna nie została zmieniona"
+MsgSetVariableUnknown: "Nieznana zmienna '%s' do ustawienia"
+
+MsgNotConnected: "Nie jesteś połączony" ///// NEW
+MsgNotAuthorized: "Twoje połączenie wymaga autoryzacji" ///// NEW
+MsgNotConnectedAndAuthorized: "Nie jesteś połączony ani autoryzowany" ///// NEW
+MsgWaitForResponse: "Oczekiwanie na odpowiedź..." ///// NEW
+MsgCommandExecuted: "Polecenie zostało wykonane"  /////NEW
+MsgEndOfData: "Koniec strumienia..."  ///NEW
+
+// Help
+HelpAbout: "Strona o autorach"
+HelpConnect: "Połącz się z serwerem"
+HelpClear: "Czyść konsole"
+HelpDisconnect: "Rozłącz wszystkie połączenia"
+HelpExecute: "Wywołaj zdalnie polecenie"
+HelpExit: "Zamknij aplikacje"
+HelpHelp: "Pokaż stronę pomocy"
+HelpLogin: "Logowanie"
+HelpLogout: "Wylogowywanie"
+HelpProcessList: "Pobierz list procesów z zdalnego hosta" ///// NEW
+HelpRConnect: "Połączenie odwrotne (oczekiwanie połączeń)"
+HelpSet: "Ustaw zmienną"
+HelpStatus: "Pokaż status"
+HelpSysInfo: "Pobierz informacje o systemie z zdalnego hosta" ///// NEW
+HelpQuit: "To samo co Exit"
+
+// Status
+StatusAuthorized: "Autoryzowano"
+StatusConnected: "Połączono"
+StatusHostname: "Nazwa Hosta"
+StatusPort: "Port"
+StatusUsername: "Użytkownik"
+StatusPassword: "Hasło"
+
+// Words
+BoolTrue: "Tak"
+BoolFalse: "Nie"
+WordUsername: "Użytkownik"
+WordPassword: "Hasło"
+WordPort: "Port"
+WordHostname: "Host"
+
+// Using
+UsingConnect: "Connect [hostname(:port)]"
+UsingRConnect: "RConnect [localport] [maxconnections]"
+UsingExecute: "Execute [polecenie] <parametry>" //New
+UsingSet: "Ustaw zmienną [%s]"
+UsingSetLang: "Ustaw język [paczka]"
+UsingSetCodePage: "Zmień kodowanie [numer]"
+
+// Field
+FieldDone: "[zrobione]"
+FieldFail: "[błąd]"
+FieldEmpty: "<puste>"
+FieldUsername: "domyślny"
+FieldLocation: "nigdzie"
+
+//Authors
+MainProgramer: "Main Programer: Bartlomiej Burdukiewicz <strikeu@poczta.linux.pl>"
+MainWebEditor: "Main Web Editor/Tester: Jarek Bojko <vazir.pl@gmail.com>"
+
+EnLang: "English language support: Pawel Parcianko <pawelparcianko@wp.pl>, Main Programer"
+EsLang: "Spanish language support: Jose Ruben <ruben_balea@hotmail.com>"
+PlLang: "Polisch language support: Main Programer"

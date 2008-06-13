@@ -1,98 +1,98 @@
-    1 // Operating System
-    2 WindowsConsoleCodePage: "852"
-    3 
-    4 // Messages
-    5 MsgWelcome: "Witaj w %s , ¾yczymy udanej pracy"
-    6 MsgCmdFail: "Polecenie nie powiodˆo si©"
-    7 MsgLogoff: "Wylogowywanie, prosz© czeka†..."
-    8 MsgCantLogoff: "Nie mo¾na ukoäczy† operacji wylogowywania, nast¥pi rozˆ¥czenie..."
-    9 MsgCmdNotFound: "Polecenie '%s' jest nieznane"
-   10 MsgSetUsername: "Podaj nazw© u¾ytkownika:"
-   11 MsgSetPassword: "Podaj hasˆo:"
-   12 MsgLongUsername: "Nazwa u¾ytkownika jest za dˆuga"
-   13 MsgLongPassword: "Hasˆo jest za dˆugie"
-   14 MsgPreparAuthorize: "Przygotowywanie do autoryzacji"
-   15 MsgCantAuthorize: "Nie mo¾na autoryzowa† poˆ¥czenia"
-   16 MsgAuthorized: "Poˆ¥czenie zostaˆo autoryzowane"
-   17 MsgAlreadyConnected: "Jeste˜ ju¾ poˆ¥czony"
-   18 MsgDisconnectConnection: "Rozˆanczanie..."
-   19 MsgCantFindHostname: "Nie mo¾na znale«† hosta"
-   20 MsgCancelConnect: "Naci˜nij Enter, aby przerwa†"
-   21 MsgCloseSocket: "Zamykanie gniazda..."
-   22 MsgConnected: "Jeste˜ poˆ¥czony"
-   23 MsgCantConnect: Nie mo¾na poˆ¥czy† si©"
-   24 MsgUnknownProto: "Nieznany protok¢ˆ"
-   25 MsgDisconnect: "Rozˆ¥czenie"
-   26 MsgDisconnected: "Rozˆ¥czono"
-   27 MsgNotConnected: "Nie poˆ¥czono"
-   28 MsgRConnectPressEnter: "Naci˜nij enter aby przerwa†"
-   29 MsgRConnectWaiting: "Oczekiwanie poˆ¥czeä..."
-   30 MsgRConnectThreadEnd: "Zamykanie w¥tku..."
-   31 MsgRConnectChose: "Wybierz poˆ¥czenie :"
-   32 MsgRConnectUnknownID: "Nieznane ID poˆ¥czenia"
-   33 MsgSetVariableDone: "Zmienna zostaˆa ustawiona pomy˜lnie"
-   34 MsgSetVariableFail: "Zmienna nie zostaˆa zmieniona"
-   35 MsgSetVariableUnknown: "Nieznana zmienna '%s' do ustawienia"
-   36 
-   37 MsgNotConnected: "Nie jeste˜ poˆ¥czony" ///// NEW
-   38 MsgNotAuthorized: "Twoje poˆ¥czenie wymaga autoryzacji" ///// NEW
-   39 MsgNotConnectedAndAuthorized: "Nie jeste˜ poˆ¥czony ani autoryzowany" ///// NEW
-   40 MsgWaitForResponse: "Oczekiwanie na odpowied«..." ///// NEW
-   41 MsgCommandExecuted: "Polecenie zostaˆo wykonane"  /////NEW
-   42 MsgEndOfData: "Koniec strumienia..."ÿ ///NEW
-   43 
-   44 // Help
-   45 HelpAbout: "Strona o autorach"
-   46 HelpConnect: "Poˆ¥cz si© z serwerem"
-   47 HelpClear: "Czy˜† konsole"
-   48 HelpDisconnect: "Rozˆ¥cz wszystkie poˆ¥czenia"
-   49 HelpExecute: "Wywoˆaj zdalnie polecenie"
-   50 HelpExit: "Zamknij aplikacje"
-   51 HelpHelp: "Poka¾ stron© pomocy"
-   52 HelpLogin: "Logowanie"
-   53 HelpLogout: "Wylogowywanie"
-   54 HelpProcessList: "Pobierz list proces¢w z zdalnego hosta" ///// NEW
-   55 HelpRConnect: "Poˆ¥czenie odwrotne (oczekiwanie poˆ¥czeä)"
-   56 HelpSet: "Ustaw zmienn¥"
-   57 HelpStatus: "Poka¾ status"
-   58 HelpSysInfo: "Pobierz informacje o systemie z zdalnego hosta" ///// NEW
-   59 HelpQuit: "To samo co Exit"
-   60 
-   61 // Status
-   62 StatusAuthorized: "Autoryzowano"
-   63 StatusConnected: "Poˆ¥czono"
-   64 StatusHostname: "Nazwa Hosta"
-   65 StatusPort: "Port"
-   66 StatusUsername: "U¾ytkownik"
-   67 StatusPassword: "Hasˆo"
-   68 
-   69 // Words
-   70 BoolTrue: "Tak"
-   71 BoolFalse: "Nie"
-   72 WordUsername: "U¾ytkownik"
-   73 WordPassword: "Hasˆo"
-   74 WordPort: "Port"
-   75 WordHostname: "Host"
-   76 
-   77 // Using
-   78 UsingConnect: "Connect [hostname(:port)]"
-   79 UsingRConnect: "RConnect [localport] [maxconnections]"
-   80 UsingExecute: "Execute [polecenie] <parametry>" //New
-   81 UsingSet: "Ustaw zmienn¥ [%s]"
-   82 UsingSetLang: "Ustaw j©zyk [paczka]"
-   83 UsingSetCodePage: "Zmieä kodowanie [numer]"
-   84 
-   85 // Field
-   86 FieldDone: "[zrobione]"
-   87 FieldFail: "[bˆ¥d]"
-   88 FieldEmpty: "<puste>"
-   89 FieldUsername: "domy˜lny"
-   90 FieldLocation: "nigdzie"
-   91 
-   92 //Authors
-   93 MainProgramer: "Main Programer: Bartlomiej Burdukiewicz <strikeu@poczta.linux.pl>"
-   94 MainWebEditor: "Main Web Editor/Tester: Jarek Bojko <vazir.pl@gmail.com>"
-   95 
-   96 EnLang: "English language support: Pawel Parcianko <pawelparcianko@wp.pl>, Main Programer"
-   97 EsLang: "Spanish language support: Jose Ruben <ruben_balea@hotmail.com>"
-   98 PlLang: "Polisch language support: Main Programer"
+// Operating System
+WindowsConsoleCodePage: "852"
+
+// Messages
+MsgWelcome: "Witaj w %s , ¾yczymy udanej pracy"
+MsgCmdFail: "Polecenie nie powiodˆo si©"
+MsgLogoff: "Wylogowywanie, prosz© czeka†..."
+MsgCantLogoff: "Nie mo¾na ukoäczy† operacji wylogowywania, nast¥pi rozˆ¥czenie..."
+MsgCmdNotFound: "Polecenie '%s' jest nieznane"
+MsgSetUsername: "Podaj nazw© u¾ytkownika:"
+MsgSetPassword: "Podaj hasˆo:"
+MsgLongUsername: "Nazwa u¾ytkownika jest za dˆuga"
+MsgLongPassword: "Hasˆo jest za dˆugie"
+MsgPreparAuthorize: "Przygotowywanie do autoryzacji"
+MsgCantAuthorize: "Nie mo¾na autoryzowa† poˆ¥czenia"
+MsgAuthorized: "Poˆ¥czenie zostaˆo autoryzowane"
+MsgAlreadyConnected: "Jeste˜ ju¾ poˆ¥czony"
+MsgDisconnectConnection: "Rozˆanczanie..."
+MsgCantFindHostname: "Nie mo¾na znale«† hosta"
+MsgCancelConnect: "Naci˜nij Enter, aby przerwa†"
+MsgCloseSocket: "Zamykanie gniazda..."
+MsgConnected: "Jeste˜ poˆ¥czony"
+MsgCantConnect: Nie mo¾na poˆ¥czy† si©"
+MsgUnknownProto: "Nieznany protok¢ˆ"
+MsgDisconnect: "Rozˆ¥czenie"
+MsgDisconnected: "Rozˆ¥czono"
+MsgNotConnected: "Nie poˆ¥czono"
+MsgRConnectPressEnter: "Naci˜nij enter aby przerwa†"
+MsgRConnectWaiting: "Oczekiwanie poˆ¥czeä..."
+MsgRConnectThreadEnd: "Zamykanie w¥tku..."
+MsgRConnectChose: "Wybierz poˆ¥czenie :"
+MsgRConnectUnknownID: "Nieznane ID poˆ¥czenia"
+MsgSetVariableDone: "Zmienna zostaˆa ustawiona pomy˜lnie"
+MsgSetVariableFail: "Zmienna nie zostaˆa zmieniona"
+MsgSetVariableUnknown: "Nieznana zmienna '%s' do ustawienia"
+
+MsgNotConnected: "Nie jeste˜ poˆ¥czony" ///// NEW
+MsgNotAuthorized: "Twoje poˆ¥czenie wymaga autoryzacji" ///// NEW
+MsgNotConnectedAndAuthorized: "Nie jeste˜ poˆ¥czony ani autoryzowany" ///// NEW
+MsgWaitForResponse: "Oczekiwanie na odpowied«..." ///// NEW
+MsgCommandExecuted: "Polecenie zostaˆo wykonane"  /////NEW
+MsgEndOfData: "Koniec strumienia..."ÿ ///NEW
+
+// Help
+HelpAbout: "Strona o autorach"
+HelpConnect: "Poˆ¥cz si© z serwerem"
+HelpClear: "Czy˜† konsole"
+HelpDisconnect: "Rozˆ¥cz wszystkie poˆ¥czenia"
+HelpExecute: "Wywoˆaj zdalnie polecenie"
+HelpExit: "Zamknij aplikacje"
+HelpHelp: "Poka¾ stron© pomocy"
+HelpLogin: "Logowanie"
+HelpLogout: "Wylogowywanie"
+HelpProcessList: "Pobierz list proces¢w z zdalnego hosta" ///// NEW
+HelpRConnect: "Poˆ¥czenie odwrotne (oczekiwanie poˆ¥czeä)"
+HelpSet: "Ustaw zmienn¥"
+HelpStatus: "Poka¾ status"
+HelpSysInfo: "Pobierz informacje o systemie z zdalnego hosta" ///// NEW
+HelpQuit: "To samo co Exit"
+
+// Status
+StatusAuthorized: "Autoryzowano"
+StatusConnected: "Poˆ¥czono"
+StatusHostname: "Nazwa Hosta"
+StatusPort: "Port"
+StatusUsername: "U¾ytkownik"
+StatusPassword: "Hasˆo"
+
+// Words
+BoolTrue: "Tak"
+BoolFalse: "Nie"
+WordUsername: "U¾ytkownik"
+WordPassword: "Hasˆo"
+WordPort: "Port"
+WordHostname: "Host"
+
+// Using
+UsingConnect: "Connect [hostname(:port)]"
+UsingRConnect: "RConnect [localport] [maxconnections]"
+UsingExecute: "Execute [polecenie] <parametry>" //New
+UsingSet: "Ustaw zmienn¥ [%s]"
+UsingSetLang: "Ustaw j©zyk [paczka]"
+UsingSetCodePage: "Zmieä kodowanie [numer]"
+
+// Field
+FieldDone: "[zrobione]"
+FieldFail: "[bˆ¥d]"
+FieldEmpty: "<puste>"
+FieldUsername: "domy˜lny"
+FieldLocation: "nigdzie"
+
+//Authors
+MainProgramer: "Main Programer: Bartlomiej Burdukiewicz <strikeu@poczta.linux.pl>"
+MainWebEditor: "Main Web Editor/Tester: Jarek Bojko <vazir.pl@gmail.com>"
+
+EnLang: "English language support: Pawel Parcianko <pawelparcianko@wp.pl>, Main Programer"
+EsLang: "Spanish language support: Jose Ruben <ruben_balea@hotmail.com>"
+PlLang: "Polisch language support: Main Programer"
