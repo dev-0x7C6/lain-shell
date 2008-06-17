@@ -105,6 +105,15 @@ uses Extensions, Engine, Lang;
   Result := SendQuery(Lain_Users_CCUserPwd);
  end;
  
+ function RecvResponse :Boolean;
+ var
+  Response :Boolean;
+ begin
+  Writeln(Prefix, 'Receiving response...', EndLineChar);                        /// MLS
+  Response := False;
+  Connection.Recv(Response, SizeOf(Response));
+  Result := Response;
+ end;
  
  function CMD_Users_AddUser_Query :Longint;
  var
@@ -114,26 +123,38 @@ uses Extensions, Engine, Lang;
  begin
   Writeln(Prefix, 'Create new profile', EndLineChar);                           /// MLS
   Writeln(EndLineChar);
-  Write(Prefix, 'Username: '); Read(Username); Write(EndLineChar);              /// MLS
+  Write(Prefix, 'Profile name: '); Read(Username); Write(EndLineChar);          /// MLS
   Write(Prefix, 'Password: '); Read(Password); Write(EndLineChar);              /// MLS
   Writeln(EndLineChar);
   Writeln(Prefix, 'Sending data', EndLineChar);                                 /// MLS
   Connection.SendString(Username);
   Connection.SendString(Password);
-  Writeln(Prefix, 'Receiving response...', EndLineChar);                        /// MLS
-  Connection.Recv(Response, SizeOf(Response));
-  if Response = true then
+  if RecvResponse  = true then
    Writeln(Prefix, 'Add new user successful', EndLineChar) else                 /// MLS
    Writeln(Prefix, 'Can''t add new user', EndLineChar);                         /// MLS
  end;
  
  function CMD_Users_DelUser_Query :Longint;
+ var
+  Name :AnsiString;
+  Response :Boolean;
  begin;
-  Writeln
+  Writeln(Prefix, 'Delete profile', EndLineChar);                               /// MLS
+  Writeln(EndLineChar);
+  Write(Prefix, 'Profile name: '); Read(Name); Writeln(EndLineChar);            /// MLS
+  Writeln(Prefix, 'Sending data', EndLineChar);                                 /// MLS
+  Connection.SendString(Name);
+  if RecvResponse = True then
+   Writeln(Prefix, 'Delete profile successful', EndLineChar) else               /// MLS
+   Writeln(Prefix, 'Can''t delete profile', EndLineChar);                       /// MLS
  end;
  
  function CMD_Users_LstUser_Query :Longint;
+ var
+  List :AnsiString;
  begin
+  Connection.RecvString(List);
+  Writeln(List);
  end;
 
  
