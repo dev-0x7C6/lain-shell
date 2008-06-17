@@ -31,28 +31,25 @@ const
  Lain_Users_CAddUser = 40;
  Lain_Users_CDelUser = 41;
  Lain_Users_CLstUser = 42;
+ Lain_Users_CCUser = 43;
+ Lain_Users_CCUserPwd = 44;
 
  function CMD_UsersCase(var Params :TParams) :Longint;
-
  function CMD_Users_AddUser(var Params :TParams) :Longint;
  function CMD_Users_AddUser_Query :Longint;
- 
  function CMD_Users_DelUser(var Params :TParams) :Longint;
  function CMD_Users_DelUser_Query :Longint;
- 
  function CMD_Users_LstUser(var Params :TParams) :Longint;
  function CMD_Users_LstUser_Query :Longint;
-
- function CMD_Users_CheckUser(var Params :TParams) :Logint;
+ function CMD_Users_CheckUser(var Params :TParams) :Longint;
  function CMD_Users_CheckUser_Query :Longint;
- 
  function CMD_Users_ChangeUserPwd(var Params :TParams) :Longint;
  function CMD_Users_ChangeUserPwd_Query :Longint;
 
 
 implementation
 
-uses Extensions;
+uses Extensions, Engine, Lang;
 
  function CMD_UsersCase(var Params :TParams) :Longint;
  var
@@ -76,23 +73,44 @@ uses Extensions;
   end;
  end;
 
- function CMD_Users_AddUser(var Params :TParams) :Longint;
- var
-  Param :String;
+ function SendQuery(const Query :Word) :Longint;
  begin
-  if Length(Params) > 2 then
-  begin
-   Param := LowerCase(Params[2]);
-   Writeln(Prefix, MultiLanguageSupport.GetString('MsgWaitForResponse'), EndLineChar);
-   LainClientSendQuery(Lain_Users_CAddUser);
-   LainClientWaitForQuery;
-  end;
+  Writeln(Prefix, MultiLanguageSupport.GetString('MsgWaitForResponse'), EndLineChar);
+  Result := LainClientSendQuery(Query);
+  LainClientWaitForQuery;
  end;
+
+ function CMD_Users_AddUser(var Params :TParams) :Longint;
+ begin
+  Result := SendQuery(Lain_Users_CAddUser);
+ end;
+ 
+ function CMD_Users_DelUser(var Params :TParams) :Longint;
+ begin
+  Result := SendQuery(Lain_Users_CDelUser);
+ end;
+ 
+ function CMD_Users_LstUser(var Params :TParams) :Longint;
+ begin
+  Result := SendQuery(Lain_Users_CLstUser);
+ end;
+ 
+ function CMD_Users_CheckUser(var Params :TParams) :Longint;
+ begin
+  Result := SendQuery(Lain_Users_CCUser);
+ end;
+ 
+ function CMD_Users_ChangeUserPwd(var Params :TParams) :Longint;
+ begin
+  Result := SendQuery(Lain_Users_CCUserPwd);
+ end;
+ 
  
  function CMD_Users_AddUser_Query :Longint;
  var
-  Username :String;
-  Password :String;
+  Username :AnsiString;
+  Password :AnsiString;
+  Response :Boolean;
  begin
   Writeln(Prefix, 'Create new profile', EndLineChar);                           /// MLS
   Writeln(EndLineChar);
@@ -100,36 +118,29 @@ uses Extensions;
   Write(Prefix, 'Password: '); Read(Password); Write(EndLineChar);              /// MLS
   Writeln(EndLineChar);
   Writeln(Prefix, 'Sending data', EndLineChar);                                 /// MLS
-  Writeln;
- end;
- 
- function CMD_Users_DelUser(var Params :TParams) :Longint;
- begin
+  Connection.SendString(Username);
+  Connection.SendString(Password);
+  Writeln(Prefix, 'Receiving response...', EndLineChar);                        /// MLS
+  Connection.Recv(Response, SizeOf(Response));
+  if Response = true then
+   Writeln(Prefix, 'Add new user successful', EndLineChar) else                 /// MLS
+   Writeln(Prefix, 'Can''t add new user', EndLineChar);                         /// MLS
  end;
  
  function CMD_Users_DelUser_Query :Longint;
  begin;
- end;
- 
- function CMD_Users_LstUser(var Params :TParams) :Longint;
- begin
+  Writeln
  end;
  
  function CMD_Users_LstUser_Query :Longint;
  begin
  end;
- 
- function CMD_Users_CheckUser(var Params :TParams) :Logint;
- begin
- end;
+
  
  function CMD_Users_CheckUser_Query :Longint;
  begin
  end;
- 
- function CMD_Users_ChangeUserPwd(var Params :TParams) :Longint;
- begin
- end;
+
  
  function CMD_Users_ChangeUserPwd_Query :Longint;
  begin

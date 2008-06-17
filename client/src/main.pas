@@ -34,7 +34,7 @@ Const
  EndLineChar = #13;
 
 Const
- ConsoleTitle :WideString = 'LainShell Client v0.00.60.9';
+ ConsoleTitle :WideString = 'LainShell Client v0.00.70.0';
  Prefix = ' >>> ';
  
 Const
