@@ -7,7 +7,6 @@
       <MainUnit Value="0"/>
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
-      <ActiveEditorIndexAtStart Value="3"/>
     </General>
     <VersionInfo>
       <ProjectVersion Value=""/>
@@ -38,9 +37,7 @@
         <UnitName Value="uniserver"/>
         <CursorPos X="43" Y="161"/>
         <TopLine Value="156"/>
-        <EditorIndex Value="0"/>
         <UsageCount Value="189"/>
-        <Loaded Value="True"/>
       </Unit0>
       <Unit1>
         <Filename Value="units/fsutils.pas"/>
@@ -139,9 +136,7 @@
         <UnitName Value="Config"/>
         <CursorPos X="63" Y="203"/>
         <TopLine Value="60"/>
-        <EditorIndex Value="1"/>
         <UsageCount Value="149"/>
-        <Loaded Value="True"/>
       </Unit14>
       <Unit15>
         <Filename Value="src/execute.pas"/>
@@ -222,9 +217,7 @@
         <UnitName Value="Params"/>
         <CursorPos X="13" Y="95"/>
         <TopLine Value="80"/>
-        <EditorIndex Value="5"/>
         <UsageCount Value="84"/>
-        <Loaded Value="True"/>
       </Unit25>
       <Unit26>
         <Filename Value="C:/lazarus/fpc/2.2.1/source/rtl/inc/heaptrc.pp"/>
@@ -295,11 +288,9 @@
         <Filename Value="src/loop.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Loop"/>
-        <CursorPos X="63" Y="61"/>
-        <TopLine Value="50"/>
-        <EditorIndex Value="3"/>
+        <CursorPos X="28" Y="117"/>
+        <TopLine Value="114"/>
         <UsageCount Value="30"/>
-        <Loaded Value="True"/>
       </Unit35>
       <Unit36>
         <Filename Value="src/consts.pas"/>
@@ -307,9 +298,7 @@
         <UnitName Value="Consts"/>
         <CursorPos X="31" Y="29"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="2"/>
         <UsageCount Value="30"/>
-        <Loaded Value="True"/>
       </Unit36>
       <Unit37>
         <Filename Value="src/sharemem.pas"/>
@@ -317,9 +306,7 @@
         <UnitName Value="ShareMem"/>
         <CursorPos X="11" Y="78"/>
         <TopLine Value="40"/>
-        <EditorIndex Value="4"/>
         <UsageCount Value="30"/>
-        <Loaded Value="True"/>
       </Unit37>
       <Unit38>
         <Filename Value="../../../mathutils/mathutils/qfunc/qfunc.pas"/>
@@ -336,16 +323,7 @@
         <UsageCount Value="10"/>
       </Unit39>
     </Units>
-    <JumpHistory Count="2" HistoryIndex="1">
-      <Position1>
-        <Filename Value="src/loop.pas"/>
-        <Caret Line="94" Column="53" TopLine="84"/>
-      </Position1>
-      <Position2>
-        <Filename Value="src/loop.pas"/>
-        <Caret Line="68" Column="22" TopLine="43"/>
-      </Position2>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>

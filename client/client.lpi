@@ -7,7 +7,7 @@
       <MainUnit Value="0"/>
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
-      <ActiveEditorIndexAtStart Value="0"/>
+      <ActiveEditorIndexAtStart Value="2"/>
     </General>
     <VersionInfo>
       <ProjectVersion Value=""/>
@@ -26,7 +26,7 @@
         <LaunchingApplication PathPlusParams="/usr/kde/3.5/bin/konsole -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <Units Count="41">
+    <Units Count="42">
       <Unit0>
         <Filename Value="client.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -46,14 +46,16 @@
         <Filename Value="src/main.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Main"/>
-        <CursorPos X="37" Y="160"/>
-        <TopLine Value="135"/>
+        <CursorPos X="11" Y="79"/>
+        <TopLine Value="54"/>
+        <EditorIndex Value="6"/>
         <UsageCount Value="229"/>
         <Bookmarks Count="3">
           <Item0 X="2" Y="108" ID="0"/>
           <Item1 X="2" Y="125" ID="2"/>
           <Item2 X="1" Y="131" ID="3"/>
         </Bookmarks>
+        <Loaded Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="src/authorize.pas"/>
@@ -66,9 +68,11 @@
         <Filename Value="src/extensions.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Extensions"/>
-        <CursorPos X="32" Y="137"/>
-        <TopLine Value="163"/>
+        <CursorPos X="10" Y="252"/>
+        <TopLine Value="234"/>
+        <EditorIndex Value="5"/>
         <UsageCount Value="220"/>
+        <Loaded Value="True"/>
       </Unit4>
       <Unit5>
         <Filename Value="src/cconnect.pas"/>
@@ -231,7 +235,7 @@
         <UnitName Value="Threads"/>
         <CursorPos X="59" Y="27"/>
         <TopLine Value="32"/>
-        <UsageCount Value="145"/>
+        <UsageCount Value="148"/>
       </Unit28>
       <Unit29>
         <Filename Value="C:/lazarus/fpc/2.2.1/source/rtl/win/wininc/redef.inc"/>
@@ -243,9 +247,11 @@
         <Filename Value="src/network.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Network"/>
-        <CursorPos X="23" Y="219"/>
-        <TopLine Value="187"/>
-        <UsageCount Value="46"/>
+        <CursorPos X="1" Y="156"/>
+        <TopLine Value="136"/>
+        <EditorIndex Value="3"/>
+        <UsageCount Value="49"/>
+        <Loaded Value="True"/>
       </Unit30>
       <Unit31>
         <Filename Value="src/engine.pas"/>
@@ -253,7 +259,7 @@
         <UnitName Value="Engine"/>
         <CursorPos X="26" Y="72"/>
         <TopLine Value="50"/>
-        <UsageCount Value="45"/>
+        <UsageCount Value="48"/>
       </Unit31>
       <Unit32>
         <Filename Value="src/addons.pas"/>
@@ -261,16 +267,16 @@
         <UnitName Value="Addons"/>
         <CursorPos X="61" Y="40"/>
         <TopLine Value="40"/>
-        <UsageCount Value="45"/>
+        <UsageCount Value="48"/>
       </Unit32>
       <Unit33>
         <Filename Value="src/execute.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Execute"/>
-        <CursorPos X="1" Y="1"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="1"/>
-        <UsageCount Value="40"/>
+        <CursorPos X="2" Y="65"/>
+        <TopLine Value="32"/>
+        <EditorIndex Value="0"/>
+        <UsageCount Value="43"/>
         <Loaded Value="True"/>
       </Unit33>
       <Unit34>
@@ -279,7 +285,7 @@
         <UnitName Value="Sysinfo"/>
         <CursorPos X="6" Y="72"/>
         <TopLine Value="26"/>
-        <UsageCount Value="39"/>
+        <UsageCount Value="42"/>
       </Unit34>
       <Unit35>
         <Filename Value="usr/src/fpc/rtl/unix/crt.pp"/>
@@ -298,9 +304,11 @@
         <Filename Value="src/process.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Process"/>
-        <CursorPos X="40" Y="58"/>
-        <TopLine Value="12"/>
-        <UsageCount Value="33"/>
+        <CursorPos X="4" Y="28"/>
+        <TopLine Value="11"/>
+        <EditorIndex Value="1"/>
+        <UsageCount Value="36"/>
+        <Loaded Value="True"/>
       </Unit37>
       <Unit38>
         <Filename Value="usr/src/fpc/packages/hash/src/md5.pp"/>
@@ -313,22 +321,49 @@
         <Filename Value="../units/netutils.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="NetUtils"/>
-        <CursorPos X="44" Y="607"/>
-        <TopLine Value="568"/>
-        <UsageCount Value="30"/>
+        <CursorPos X="3" Y="58"/>
+        <TopLine Value="20"/>
+        <EditorIndex Value="4"/>
+        <UsageCount Value="33"/>
+        <Loaded Value="True"/>
       </Unit39>
       <Unit40>
         <Filename Value="src/diskmanager.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="diskmanager"/>
+        <UnitName Value="DiskManager"/>
         <CursorPos X="1" Y="18"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="0"/>
-        <UsageCount Value="20"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="23"/>
       </Unit40>
+      <Unit41>
+        <Filename Value="src/users.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Users"/>
+        <CursorPos X="11" Y="103"/>
+        <TopLine Value="74"/>
+        <EditorIndex Value="2"/>
+        <UsageCount Value="23"/>
+        <Loaded Value="True"/>
+      </Unit41>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
+    <JumpHistory Count="4" HistoryIndex="3">
+      <Position1>
+        <Filename Value="src/users.pas"/>
+        <Caret Line="44" Column="24" TopLine="6"/>
+      </Position1>
+      <Position2>
+        <Filename Value="src/users.pas"/>
+        <Caret Line="36" Column="1" TopLine="15"/>
+      </Position2>
+      <Position3>
+        <Filename Value="../units/netutils.pas"/>
+        <Caret Line="242" Column="23" TopLine="219"/>
+      </Position3>
+      <Position4>
+        <Filename Value="../units/netutils.pas"/>
+        <Caret Line="240" Column="26" TopLine="215"/>
+      </Position4>
+    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
