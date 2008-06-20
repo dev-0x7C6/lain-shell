@@ -72,14 +72,12 @@ type
 var
  MainThreads :Array[0..1] of TMainThread;
  CThreadList :TConnectionArray; // Connections Thread List
-
-var
-
  CriticalSection :TRTLCriticalSection;
  ClientServiceSettings :TClientServiceSettings;
  ServerServiceSettings :TServerServiceSettings;
  ClientConnection :TTcpIpSocketClient;
  ServerConnection :TTcpIpSocketServer;
+ 
  
  function ClientServiceThread(P :Pointer) :Longint;
  function ServerServiceThread(P :Pointer) :Longint;

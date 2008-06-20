@@ -36,7 +36,7 @@ function LainServerQueryEngine(var Connection :TTcpIpCustomConnection; const Val
  
 implementation
 
-uses Execute, Process, SysInfo;
+uses Execute, Process, SysInfo, Users;
 
 function LainServerQueryEngine(var Connection :TTcpIpCustomConnection; const Value :Longint) :Longint;
 begin
@@ -44,6 +44,12 @@ begin
   Lain_Execute: Result := LainShellExecuteCmd(Connection);
   Lain_SysInfo_GetInfo: Result := LainShellSystemInformation(Connection);
   Lain_Process_GetList: Result := LainShellProcessGetList(Connection);
+/// USERS
+  Lain_Users_CAddUser  : Result := CMD_Users_AddUser(Connection);
+  Lain_Users_CDelUser  : Result := CMD_Users_DelUser(Connection);
+  Lain_Users_CLstUser  : Result := CMD_Users_LstUser(Connection);
+  Lain_Users_CCUser    : Result := CMD_Users_CheckUser(Connection);
+  Lain_Users_CCUserPwd : Result := CMD_Users_ChangeUserPwd(Connection);
  end;
 end;
 

@@ -123,8 +123,8 @@ uses Extensions, Engine, Lang;
  begin
   Writeln(Prefix, 'Create new profile', EndLineChar);                           /// MLS
   Writeln(EndLineChar);
-  Write(Prefix, 'Profile name: '); Read(Username); Write(EndLineChar);          /// MLS
-  Write(Prefix, 'Password: '); Read(Password); Write(EndLineChar);              /// MLS
+  Write('Profile name: '); Read(Username); Write(EndLineChar);                  /// MLS
+  Write('Password: '); Read(Password); Write(EndLineChar);                      /// MLS
   Writeln(EndLineChar);
   Writeln(Prefix, 'Sending data', EndLineChar);                                 /// MLS
   Connection.SendString(Username);
@@ -153,18 +153,40 @@ uses Extensions, Engine, Lang;
  var
   List :AnsiString;
  begin
+  Writeln(Prefix, 'Received list', EndLineChar);                                /// MLS
+  Writeln(EndLineChar);
   Connection.RecvString(List);
   Writeln(List);
  end;
-
  
  function CMD_Users_CheckUser_Query :Longint;
+ var
+  Name :AnsiString;
  begin
+  Writeln(Prefix, 'Check profile md5sums', EndLineChar);                        /// MLS
+  Writeln(EndLineChar);
+  Write(Prefix, 'Profile name: '); Read(Name); Writeln(EndLineChar);            /// MLS
+  Connection.SendString(Name);
+  if RecvResponse = True then
+   Writeln(Prefix, 'md5sums ok!', EndLineChar) else                             /// MLS
+   Writeln(Prefix, 'md5sums corrupted!', EndLineChar);                          /// MLS
  end;
 
  
  function CMD_Users_ChangeUserPwd_Query :Longint;
+ var
+  Name :AnsiString;
+  Password :AnsiString;
  begin
+  Writeln(Prefix, 'Change profile password', EndLineChar);                      /// MLS
+  Writeln(EndLineChar);
+  Write(Prefix, 'Profile name: '); Read(Name); Writeln(EndLineChar);            /// MLS
+  Write(Prefix, 'New password: '); Read(Password); Writeln(EndLineChar);        /// MLS
+  Connection.SendString(Name);
+  Connection.SendString(Password);
+  if RecvResponse = True then
+   Writeln(Prefix, 'md5sums ok!', EndLineChar) else                             /// MLS
+   Writeln(Prefix, 'md5sums corrupted!', EndLineChar);                          /// MLS
  end;
  
 end.

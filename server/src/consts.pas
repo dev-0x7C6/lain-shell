@@ -46,6 +46,8 @@ Const
  ConfigFileName :AnsiString = 'lainconf.txt';
 {$endif}
 
+
+
 implementation
 
 end.

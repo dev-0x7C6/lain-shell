@@ -80,7 +80,7 @@ var
 
 implementation
 
-uses Addons, Engine, Execute, Extensions, Lang, Network, Process, SysInfo;
+uses Addons, Engine, Execute, Extensions, Lang, Network, Process, SysInfo, Users;
 
 function CheckConnectionAndAuthorization :Boolean;
 begin
@@ -167,6 +167,7 @@ begin
  if (Cmd = 'set') then Exit(CMDSetCase(Params));
  if (Cmd = 'status') then Exit(CMD_Status(Params));
  if (Cmd = 'sysinfo') then Exit(CMD_SysInfo(Params));
+ if (Cmd = 'users') then Exit(CMD_UsersCase(Params));
  
  if Length(Params[0]) > 0 then
  begin

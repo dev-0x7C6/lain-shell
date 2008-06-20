@@ -58,7 +58,7 @@ Type
  TCmdHint = Array[0..1] of WideString;
 
 var
- HelpList :Array[0..14] of TCmdHint =
+ HelpList :Array[0..15] of TCmdHint =
   (('About      ', ''),
    ('Connect    ', ''),
    ('Clear      ', ''),
@@ -73,7 +73,8 @@ var
    ('Set        ', ''),
    ('Status     ', ''),
    ('Sysinfo    ', ''),
-   ('Quit       ', '')
+   ('Quit       ', ''),
+   ('Users      ', '')
   );
 
 var
@@ -260,6 +261,7 @@ begin
   HelpList[12][1] := MultiLanguageSupport.GetString('HelpStatus');
   HelpList[13][1] := MultiLanguageSupport.GetString('HelpSysinfo');
   HelpList[14][1] := MultiLanguageSupport.GetString('HelpQuit');
+  HelpList[15][1] := MultiLanguageSupport.GetString('HelpUsers');
   if ConsoleUser = '' then
    ConsoleUser := MultiLanguageSupport.GetString('FieldUsername');
   if ConsoleHost = '' then

@@ -29,7 +29,7 @@ uses
 {$endif}
   Main, SysUtils, Authorize, Engine, Sockets, Config, Execute, Sysinfo, Process,
   LainDataBase, Params, Diskmgr, ConvNum, FSUtils, NetUtils, Loop, Consts,
-  ShareMem;
+  ShareMem, Users;
 
 var
  Reconfigure :Boolean;
@@ -122,19 +122,13 @@ end;
 var
  FirstParametr :String;
  X :Longint;
-{$ifdef unix}
- LainDirectory :String;
-{$endif}
 
 procedure Exit_LainShellServer;
 begin
 {$ifdef unix}
- LainDBControlClass.SaveLainDBToFile(LainDirectory + DataBaseFileName);
  Writeln(EndLineChar);
 {$endif}
-{$ifdef windows}
- LainDBControlClass.SaveLainDBToRegistry(RegistryKey, RegistryValue);
-{$endif}
+ SaveState;
  LainDBControlClass.Free;
  DoneCriticalSection(CriticalSection);
 end;

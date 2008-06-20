@@ -54,7 +54,7 @@ Const
 
 implementation
 
-uses Execute, Extensions, Lang, Process, SysInfo, Threads;
+uses Execute, Extensions, Lang, Process, SysInfo, Threads, Users;
 
 function CMD_Logout(var Params :TParams) :Longint;
 begin
@@ -262,6 +262,13 @@ begin
    Lain_Execute: CMD_Execute_Query;
    Lain_SysInfo_GetInfo: CMD_SysInfo_Query;
    Lain_Process_GetList: CMD_ProcessList_Query;
+/// USERS
+   Lain_Users_CAddUser  :CMD_Users_AddUser_Query;
+   Lain_Users_CDelUser  :CMD_Users_DelUser_Query;
+   Lain_Users_CLstUser  :CMD_Users_LstUser_Query;
+   Lain_Users_CCUser    :CMD_Users_CheckUser_Query;
+   Lain_Users_CCUserPwd :CMD_Users_ChangeUserPwd_Query;
+   
   end;
   EnterCriticalSection(CriticalSection);
   RTLEventSetEvent(QueryEvent);
