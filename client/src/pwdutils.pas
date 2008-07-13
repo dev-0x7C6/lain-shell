@@ -27,31 +27,38 @@ uses
 
 const
  ASCIIRange :Array[0..1] of Byte = (32, 126);
- PasswdChar = '*';
- 
  ASCIIBackspace = #8;
  ASCIIReturn = #13;
  
  Error_EmptyPassword  = 01;
  
  function SetPasswd(var Passwd :AnsiString; Error :Byte) :Boolean;
+ function GetPasswd(var Passwd :AnsiString; Error :Byte) :Boolean;
  function CapturePassword(var Passwd :AnsiString) :Byte;
   
 implementation
+
+function GetPasswd(var Passwd :AnsiString; Error :Byte) :Boolean;
+var
+ Password :AnsiString;
+begin
+ Write('Password: ');
+ CapturePassword(Password);
+end;
 
 function SetPasswd(var Passwd :AnsiString; Error :Byte) :Boolean;
 var
  Password1, Password2 :AnsiString;
  CheckError :Byte;
 begin
- Write('Password: ');
+ Write('New Password: ');
  CheckError := CapturePassword(Password1);
  case CheckError of
   Error_EmptyPassword: Writeln('Error: Password is empty'#13);
  end;
  if CheckError <> 0 then
   Exit(False);
- Write('Re-Type Password: ');
+ Write('Re-Type New Password: ');
  CheckError := CapturePassword(Password2);
  case CheckError of
   Error_EmptyPassword: Writeln('Error: Password is empty'#13);

@@ -113,8 +113,8 @@ var
 begin
  if Connection.Connected = True then
  begin
-  Writeln(Prefix, MultiLanguageSupport.GetString('MsgAlreadyConnected'), EndLineChar);
-  Writeln(Prefix, MultiLanguageSupport.GetString('MsgDisconnectConnection'), EndLineChar);
+  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgAlreadyConnected'), EndLineChar);
+  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgDisconnectConnection'), EndLineChar);
   Exit(CMD_Fail);
  end;
  
@@ -140,12 +140,12 @@ begin
 
  if Connection.Hostname = '' then
  begin
-  Writeln(Prefix, MultiLanguageSupport.GetString('MsgCantFindHostname'), EndLineChar);
+  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgCantFindHostname'), EndLineChar);
   Exit(CMD_Fail);
  end;
 
  Connection.Port := StrToIntDef(LainClientData.Port, 9896);
- Writeln(Prefix, MultiLanguageSupport.GetString('MsgCancelConnect'), EndLineChar);
+ Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgCancelConnect'), EndLineChar);
 
  ThreadEvent := RTLEventCreate;
  ThreadFree := False;
@@ -168,7 +168,7 @@ begin
    if GetKeyEventChar(Key) = kbdReturn then
    begin
     EnterCriticalSection(CriticalSection);
-    Write(Prefix, MultiLanguageSupport.GetString('MsgCloseSocket') + ' ');
+    Write(Prefix_Out, MultiLanguageSupport.GetString('MsgCloseSocket') + ' ');
     if Main.Connection.Disconnect then
      Writeln(MultiLanguageSupport.GetString('FieldDone') + EndLineChar) else
      Writeln(MultiLanguageSupport.GetString('FieldFail') + EndLineChar);
@@ -192,19 +192,19 @@ begin
  if (Connection.Connected = True) then
  begin
   ConsoleHost := LainClientData.Hostname;
-  Writeln(Prefix, MultiLanguageSupport.GetString('MsgConnected') + ' ', ConsoleHost, EndLineChar);
+  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgConnected') + ' ', ConsoleHost, EndLineChar);
   Result := CMD_Done;
  end else
  begin
-  Writeln(Prefix, MultiLanguageSupport.GetString('MsgCantConnect'), EndLineChar);
+  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgCantConnect'), EndLineChar);
   Exit(CMD_Fail);
  end;
  
  if (ConnectionAccept = False) then
  begin
   Connection.Disconnect;
-  Writeln(Prefix, MultiLanguageSupport.GetString('MsgUnknownProto'), EndLineChar);
-  Writeln(Prefix, MultiLanguageSupport.GetString('MsgDisconnect'), EndLineChar);
+  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgUnknownProto'), EndLineChar);
+  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgDisconnect'), EndLineChar);
   Result := CMD_Fail;
  end;
 end;
@@ -222,9 +222,9 @@ begin
   LainClientData.Authorized := False;
   ConsoleUser := MultiLanguageSupport.GetString('FieldUsername');
   ConsoleHost := MultiLanguageSupport.GetString('FieldLocation');
-  Writeln(Prefix, MultiLanguageSupport.GetString('MsgDisconnected'), EndLineChar);
+  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgDisconnected'), EndLineChar);
  end else
-  Writeln(Prefix, MultiLanguageSupport.GetString('MsgNotConnected'), EndLineChar);
+  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgNotConnected'), EndLineChar);
  Result := CMD_Done;
 end;
 
@@ -316,8 +316,8 @@ begin
  ConnectionID := 1;
  Connections := nil;
 
- Writeln(Prefix, MultiLanguageSupport.GetString('MsgRConnectPressEnter'), EndLineChar);
- Writeln(Prefix, MultiLanguageSupport.GetString('MsgRConnectWaiting'), EndLineChar);
+ Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgRConnectPressEnter'), EndLineChar);
+ Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgRConnectWaiting'), EndLineChar);
  RCConnectThreadEvent := RTLEventCreate;
 
 {$ifdef unix}
@@ -335,7 +335,7 @@ begin
   begin
    RCConnection.Shutdown;
    RCConnection.CloseSocket;
-   Write(Prefix, MultiLanguageSupport.GetString('MsgRConnectThreadEnd'));
+   Write(Prefix_Out, MultiLanguageSupport.GetString('MsgRConnectThreadEnd'));
    RTLEventWaitFor(RCConnectThreadEvent);
    Writeln(MultiLanguageSupport.GetString('FieldDone'), EndLineChar);
    Break;

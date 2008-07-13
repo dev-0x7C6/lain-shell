@@ -62,7 +62,7 @@ begin
    SetLength(CParams, Length(CParams) - 1);
  end;
  
- Writeln(Prefix, MultiLanguageSupport.GetString('MsgWaitForResponse'), EndLineChar);
+ Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgWaitForResponse'), EndLineChar);
  LainClientSendQuery(Lain_Execute);
  LainClientWaitForQuery;
  Result := CMD_Done;
@@ -73,7 +73,7 @@ begin
  Connection.SendString(Command);
  Connection.SendString(CParams);
  EnterCriticalSection(CriticalSection);
- Writeln(Prefix, MultiLanguageSupport.GetString('MsgCommandExecuted'), EndLineChar);
+ Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgCommandExecuted'), EndLineChar);
  LeaveCriticalSection(CriticalSection);
  Result := CMD_Done;
 end;

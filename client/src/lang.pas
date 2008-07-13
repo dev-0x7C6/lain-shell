@@ -104,8 +104,8 @@ begin
  DefaultLang := LowerCase(Params[2]);
  Result := MultiLanguageInit;
  if Result = CMD_Done then
-  Writeln(Prefix, MultiLanguageSupport.GetString('MsgSetVariableDone'), EndLineChar) else
-  Writeln(Prefix, MultiLanguageSupport.GetString('MsgSetVariableFail'), EndLineChar);
+  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgSetVariableDone'), EndLineChar) else
+  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgSetVariableFail'), EndLineChar);
 end;
 
 {$ifdef windows}

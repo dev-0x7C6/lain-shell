@@ -60,10 +60,10 @@ function CMD_Logout(var Params :TParams) :Longint;
 begin
  if ((LainClientData.Authorized = True) and (Connection.Connected = True)) then
  begin
-  Writeln(Prefix, MultiLanguageSupport.GetString('MsgLogoff'), EndLineChar);
+  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgLogoff'), EndLineChar);
   if  LainClientSendQuery(Lain_Logoff) = SendQueryFail then
   begin
-   Writeln(Prefix, MultiLanguageSupport.GetString('MsgCantLogoff'), EndLineChar);
+   Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgCantLogoff'), EndLineChar);
    Connection.Disconnect;
    LainClientData.Authorized := False;
    Exit(CMD_Fail);
@@ -81,14 +81,14 @@ var
 begin
  CMD_Logout(Params);
  
- Write(Prefix, MultiLanguageSupport.GetString('MsgSetUsername') + ' ');
+ Write(Prefix_Out, MultiLanguageSupport.GetString('MsgSetUsername') + ' ');
  LainClientData.Username := Extensions.GetText;
  
  if LainClientData.Username = '' then
   Writeln(MultiLanguageSupport.GetString('FieldEmpty'), EndLineChar) else
   Writeln(EndLineChar);
   
- Write(Prefix, MultiLanguageSupport.GetString('MsgSetPassword') + ' ');
+ Write(Prefix_Out, MultiLanguageSupport.GetString('MsgSetPassword') + ' ');
  LainClientData.Password := GetPasswd('*');
  
  if LainClientData.Password = '' then
@@ -97,13 +97,13 @@ begin
 
  if (Length(LainClientData.Username) > SizeOf(UserIdent.Username)) then
  begin
-  Writeln(Prefix, MultiLanguageSupport.GetString('MsgLongUsername'), EndLineChar);
+  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgLongUsername'), EndLineChar);
   Exit(CMD_Fail);
  end;
 
  if (Length(LainClientData.Password) > SizeOf(UserIdent.Password)) then
  begin
-  Writeln(Prefix, MultiLanguageSupport.GetString('MsgLongPassword'), EndLineChar);
+  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgLongPassword'), EndLineChar);
   Exit(CMD_Fail);
  end;
 
@@ -116,7 +116,7 @@ begin
 
  if Connection.Connected = True then
  begin
-  Writeln(Prefix, MultiLanguageSupport.GetString('MsgPreparAuthorize'), EndLineChar);
+  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgPreparAuthorize'), EndLineChar);
   Result := OnAuthorize;
  end;
 
@@ -161,7 +161,7 @@ begin
   if Verfication = Byte(True) then
   begin
    LainClientData.Authorized := True;
-   Writeln(OutPut, Prefix, MultiLanguageSupport.GetString('MsgAuthorized'), #13);
+   Writeln(OutPut, Prefix_Out, MultiLanguageSupport.GetString('MsgAuthorized'), #13);
   {$ifdef unix}
    UnixThread := TUnixThread.Create(@UnixLainClientQueryLoopBind, nil);
    UnixThread.CreateThread;
@@ -176,7 +176,7 @@ begin
   end else
   begin
    LainClientData.Authorized := False;
-   Writeln(Prefix, MultiLanguageSupport.GetString('MsgCantAuthorize'), #13);
+   Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgCantAuthorize'), #13);
    Exit(CMD_Fail);
   end;
  end;
@@ -249,7 +249,7 @@ begin
    if ConnectionClosedGracefullyErrorShow then
    begin
     Writeln(OutPut, #13);
-    Writeln(OutPut, Prefix, 'Connection closed gracefully'#13);
+    Writeln(OutPut, Prefix_Out, 'Connection closed gracefully'#13);
     Writeln(OutPut, #13);
    end;
    DrawCommandPath;

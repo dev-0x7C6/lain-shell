@@ -34,8 +34,9 @@ Const
  EndLineChar = #13;
 
 Const
- ConsoleTitle :WideString = 'LainShell Client v0.00.70.0';
- Prefix = ' >>> ';
+ ConsoleTitle :WideString = 'LainShell Client v0.00.70.1';
+ Prefix_Out = ' >>> ';
+ Prefix_In  = ' <<< ';
  
 Const
  CMD_Done = 0;
@@ -171,7 +172,7 @@ begin
  
  if Length(Params[0]) > 0 then
  begin
-  Writeln(Prefix, format(MultiLanguageSupport.GetString('MsgCmdNotFound'), [Params[0]]), EndLineChar);
+  Writeln(Prefix_Out, format(MultiLanguageSupport.GetString('MsgCmdNotFound'), [Params[0]]), EndLineChar);
  end;
 end;
 

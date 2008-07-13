@@ -40,11 +40,11 @@ function CMD_SysInfo(var Params :TParams) :Longint;
 begin
  if CheckConnectionAndAuthorization = False then
  begin
-  Writeln(Prefix, MultiLanguageSupport.GetString('MsgNotConnectedAndAuthorized'), EndLineChar);
+  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgNotConnectedAndAuthorized'), EndLineChar);
   Exit(CMD_Fail);
  end;
  
- Writeln(Prefix, MultiLanguageSupport.GetString('MsgWaitForResponse'), EndLineChar);
+ Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgWaitForResponse'), EndLineChar);
  Writeln(EndLineChar);
  
  LainClientSendQuery(Lain_SysInfo_GetInfo);

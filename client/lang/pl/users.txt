@@ -1,0 +1,20 @@
+MsgUsers.CreateNewProfile:		"Create new profile"
+MsgUsers.ProfileName:			"Profile name: "
+MsgUsers.Password:			"Password: "
+MsgUsers.SendingData:			"Sending data..."
+MsgUsers.AddNewUserSuccessful:		"Add new user successful"
+MsgUsers.CantAddNewUser:		"Can't add new user"
+
+MsgUsers.DeleteProfile:			"Delete profile"
+MsgUsers.DeleteProfileSuccessful:	"Delete profile successful"
+MsgUsers.CantDeleteProfile:		"Can't delete profile"
+MsgUsers.ReceivingList:			"Receiving lit"
+
+MsgUsers.CheckProfileMD5Sums:		"Check profile md5sums"
+MsgUsers.MD5SumsOk:			"md5sums ok!"
+MsgUsers.MD5SumsCorrupted:		"md5sums corrupted"
+
+MsgUsers.ChangeProfilePassword:		"Change profile password"
+MsgUsers.NewPassword:			"New password: "
+MsgUsers.ChangePasswordSuccessful:	"Change password successful"
+MsgUsers.CantChangePassword:		"Can't change password"

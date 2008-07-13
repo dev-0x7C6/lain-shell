@@ -75,7 +75,7 @@ uses Extensions, Engine, Lang;
 
  function SendQuery(const Query :Word) :Longint;
  begin
-  Writeln(Prefix, MultiLanguageSupport.GetString('MsgWaitForResponse'), EndLineChar);
+  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgWaitForResponse'), EndLineChar);
   Result := LainClientSendQuery(Query);
   LainClientWaitForQuery;
  end;
@@ -109,7 +109,7 @@ uses Extensions, Engine, Lang;
  var
   Response :Boolean;
  begin
-  Writeln(Prefix, 'Receiving response...', EndLineChar);                        /// MLS
+  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgWaitForResponse'), EndLineChar);
   Response := False;
   Connection.Recv(Response, SizeOf(Response));
   Result := Response;
@@ -121,17 +121,17 @@ uses Extensions, Engine, Lang;
   Password :AnsiString;
   Response :Boolean;
  begin
-  Writeln(Prefix, 'Create new profile', EndLineChar);                           /// MLS
+  Writeln(Prefix_Out, 'Create new profile', EndLineChar);                           /// MLS
   Writeln(EndLineChar);
   Write('Profile name: '); Read(Username); Write(EndLineChar);                  /// MLS
   Write('Password: '); Read(Password); Write(EndLineChar);                      /// MLS
   Writeln(EndLineChar);
-  Writeln(Prefix, 'Sending data', EndLineChar);                                 /// MLS
+  Writeln(Prefix_Out, 'Sending data', EndLineChar);                                 /// MLS
   Connection.SendString(Username);
   Connection.SendString(Password);
   if RecvResponse  = true then
-   Writeln(Prefix, 'Add new user successful', EndLineChar) else                 /// MLS
-   Writeln(Prefix, 'Can''t add new user', EndLineChar);                         /// MLS
+   Writeln(Prefix_Out, 'Add new user successful', EndLineChar) else                 /// MLS
+   Writeln(Prefix_Out, 'Can''t add new user', EndLineChar);                         /// MLS
  end;
  
  function CMD_Users_DelUser_Query :Longint;
@@ -139,21 +139,21 @@ uses Extensions, Engine, Lang;
   Name :AnsiString;
   Response :Boolean;
  begin;
-  Writeln(Prefix, 'Delete profile', EndLineChar);                               /// MLS
+  Writeln(Prefix_Out, 'Delete profile', EndLineChar);                               /// MLS
   Writeln(EndLineChar);
-  Write(Prefix, 'Profile name: '); Read(Name); Writeln(EndLineChar);            /// MLS
-  Writeln(Prefix, 'Sending data', EndLineChar);                                 /// MLS
+  Write(Prefix_Out, 'Profile name: '); Read(Name); Writeln(EndLineChar);            /// MLS
+  Writeln(Prefix_Out, 'Sending data', EndLineChar);                                 /// MLS
   Connection.SendString(Name);
   if RecvResponse = True then
-   Writeln(Prefix, 'Delete profile successful', EndLineChar) else               /// MLS
-   Writeln(Prefix, 'Can''t delete profile', EndLineChar);                       /// MLS
+   Writeln(Prefix_Out, 'Delete profile successful', EndLineChar) else               /// MLS
+   Writeln(Prefix_Out, 'Can''t delete profile', EndLineChar);                       /// MLS
  end;
  
  function CMD_Users_LstUser_Query :Longint;
  var
   List :AnsiString;
  begin
-  Writeln(Prefix, 'Received list', EndLineChar);                                /// MLS
+  Writeln(Prefix_Out, 'Received list', EndLineChar);                                /// MLS
   Writeln(EndLineChar);
   Connection.RecvString(List);
   Writeln(List);
@@ -163,13 +163,13 @@ uses Extensions, Engine, Lang;
  var
   Name :AnsiString;
  begin
-  Writeln(Prefix, 'Check profile md5sums', EndLineChar);                        /// MLS
+  Writeln(Prefix_Out, 'Check profile md5sums', EndLineChar);                        /// MLS
   Writeln(EndLineChar);
-  Write(Prefix, 'Profile name: '); Read(Name); Writeln(EndLineChar);            /// MLS
+  Write(Prefix_Out, 'Profile name: '); Read(Name); Writeln(EndLineChar);            /// MLS
   Connection.SendString(Name);
   if RecvResponse = True then
-   Writeln(Prefix, 'md5sums ok!', EndLineChar) else                             /// MLS
-   Writeln(Prefix, 'md5sums corrupted!', EndLineChar);                          /// MLS
+   Writeln(Prefix_Out, 'md5sums ok!', EndLineChar) else                             /// MLS
+   Writeln(Prefix_Out, 'md5sums corrupted!', EndLineChar);                          /// MLS
  end;
 
  
@@ -178,15 +178,15 @@ uses Extensions, Engine, Lang;
   Name :AnsiString;
   Password :AnsiString;
  begin
-  Writeln(Prefix, 'Change profile password', EndLineChar);                      /// MLS
+  Writeln(Prefix_Out, 'Change profile password', EndLineChar);                      /// MLS
   Writeln(EndLineChar);
-  Write(Prefix, 'Profile name: '); Read(Name); Writeln(EndLineChar);            /// MLS
-  Write(Prefix, 'New password: '); Read(Password); Writeln(EndLineChar);        /// MLS
+  Write(Prefix_Out, 'Profile name: '); Read(Name); Writeln(EndLineChar);            /// MLS
+  Write(Prefix_Out, 'New password: '); Read(Password); Writeln(EndLineChar);        /// MLS
   Connection.SendString(Name);
   Connection.SendString(Password);
   if RecvResponse = True then
-   Writeln(Prefix, 'md5sums ok!', EndLineChar) else                             /// MLS
-   Writeln(Prefix, 'md5sums corrupted!', EndLineChar);                          /// MLS
+   Writeln(Prefix_Out, 'md5sums ok!', EndLineChar) else                             /// MLS
+   Writeln(Prefix_Out, 'md5sums corrupted!', EndLineChar);                          /// MLS
  end;
  
 end.
