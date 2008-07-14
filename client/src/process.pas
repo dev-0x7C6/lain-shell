@@ -33,7 +33,7 @@ Const
 
 implementation
 
-uses Engine, Lang;
+uses Engine, NLang;
 
 function CMD_ProcessList(var Params :TParams) :Longint;
 begin

@@ -54,7 +54,7 @@ Const
 
 implementation
 
-uses Execute, Extensions, Lang, Process, SysInfo, Threads, Users;
+uses Execute, Extensions, NLang, Process, SysInfo, Threads, Users;
 
 function CMD_Logout(var Params :TParams) :Longint;
 begin

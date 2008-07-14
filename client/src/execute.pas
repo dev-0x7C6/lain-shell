@@ -33,7 +33,7 @@ Const
 
 implementation
 
-uses Engine, Lang;
+uses Engine, NLang;
 
 var
  Command :AnsiString;

@@ -27,9 +27,8 @@ uses
 {$ifdef windows}
  Windows,
 {$endif}
- Classes, SysUtils, CustApp, Main, Extensions, Lang, Threads, Network,
- Engine, execute, sysinfo, process, NetUtils, Md5, diskmanager, users, pwdutils,
- nLang;
+ Classes, SysUtils, CustApp, Main, Extensions, Threads, Network, Engine, Execute,
+ Sysinfo, Process, NetUtils, Md5, DiskManager, Users, PwdUtils, NLang;
 
 type
  TLainShellClient = class(TCustomApplication)
@@ -46,9 +45,8 @@ begin
 {$ifdef windows}
  Variables := Variables + '\CodePage';
 {$endif}
+
  LainClientInitQueryEngine;
- MultiLanguageSupport := nil;
- MultiLanguageInit;
 
  Connection := TTcpIpCustomConnection.Create;
  FillChar(UserIdent, SizeOf(UserIdent), 0);
@@ -73,7 +71,6 @@ begin
   CMD_Disconnect(Main.Params);
  end;
 
- MultiLanguageSupport.Free;
  Connection.Free;
  Writeln(EndLineChar);
  Terminate;
@@ -94,8 +91,6 @@ var
  LainShellClient: TLainShellClient;
  
 begin
- NMultiLanguageSupport.Load('en');
- readln;
  InitCriticalSection(CriticalSection);
  LainShellClient := TLainShellClient.Create(nil);
  LainShellClient.Title := 'Lain Shell Client';

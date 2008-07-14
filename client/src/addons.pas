@@ -32,7 +32,7 @@ uses
 
 implementation
 
-uses Extensions, Lang, Network;
+uses Extensions, NLang, Network;
 
 function CMD_About(var Params :TParams) :Longint;
 begin

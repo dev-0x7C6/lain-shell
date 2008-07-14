@@ -51,7 +51,7 @@ var
 implementation
 
 uses
- {$ifdef windows} Windows, {$endif} Addons, Engine, Extensions, Lang, Sockets, Threads;
+ {$ifdef windows} Windows, {$endif} Addons, Engine, Extensions, NLang, Sockets, Threads;
 
 var
 {$ifdef unix}

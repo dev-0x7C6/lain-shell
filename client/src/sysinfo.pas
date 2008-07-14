@@ -34,7 +34,7 @@ Const
 
 implementation
 
-uses Engine, Lang;
+uses Engine, NLang;
 
 function CMD_SysInfo(var Params :TParams) :Longint;
 begin

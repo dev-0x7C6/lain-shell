@@ -49,7 +49,7 @@ const
 
 implementation
 
-uses Extensions, Engine, Lang;
+uses Extensions, Engine, NLang;
 
  function CMD_UsersCase(var Params :TParams) :Longint;
  var
