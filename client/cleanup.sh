@@ -1,13 +1,14 @@
 #!/bin/sh
 
-rm -v client.exe
-rm -v client
-rm -v *.compiled
-rm -v *.ppu
-rm -v *.bak
-rm -v *.o
+rm -f client.exe
+rm -f client
+rm -f *.compiled
+rm -f *.ppu
+rm -f *.bak
+rm -f *.o
 cd src
-rm -v *.ppu
-rm -v *.bak
-rm -v *.o
+rm -f *.ppu
+rm -f *.bak
+rm -f *.o
 cd ..
+echo LainShell/Client: Cleanup Done

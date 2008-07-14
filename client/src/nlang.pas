@@ -37,6 +37,9 @@ type
   Headers :TStringList;
   Sources :TStringList;
  public
+  procedure Init;
+  procedure Done;
+  
   function Load(LangIdent :DoubleChar) :Boolean;
   //destructor Destroy; override;
   
@@ -53,6 +56,18 @@ Const
 {$ifdef windows} IDir = '\'; {$endif}
 {$ifdef unix} IDir = '/'; {$endif}
 
+procedure TNMultiLanguageSupport.Init;
+begin
+ Headers := TStringList.Create;
+ Sources := TStringList.Create;
+end;
+
+procedure TNMultiLanguageSupport.Done;
+begin
+ Headers.Free;
+ Sources.Free;
+end;
+
 function TNMultiLanguageSupport.Load(LangIdent :DoubleChar) :Boolean;
 const
  IFileName = 'index.txt';
@@ -63,8 +78,6 @@ var
  Count, X :Longint;
  d1, d2 :TPoint;
 begin
- Headers := TStringList.Create;
- Sources := TStringList.Create;
  IFilePath := MainLangDirectory + IDir + LangIdent + IDir + IFileName;
  Result := False;
  if FileExists(IFilePath) then
@@ -87,6 +100,9 @@ begin
    List.Free;
    if Lang.Count > 0 then
    begin
+    Headers.Clear;
+    Sources.Clear;
+    Result := True;
     for Count := 0 to Lang.Count - 1 do
      if Length(Lang.Strings[Count]) > 0 then
      begin

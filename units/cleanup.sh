@@ -1,5 +1,6 @@
 #!/bin/sh
 
-rm -v *.ppu
-rm -v *.bak
-rm -v *.o
+rm -f *.ppu
+rm -f *.bak
+rm -f *.o
+echo LainShell/Units:  Cleanup Done
