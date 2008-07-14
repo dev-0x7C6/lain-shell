@@ -28,7 +28,8 @@ uses
  Windows,
 {$endif}
  Classes, SysUtils, CustApp, Main, Extensions, Lang, Threads, Network,
- Engine, execute, sysinfo, process, NetUtils, Md5, diskmanager, users, pwdutils;
+ Engine, execute, sysinfo, process, NetUtils, Md5, diskmanager, users, pwdutils,
+ nLang;
 
 type
  TLainShellClient = class(TCustomApplication)
