@@ -104,7 +104,12 @@ end;
 
 function TNMultiLanguageSupport.Load(LangIdent :DoubleChar) :Boolean;
 const
- IFileName = 'index.txt';
+{$ifdef windows}
+ IFileName = 'index.dos';
+{$endif}
+{$ifdef unix}
+ IFileName = 'index.unix'
+{$endif}
 var
  IFile :TStringList;
  IFilePath :AnsiString;
