@@ -94,6 +94,8 @@ var
  LainShellClient: TLainShellClient;
  
 begin
+ NMultiLanguageSupport.Load('en');
+ readln;
  InitCriticalSection(CriticalSection);
  LainShellClient := TLainShellClient.Create(nil);
  LainShellClient.Title := 'Lain Shell Client';

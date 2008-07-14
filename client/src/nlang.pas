@@ -32,19 +32,19 @@ type
  DoubleChar = Array[0..1] of Char;
   
 type
- TNMultiLanguageSupport = class
+ TNMultiLanguageSupport = object
  private
   Headers :TStringList;
   Sources :TStringList;
  public
-  constructor Create(LangIdent :DoubleChar);
+  function Load(LangIdent :DoubleChar) :Boolean;
   //destructor Destroy; override;
   
   //function GetString(const Value :WideString) :WideString; virtual;
  end;
  
 var
- MultiLanguageSupport :TNMultiLanguageSupport;
+ NMultiLanguageSupport :TNMultiLanguageSupport;
  AnyLanguageSupport :Boolean = True;
 
 implementation
@@ -53,27 +53,74 @@ Const
 {$ifdef windows} IDir = '\'; {$endif}
 {$ifdef unix} IDir = '/'; {$endif}
 
-constructor TNMultiLanguageSupport.Create(LangIdent :DoubleChar);
+function TNMultiLanguageSupport.Load(LangIdent :DoubleChar) :Boolean;
 const
  IFileName = 'index.txt';
 var
  IFile :TStringList;
  IFilePath :AnsiString;
- 
- Count :Longint;
+ Lang, List :TStringList;
+ Count, X :Longint;
+ d1, d2 :TPoint;
 begin
- inherited Create;
+ Headers := TStringList.Create;
+ Sources := TStringList.Create;
  IFilePath := MainLangDirectory + IDir + LangIdent + IDir + IFileName;
+ Result := False;
  if FileExists(IFilePath) then
  begin
   IFile := TStringList.Create;
   IFile.LoadFromFile(IFilePath);
-  if IFile.Count <> 0 then
+  if IFile.Count > 0 then
   begin
+   Lang := TStringList.Create;
+   List := TStringList.Create;
    for Count := 0 to IFile.Count - 1 do
-    if FileExists(MainLangDirectory + IDir + LangIdent + IDir + IFile.Strings[Count]) then
+    if FileExists(MainLangDirectory + IDir + LangIdent + IDir + IFile.Strings[Count] + '.txt') then
     begin
+     List.LoadFromFile(MainLangDirectory + IDir + LangIdent + IDir + IFile.Strings[Count] + '.txt');
+     if List.Count > 0 then
+      for X := 0 to List.Count - 1 do
+       Lang.Add(List.Strings[X]);
+     List.Clear;
     end;
+   List.Free;
+   if Lang.Count > 0 then
+   begin
+    for Count := 0 to Lang.Count - 1 do
+     if Length(Lang.Strings[Count]) > 0 then
+     begin
+      d1.X := 1;
+      d1.Y := -1;
+      for X := 1 to Length(Lang.Strings[Count]) do
+       if Lang.Strings[Count][X] = ':' then
+       begin
+        d1.Y := X;
+        break;
+       end;
+      if ((d1.Y <> -1) and (d1.Y < Length(Lang.Strings[Count]))) then
+      begin
+       d2.X := -1;
+       d2.Y := -1;
+       for X := d1.Y to Length(Lang.Strings[Count]) do
+        if Lang.Strings[Count][X] = '"' then
+        begin
+         if d2.X <> -1 then
+         begin
+          d2.Y := X;
+          Break;
+         end else
+          d2.X := X;
+        end;
+       if ((d2.X <> -1) and (d2.Y <> -1)) then
+       begin
+        Headers.Add(Copy(Lang.Strings[Count], d1.X, d1.Y - d1.X));
+        Sources.Add(Copy(Lang.Strings[Count], d2.X+1, d2.Y - d2.X-1));
+       end;
+      end;
+     end;
+   end;
+   Lang.Free;
   end;
   IFile.Free;
  end;
