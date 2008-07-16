@@ -34,7 +34,7 @@ Const
  EndLineChar = #13;
 
 Const
- ConsoleTitle :WideString = 'LainShell Client v0.00.70.1';
+ ConsoleTitle :WideString = 'LainShell Client v0.00.70.0';
  Prefix_Out = ' >>> ';
  Prefix_In  = ' <<< ';
  
@@ -186,9 +186,9 @@ begin
   Exit(CMD_Fail);
  end;
  Cmd := LowerCase(Params[1]);
- //if (Cmd = 'lang') then Exit(CMD_SetLang(Params));
+ if (Cmd = 'lang') then Exit(CMD_SetLang(Params));
 {$ifdef windows}
- //if (Cmd = 'codepage') then Exit(CMD_SetConsoleCodePage(Params));
+ if (Cmd = 'codepage') then Exit(CMD_SetConsoleCodePage(Params));
 {$endif}
  Writeln(Format(MultiLanguageSupport.GetString('MsgSetVariableUnknown'), [Cmd]), EndLineChar);
 end;

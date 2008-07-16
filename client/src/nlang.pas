@@ -27,7 +27,8 @@ uses
 
 Const
  MainLangDirectory = 'lang';
-  
+ SupportLangs :WideString = 'en/es/pl';
+ 
 Type
  TCmdHint = Array[0..1] of WideString;
 
@@ -70,11 +71,58 @@ var
  MultiLanguageSupport :TNMultiLanguageSupport;
  AnyLanguageSupport :Boolean = True;
 
+ procedure LanShellReconfLang;
+ function CMD_SetLang(var Params :TParams) :Longint;
+{$ifdef windows}
+ function CMD_SetConsoleCodePage(var Params :TParams) :Longint;
+{$endif}
+ 
 implementation
 
 Const
 {$ifdef windows} IDir = '\'; {$endif}
 {$ifdef unix} IDir = '/'; {$endif}
+
+function CMD_SetLang(var Params :TParams) :Longint;
+begin
+ if Length(Params) < 3 then
+ begin
+  Writeln(MultiLanguageSupport.GetString(Format('UsingSetLang', [SupportLangs])), EndLineChar);
+  Exit(CMD_Fail);
+ end;
+ if MultiLanguageSupport.Load(LowerCase(Params[2])) = True then
+ begin
+  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgSetVariableDone'), EndLineChar);
+  LanShellReconfLang;
+  Result := CMD_Done;
+ end else
+ begin
+  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgSetVariableFail'), EndLineChar);
+  Result := CMD_Fail;
+ end;
+end;
+
+{$ifdef windows}
+ function CMD_SetConsoleCodePage(var Params :TParams) :Longint;
+ var
+  Value :Longint;
+ begin
+  if Length(Params) < 2 then
+  begin
+   Writeln(MultiLanguageSupport.GetString('UsingSetCodePage'), EndLineChar);
+   Exit(CMD_Fail);
+  end;
+  Value := StrToIntDef(Params[2], 0);
+  WindowsManualCodePage := (Value <> 0);
+  WindowsManualCodePageID := Value;
+  if WindowsManualCodePage = True then
+  begin
+   SetConsoleCP(WindowsManualCodePageID);
+   Writeln(Prefix, MultiLanguageSupport.GetString('MsgSetVariableDone'), EndLineChar);
+  end;
+  Result := CMD_Done;
+ end;
+{$endif}
 
 procedure TNMultiLanguageSupport.Init;
 begin
@@ -108,7 +156,7 @@ const
  IFileName = 'index.dos';
 {$endif}
 {$ifdef unix}
- IFileName = 'index.unix'
+ IFileName = 'index.unix';
 {$endif}
 var
  IFile :TStringList;

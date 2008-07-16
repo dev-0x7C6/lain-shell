@@ -51,143 +51,143 @@ implementation
 
 uses Extensions, Engine, NLang;
 
- function CMD_UsersCase(var Params :TParams) :Longint;
- var
-  Param :String;
+function CMD_UsersCase(var Params :TParams) :Longint;
+var
+ Param :String;
+begin
+ if CheckConnectionAndAuthorization = False then
+  Exit(CMD_Fail);
+  
+ if Length(Params) > 1 then
  begin
-  if CheckConnectionAndAuthorization = False then
-   Exit(CMD_Fail);
-   
-  if Length(Params) > 1 then
+  if LowerCase(Params[0]) = 'users' then
   begin
-   if LowerCase(Params[0]) = 'users' then
-   begin
-    Param := LowerCase(Params[1]);
-    if Param = 'adduser' then Result := CMD_Users_AddUser(Params) else
-    if Param = 'deluser' then Result := CMD_Users_DelUser(Params) else
-    if Param = 'lstuser' then Result := CMD_Users_LstUser(Params) else
-    if Param = 'chkuser' then Result := CMD_Users_CheckUser(Params) else
-    if Param = 'passwd' then Result := CMD_Users_ChangeUserPwd(Params) else
-     Result := CMD_Done;
-   end;
+   Param := LowerCase(Params[1]);
+   if Param = 'adduser' then Result := CMD_Users_AddUser(Params) else
+   if Param = 'deluser' then Result := CMD_Users_DelUser(Params) else
+   if Param = 'lstuser' then Result := CMD_Users_LstUser(Params) else
+   if Param = 'chkuser' then Result := CMD_Users_CheckUser(Params) else
+   if Param = 'passwd' then Result := CMD_Users_ChangeUserPwd(Params) else
+    Result := CMD_Done;
   end;
  end;
+end;
 
- function SendQuery(const Query :Word) :Longint;
- begin
-  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgWaitForResponse'), EndLineChar);
-  Result := LainClientSendQuery(Query);
-  LainClientWaitForQuery;
- end;
+function SendQuery(const Query :Word) :Longint;
+begin
+ Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgWaitForResponse'), EndLineChar);
+ Result := LainClientSendQuery(Query);
+ LainClientWaitForQuery;
+end;
 
- function CMD_Users_AddUser(var Params :TParams) :Longint;
- begin
-  Result := SendQuery(Lain_Users_CAddUser);
- end;
- 
- function CMD_Users_DelUser(var Params :TParams) :Longint;
- begin
-  Result := SendQuery(Lain_Users_CDelUser);
- end;
- 
- function CMD_Users_LstUser(var Params :TParams) :Longint;
- begin
-  Result := SendQuery(Lain_Users_CLstUser);
- end;
- 
- function CMD_Users_CheckUser(var Params :TParams) :Longint;
- begin
-  Result := SendQuery(Lain_Users_CCUser);
- end;
- 
- function CMD_Users_ChangeUserPwd(var Params :TParams) :Longint;
- begin
-  Result := SendQuery(Lain_Users_CCUserPwd);
- end;
- 
- function RecvResponse :Boolean;
- var
-  Response :Boolean;
- begin
-  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgWaitForResponse'), EndLineChar);
-  Response := False;
-  Connection.Recv(Response, SizeOf(Response));
-  Result := Response;
- end;
- 
- function CMD_Users_AddUser_Query :Longint;
- var
-  Username :AnsiString;
-  Password :AnsiString;
-  Response :Boolean;
- begin
-  Writeln(Prefix_Out, 'Create new profile', EndLineChar);                           /// MLS
-  Writeln(EndLineChar);
-  Write('Profile name: '); Read(Username); Write(EndLineChar);                  /// MLS
-  Write('Password: '); Read(Password); Write(EndLineChar);                      /// MLS
-  Writeln(EndLineChar);
-  Writeln(Prefix_Out, 'Sending data', EndLineChar);                                 /// MLS
-  Connection.SendString(Username);
-  Connection.SendString(Password);
-  if RecvResponse  = true then
-   Writeln(Prefix_Out, 'Add new user successful', EndLineChar) else                 /// MLS
-   Writeln(Prefix_Out, 'Can''t add new user', EndLineChar);                         /// MLS
- end;
- 
- function CMD_Users_DelUser_Query :Longint;
- var
-  Name :AnsiString;
-  Response :Boolean;
- begin;
-  Writeln(Prefix_Out, 'Delete profile', EndLineChar);                               /// MLS
-  Writeln(EndLineChar);
-  Write(Prefix_Out, 'Profile name: '); Read(Name); Writeln(EndLineChar);            /// MLS
-  Writeln(Prefix_Out, 'Sending data', EndLineChar);                                 /// MLS
-  Connection.SendString(Name);
-  if RecvResponse = True then
-   Writeln(Prefix_Out, 'Delete profile successful', EndLineChar) else               /// MLS
-   Writeln(Prefix_Out, 'Can''t delete profile', EndLineChar);                       /// MLS
- end;
- 
- function CMD_Users_LstUser_Query :Longint;
- var
-  List :AnsiString;
- begin
-  Writeln(Prefix_Out, 'Received list', EndLineChar);                                /// MLS
-  Writeln(EndLineChar);
-  Connection.RecvString(List);
-  Writeln(List);
- end;
- 
- function CMD_Users_CheckUser_Query :Longint;
- var
-  Name :AnsiString;
- begin
-  Writeln(Prefix_Out, 'Check profile md5sums', EndLineChar);                        /// MLS
-  Writeln(EndLineChar);
-  Write(Prefix_Out, 'Profile name: '); Read(Name); Writeln(EndLineChar);            /// MLS
-  Connection.SendString(Name);
-  if RecvResponse = True then
-   Writeln(Prefix_Out, 'md5sums ok!', EndLineChar) else                             /// MLS
-   Writeln(Prefix_Out, 'md5sums corrupted!', EndLineChar);                          /// MLS
- end;
+function CMD_Users_AddUser(var Params :TParams) :Longint;
+begin
+ Result := SendQuery(Lain_Users_CAddUser);
+end;
 
- 
- function CMD_Users_ChangeUserPwd_Query :Longint;
- var
-  Name :AnsiString;
-  Password :AnsiString;
- begin
-  Writeln(Prefix_Out, 'Change profile password', EndLineChar);                      /// MLS
-  Writeln(EndLineChar);
-  Write(Prefix_Out, 'Profile name: '); Read(Name); Writeln(EndLineChar);            /// MLS
-  Write(Prefix_Out, 'New password: '); Read(Password); Writeln(EndLineChar);        /// MLS
-  Connection.SendString(Name);
-  Connection.SendString(Password);
-  if RecvResponse = True then
-   Writeln(Prefix_Out, 'md5sums ok!', EndLineChar) else                             /// MLS
-   Writeln(Prefix_Out, 'md5sums corrupted!', EndLineChar);                          /// MLS
- end;
+function CMD_Users_DelUser(var Params :TParams) :Longint;
+begin
+ Result := SendQuery(Lain_Users_CDelUser);
+end;
+
+function CMD_Users_LstUser(var Params :TParams) :Longint;
+begin
+ Result := SendQuery(Lain_Users_CLstUser);
+end;
+
+function CMD_Users_CheckUser(var Params :TParams) :Longint;
+begin
+ Result := SendQuery(Lain_Users_CCUser);
+end;
+
+function CMD_Users_ChangeUserPwd(var Params :TParams) :Longint;
+begin
+ Result := SendQuery(Lain_Users_CCUserPwd);
+end;
+
+function RecvResponse :Boolean;
+var
+ Response :Boolean;
+begin
+ Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgWaitForResponse'), EndLineChar);
+ Response := False;
+ Connection.Recv(Response, SizeOf(Response));
+ Result := Response;
+end;
+
+function CMD_Users_AddUser_Query :Longint;
+var
+ Username :AnsiString;
+ Password :AnsiString;
+ Response :Boolean;
+begin
+ Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgUsers.CreateNewProfile'), EndLineChar);
+ Writeln(EndLineChar);
+ Write(MultiLanguageSupport.GetString('MsgUsers.ProfileName')); Read(Username); Write(EndLineChar);
+ Write(MultiLanguageSupport.GetString('MsgUsers.Password')); Read(Password); Write(EndLineChar);
+ Writeln(EndLineChar);
+ Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgUsers.SendingData'), EndLineChar);
+ Connection.SendString(Username);
+ Connection.SendString(Password);
+ if RecvResponse  = true then
+  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgUsers.AddNewUserSuccessful'), EndLineChar) else
+  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgUsers.CantAddNewUser'), EndLineChar);
+end;
+
+function CMD_Users_DelUser_Query :Longint;
+var
+ Name :AnsiString;
+ Response :Boolean;
+begin;
+ Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgUsers.DeleteProfile'), EndLineChar);
+ Writeln(EndLineChar);
+ Write(Prefix_Out, MultiLanguageSupport.GetString('MsgUsers.ProfileName')); Read(Name); Writeln(EndLineChar);
+ Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgUsers.SendingData'), EndLineChar);
+ Connection.SendString(Name);
+ if RecvResponse = True then
+  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgUsers.DeleteProfileSuccessful'), EndLineChar) else
+  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgUsers.CantDeleteProfile'), EndLineChar);
+end;
+
+function CMD_Users_LstUser_Query :Longint;
+var
+ List :AnsiString;
+begin
+ Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgUsers.ReceivingList'), EndLineChar);
+ Writeln(EndLineChar);
+ Connection.RecvString(List);
+ Writeln(List);
+end;
+
+function CMD_Users_CheckUser_Query :Longint;
+var
+ Name :AnsiString;
+begin
+ Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgUsers.CheckProfileMD5Sums'), EndLineChar);
+ Writeln(EndLineChar);
+ Write(Prefix_Out, MultiLanguageSupport.GetString('MsgUsers.ProfileName')); Read(Name); Writeln(EndLineChar);
+ Connection.SendString(Name);
+ if RecvResponse = True then
+  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgUsers.MD5SumsOk'), EndLineChar) else
+  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgUsers.MD5SumsCorrupted'), EndLineChar);
+end;
+
+
+function CMD_Users_ChangeUserPwd_Query :Longint;
+var
+ Name :AnsiString;
+ Password :AnsiString;
+begin
+ Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgUsers.ChangeProfilePassword'), EndLineChar);
+ Writeln(EndLineChar);
+ Write(Prefix_Out, MultiLanguageSupport.GetString('MsgUsers.ProfileName')); Read(Name); Writeln(EndLineChar);
+ Write(Prefix_Out, MultiLanguageSupport.GetString('MsgUsers.NewPassword')); Read(Password); Writeln(EndLineChar);
+ Connection.SendString(Name);
+ Connection.SendString(Password);
+ if RecvResponse = True then
+  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgUsers.ChangePasswordSuccessful'), EndLineChar) else
+  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgUsers.CantChangePassword'), EndLineChar);
+end;
  
 end.
 
