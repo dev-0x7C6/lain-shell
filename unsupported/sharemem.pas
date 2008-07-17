@@ -23,29 +23,27 @@ unit ShareMem;
 interface
 
 uses
-{$ifdef unix} BaseUnix, Unix, IPC, {$endif}{$ifdef windows} Windows, {$endif} Classes, SysUtils;
+{$ifdef unix} BaseUnix, Unix, IPC, {$endif} Classes, SysUtils;
   
 {$ifdef unix}
+ const
+  Default_IdentValue = $FF57EA;
+  Default_AccessMode = IPC_CREAT or SHM_R or SHM_W;
+  Default_BlockSize = SizeOf(LongInt);
 
-const
- Default_IdentValue = $F3D8;
- Default_AccessMode = IPC_CREAT or SHM_R or SHM_W;
- Default_BlockSize = SizeOf(LongWord);
+ type TSharedMemoryRec = packed record
+  shmid :Integer;
+  MemLongInt :^LongWord;
+  Usesful :Boolean;
+ end;
 
-type TSharedMemoryRec = packed record
- shmid :Integer;
- MemLongInt :^LongWord;
- Usesful :Boolean;
-end;
-
-type TSharedMemoryConfig = packed record
- IdentValue :Longint;
- AccessMode :Longint;
- BlockSize :Longint;
-end;
+ type TSharedMemoryConfig = packed record
+  IdentValue :Longint;
+  AccessMode :Longint;
+  BlockSize :Longint;
+ end;
 
  procedure DefaultConfigForSharedMemory(var Config :TSharedMemoryConfig);
-
  function LainOpenSharedMemory(var SharedMemoryRec :TSharedMemoryRec; Config :TSharedMemoryConfig) :Boolean;
  function LainReadSheredMemory(var SharedMemoryRec :TSharedMemoryRec) :Longint;
  procedure LainWriteSharedMemory(var SharedMemoryRec :TSharedMemoryRec; Data :Longint);

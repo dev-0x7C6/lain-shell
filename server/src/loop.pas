@@ -26,7 +26,7 @@ uses
   Classes, SysUtils; 
   
 {$ifdef unix}
- function UnixMainLoop(QuitLoop :PBoolean; var CodeStat :Longint) :Boolean;
+ function UnixMainLoop(QuitLoop :PBoolean) :Boolean;
  function UnixMainLoopInit :Boolean;
  procedure UnixMainLoopDone;
  procedure UnixMainLoopKill;
@@ -44,7 +44,7 @@ implementation
 
 uses
 {$ifdef unix}
- BaseUnix, ShareMem, IPC;
+ BaseUnix, IPC, LibC;
 {$endif}
 {$ifdef windows}
  Windows;
@@ -52,67 +52,49 @@ uses
 
 {$ifdef unix}
 
- procedure UnixMainLoopKill;
- var
-  SharedMemoryConfig :TSharedMemoryConfig;
-  SharedMemoryRec :TSharedMemoryRec;
-  CriticalSection :TRTLCriticalSection;
- begin
-  InitCriticalSection(CriticalSection);
-  DefaultConfigForSharedMemory(SharedMemoryConfig);
-  SharedMemoryConfig.AccessMode := 0;
-  SharedMemoryConfig.BlockSize := 0;
-  if LainOpenSharedMemory(SharedMemoryRec, SharedMemoryConfig) then
-  begin
-  EnterCriticalSection(CriticalSection);
-   if LainReadSheredMemory(SharedMemoryRec) = $F0 then
-   begin
-    Writeln('Kill server...');
-    LainWriteSharedMemory(SharedMemoryRec, $FF);
-   end else
-    Writeln('Can''t kill server');
-   LainCloseSharedMemory(SharedMemoryRec);
-  LeaveCriticalSection(CriticalSection);
-  end;
-  DoneCriticalSection(CriticalSection);
- end;
+Const
+ LockFileName = '/tmp/lainshell.lock';
 
 var
- SharedMemoryConfig :TSharedMemoryConfig;
- SharedMemoryRec :TSharedMemoryRec;
- CriticalSection :TRTLCriticalSection;
+ CriticalSection :System.TRTLCriticalSection;
+ FD :Integer;
+ 
  Dump :Longint;
+ 
+ procedure UnixMainLoopKill;
+ begin
+  DeleteFile(LockFileName);
+ end;
+ 
+ function FileLocked :Integer;
+ begin
+  Result := Open(LockFileName, O_RDWR or O_CREAT or O_EXCL, 438);
+ end;
 
  function UnixMainLoopInit :Boolean;
  begin
-  InitCriticalSection(CriticalSection);
-  DefaultConfigForSharedMemory(SharedMemoryConfig);
-  if LainOpenSharedMemory(SharedMemoryRec, SharedMemoryConfig) then
-   Result := LainReadSheredMemory(SharedMemoryRec) <> $F0 else
+  FD := FileLocked;
+  if FD <> -1 then
+   Result := True else
    Result := False;
+  if Result = False then
+   Writeln('Remove: ', LockFileName) else
+   System.InitCriticalSection(CriticalSection);
  end;
  
  procedure UnixMainLoopDone;
  begin
- EnterCriticalSection(CriticalSection);
-  LainWriteSharedMemory(SharedMemoryRec, $00);
- LeaveCriticalSection(CriticalSection);
-  LainCloseSharedMemory(SharedMemoryRec);
+  __close(FD);
+  unlink(LockFileName);
+    DeleteFile(LockFileName);
   DoneCriticalSection(CriticalSection);
  end;
  
  
- function UnixMainLoop(QuitLoop :PBoolean; var CodeStat :Longint) :Boolean;
+ function UnixMainLoop(QuitLoop :PBoolean) :Boolean;
  begin
- EnterCriticalSection(CriticalSection);
-  LainWriteSharedMemory(SharedMemoryRec, $F0);
- LeaveCriticalSection(CriticalSection);
-  Dump := $F0;
-  while ((Dump <> $FF) and (QuitLoop^ <> True)) do
+  while ((FileExists(LockFileName) = True) and (QuitLoop^ <> True)) do
   begin
-  EnterCriticalSection(CriticalSection);
-   Dump := LainReadSheredMemory(SharedMemoryRec);
-  LeaveCriticalSection(CriticalSection);
    sleep(10);
   end;
  end;

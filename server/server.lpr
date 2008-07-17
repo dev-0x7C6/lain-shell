@@ -28,8 +28,7 @@ uses
   Windows, Registry, ShellApi,
 {$endif}
   Main, SysUtils, Authorize, Engine, Sockets, Config, Execute, Sysinfo, Process,
-  LainDataBase, Params, Diskmgr, ConvNum, FSUtils, NetUtils, Loop, Consts,
-  ShareMem, Users;
+  LainDataBase, Params, Diskmgr, ConvNum, FSUtils, NetUtils, Loop, Consts, Users;
 
 var
  Reconfigure :Boolean;
@@ -38,9 +37,6 @@ var
 function MainProc :Longint;
 var
  X :Longint;
-{$ifdef unix}
- Dump :Longint;
-{$endif}
 {$ifdef windows}
  RegEdit :TRegistry;
 {$endif}
@@ -99,11 +95,10 @@ begin
  if UnixMainLoopInit then
  begin
   InitConnections(ClientConnection, ServerConnection);
-  UnixMainLoop(@TerminateApp, Dump);
+  UnixMainLoop(@TerminateApp);
   DoneConnections(CThreadList, ClientConnection, ServerConnection);
   UnixMainLoopDone;
- end else
-  Writeln('Can''t create shared memory, try with param --restart');
+ end;
 {$endif}
 
 {$ifdef windows}

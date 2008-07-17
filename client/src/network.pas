@@ -146,7 +146,7 @@ begin
 
  Connection.Port := StrToIntDef(LainClientData.Port, 9896);
  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgCancelConnect'), EndLineChar);
-
+ Writeln(Connection.Hostname, ':', Connection.Port);
  ThreadEvent := RTLEventCreate;
  ThreadFree := False;
  
