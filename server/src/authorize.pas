@@ -26,6 +26,11 @@ uses
   Classes, SysUtils, NetUtils, MD5;
 
 const
+ AuthTable :Array[0..15] of Byte =   ($d5, $8b, $6a, $97, $c4, $3e, $c5, $59, $2f,
+                                      $0b, $c0, $33, $c7, $2e, $d5, $13);
+ AcceptTable :Array[0..15] of Byte = ($4a, $be, $77, $c2, $01, $ff, $11, $66, $3c,
+                                      $cd, $f5, $2f, $d6, $ec, $ea, $86);
+const
  AuthorizeSuccessful = 0;
  AuthorizeFailed = 1;
  
@@ -34,8 +39,7 @@ type
   Username :TMD5Digest;
   Password :TMD5Digest;
  end;
-
- 
+  
 {$ifdef windows}
  function OnConnect(P :Pointer) :DWord; stdcall;
 {$endif}
@@ -77,6 +81,7 @@ end;
 function FAuthorize(AConnection :TConnection) :Longint;
 var
  Connection :TTcpIpCustomConnection;
+ AuthBuffer :Array[0..15] of Byte;
  ControlSum :Longword;
  Verfication :Boolean;
  UserIdent :TUserIdent;
@@ -85,62 +90,63 @@ var
 begin
  Connection := TTcpIpCustomConnection.Create;
  Connection.SetConnection(AConnection);
- ControlSum := $F8D6;
- if Connection.Send(ControlSum, SizeOf(ControlSum)) = SizeOf(ControlSum) then
- repeat
-  ControlSum := $0;
-  if Connection.Recv(ControlSum, SizeOf(ControlSum)) <> SizeOf(ControlSum) then break;
-  if ControlSum <> $F8D6 then
-  begin
-   Verfication := False;
-   if Connection.Send(Verfication, SizeOf(Verfication)) <> SizeOf(Verfication) then break;
-   Continue;
-  end else
-   Verfication := True;
-   
-  if Connection.Send(Verfication, SizeOf(Verfication)) <> SizeOf(Verfication) then break;
-  if Connection.Recv(UserIdent, SizeOf(UserIdent)) <> SizeOf(UserIdent) then break;
-  
-  X :=  LainDBControlClass.CheckUserInLainDBByDigest(UserIdent.Username);
-  Verfication := X <> -1;
+ if Connection.Recv(AuthBuffer, SizeOf(AuthBuffer)) = SizeOf(AuthBuffer) then
+ begin
+  Verfication := True;
+  for X := Low(AuthTable) to High(AuthTable) do
+   if AuthTable[X] = AuthBuffer[X] then
+    Verfication := Verfication and True else
+    Verfication := Verfication and False;
+    
+  FillChar(AuthBuffer, SizeOf(AuthBuffer), 0);
   if Verfication = True then
-  begin
-   for Y := Low(TMD5Digest) to High(TMD5Digest) do
-   begin
-    Verfication := Verfication and (LainDBControlClass.AccountList[X].Password[Y] = UserIdent.Password[Y]);
-    if Verfication = False then
-     Break;
-   end;
-  end;
-
-  if Connection.Send(Verfication, SizeOf(Verfication)) <> SizeOf(Verfication) then break;
-
-  if Verfication then
-  begin
+   for X := Low(AcceptTable) to High(AcceptTable) do  AuthBuffer[X] := AcceptTable[X];
+   
+  if ((Connection.Send(AuthBuffer, SizeOf(AuthBuffer)) = SizeOf(AuthBuffer)) and (Verfication = True)) then
    repeat
-    if Connection.Recv(Value, SizeOf(Value)) <> SizeOf(Value) then
+
+    if Connection.Recv(UserIdent, SizeOf(UserIdent)) <> SizeOf(UserIdent) then break;
+
+    X :=  LainDBControlClass.CheckUserInLainDBByDigest(UserIdent.Username);
+    Verfication := X <> -1;
+    if Verfication = True then
     begin
-     Connection.Free;
-     Exit(Lain_Error);
+     for Y := Low(TMD5Digest) to High(TMD5Digest) do
+     begin
+      Verfication := Verfication and (LainDBControlClass.AccountList[X].Password[Y] = UserIdent.Password[Y]);
+      if Verfication = False then
+       Break;
+     end;
     end;
+
+    if Connection.Send(Verfication, SizeOf(Verfication)) <> SizeOf(Verfication) then break;
+
+    if not Verfication then Continue;
+
+    repeat
+     if Connection.Recv(Value, SizeOf(Value)) <> SizeOf(Value) then
+     begin
+      Connection.Free;
+      Exit(Lain_Error);
+     end;
+
+     if Connection.Send(Value, SizeOf(Value)) <> SizeOf(Value) then
+     begin
+      Connection.Free;
+      Exit(Lain_Error);
+     end;
+
+     if Value = Lain_Disconnect then
+     begin
+      Connection.Free;
+      Exit(Lain_Error);
+     end;
+
+     LainServerQueryEngine(Connection, Value);
+    until Value =  Lain_Logoff;
     
-    if Connection.Send(Value, SizeOf(Value)) <> SizeOf(Value) then
-    begin
-     Connection.Free;
-     Exit(Lain_Error);
-    end;
-    
-    if Value = Lain_Disconnect then
-    begin
-     Connection.Free;
-     Exit(Lain_Error);
-    end;
-    
-    LainServerQueryEngine(Connection, Value);
-   until Value =  Lain_Logoff;
-  end;
-  
- until ((Connection.Connected = False) or (TerminateApp = True));
+  until ((Connection.Connected = False) or (TerminateApp = True));
+ end;
  Result := Lain_OK;
  Connection.Free;
 end;
@@ -149,10 +155,6 @@ initialization
 begin
  FillChar(ServerUserIdent, SizeOf(ServerUserIdent), 0);
 end;
-
-//finalization
-//begin
-//end;
 
 end.
 

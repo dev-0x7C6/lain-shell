@@ -66,8 +66,8 @@
         <Filename Value="src/authorize.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Authorize"/>
-        <CursorPos X="22" Y="88"/>
-        <TopLine Value="60"/>
+        <CursorPos X="38" Y="32"/>
+        <TopLine Value="1"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="192"/>
         <Loaded Value="True"/>
@@ -346,7 +346,28 @@
         <UsageCount Value="10"/>
       </Unit42>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
+    <JumpHistory Count="5" HistoryIndex="4">
+      <Position1>
+        <Filename Value="src/authorize.pas"/>
+        <Caret Line="30" Column="73" TopLine="17"/>
+      </Position1>
+      <Position2>
+        <Filename Value="src/authorize.pas"/>
+        <Caret Line="107" Column="31" TopLine="96"/>
+      </Position2>
+      <Position3>
+        <Filename Value="src/authorize.pas"/>
+        <Caret Line="99" Column="7" TopLine="75"/>
+      </Position3>
+      <Position4>
+        <Filename Value="src/authorize.pas"/>
+        <Caret Line="107" Column="30" TopLine="83"/>
+      </Position4>
+      <Position5>
+        <Filename Value="src/authorize.pas"/>
+        <Caret Line="105" Column="108" TopLine="110"/>
+      </Position5>
+    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>

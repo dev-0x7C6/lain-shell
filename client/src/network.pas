@@ -25,8 +25,14 @@ interface
 uses
   Classes, SysUtils, NetUtils, Main, KeyBoard;
 
+  
 Const
+ AuthTable :Array[0..15] of Byte =   ($d5, $8b, $6a, $97, $c4, $3e, $c5, $59, $2f,
+                                      $0b, $c0, $33, $c7, $2e, $d5, $13);
+ AcceptTable :Array[0..15] of Byte = ($4a, $be, $77, $c2, $01, $ff, $11, $66, $3c,
+                                      $cd, $f5, $2f, $d6, $ec, $ea, $86);
  DefaultServerPort = 9896;
+ 
   
 {$ifdef unix}
  type
@@ -70,29 +76,41 @@ var
 
 procedure ConnectThread;
 var
- ID :LongWord;
+ AuthBuffer :Array[0..15] of Byte;
+ X :Longint;
+ Verfication :Boolean;
 begin
  if Main.Connection.Connect then
  begin
-  if Connection.Recv(ID, SizeOf(ID)) = SizeOf(ID) then
+  if Connection.Send(AuthTable, SizeOf(AuthTable)) = SizeOf(AuthTable) then
   begin
+   if Connection.Recv(AuthBuffer, SizeOf(AuthBuffer)) = SizeOf(AuthBuffer) then
+   begin
+    Verfication := True;
+    for X := Low(AcceptTable) to High(AcceptTable) do
+     if AcceptTable[X] = AuthBuffer[X] then
+      Verfication := Verfication and True else
+      Verfication := Verfication and False;
    EnterCriticalSection(CriticalSection);
-   if ID = $F8D6 then
-    ConnectionAccept := True else
+    ConnectionAccept := Verfication;
+   LeaveCriticalSection(CriticalSection);
+   end else
+   begin
+   EnterCriticalSection(CriticalSection);
     ConnectionAccept := False;
    LeaveCriticalSection(CriticalSection);
+   end;
   end else
   begin
-   EnterCriticalSection(CriticalSection);
+  EnterCriticalSection(CriticalSection);
    ConnectionAccept := False;
-   LeaveCriticalSection(CriticalSection);
+  LeaveCriticalSection(CriticalSection);
   end;
  end;
-
- EnterCriticalSection(CriticalSection);
+EnterCriticalSection(CriticalSection);
  ThreadFree := True;
- LeaveCriticalSection(CriticalSection);
  RTLEventSetEvent(ThreadEvent);
+LeaveCriticalSection(CriticalSection);
 end;
 
 {$ifdef unix}
@@ -247,28 +265,44 @@ var ConnectionID :Longint = 0;
 procedure RCConnectionAccepted(Connection :TConnection);
 var
  Conn :TTcpIpCustomConnection;
- ID :Longword;
- 
- procedure WriteOutPut; cdecl;
- begin
-  EnterCriticalSection(CriticalSection);
-  Writeln(' <<< Have connection from ', HostAddrToStr(NetToHost(Connection.Addr.sin_addr)), ', id ', ConnectionID, EndLineChar);
-  LeaveCriticalSection(CriticalSection);
- end;
- 
+ Verfication :Boolean;
+ AuthBuffer :Array[0..15] of Byte;
+ X :Longint;
+
 begin
- WriteOutPut;
 EnterCriticalSection(CriticalSection);
  SetLength(Connections, Length(Connections) + 1);
  Connections[Length(Connections) - 1] := Connection;
  Conn := TTcpIpCustomConnection.Create;
  Conn.SetConnection(Connection);
-LeaveCriticalSection(CriticalSection);
- Conn.Recv(ID, SizeOf(ID));
  InterLockedIncrement(ConnectionID);
+LeaveCriticalSection(CriticalSection);
+
+ if Conn.Send(AuthTable, SizeOf(AuthTable)) = SizeOf(AuthTable) then
+ begin
+  if Conn.Recv(AuthBuffer, SizeOf(AuthBuffer)) = SizeOf(AuthBuffer) then
+  begin
+   Verfication := True;
+   for X := Low(AcceptTable) to High(AcceptTable) do
+    if AcceptTable[X] = AuthBuffer[X] then
+     Verfication := Verfication and True else
+     Verfication := Verfication and False;
+   if Verfication = True then
+   begin
+    EnterCriticalSection(CriticalSection);
+     Writeln(' --- ID=', ConnectionID, ' Accepted connection with ', HostAddrToStr(NetToHost(Connection.Addr.sin_addr)), EndLineChar);
+    LeaveCriticalSection(CriticalSection);
+   end else
+   begin
+    EnterCriticalSection(CriticalSection);
+     Writeln(' --- Unknown connection protocol ', HostAddrToStr(NetToHost(Connection.Addr.sin_addr)), EndLineChar);
+     SetLength(Connections, Length(Connections) - 1);
+     InterLockedDecrement(ConnectionID);
+    LeaveCriticalSection(CriticalSection);
+   end;
+  end;
+ end;
  Conn.Free;
-
-
 end;
 
 {$ifdef unix}
@@ -310,7 +344,7 @@ begin
  RCConnection.Port := StrToIntDef(Params[1], 9897);
  RCConnection.MaxConnections := StrToIntDef(Params[2], 0);
  RCThreadFree := 0;
- ConnectionID := 1;
+ ConnectionID := 0;
  Connections := nil;
 
  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgRConnectPressEnter'), EndLineChar);

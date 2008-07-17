@@ -90,10 +90,7 @@ begin
   
  Write(Prefix_Out, MultiLanguageSupport.GetString('MsgSetPassword') + ' ');
  LainClientData.Password := GetPasswd('*');
- 
- if LainClientData.Password = '' then
-  Writeln(MultiLanguageSupport.GetString('FieldEmpty'), EndLineChar) else
-  Writeln(EndLineChar);
+ Writeln(EndLineChar);
 
  if (Length(LainClientData.Username) > SizeOf(UserIdent.Username)) then
  begin
@@ -151,34 +148,28 @@ var
  Verfication :Byte;
 begin
  LainClientResetQueryEngine;
- ControlSum := $F8D6;
- if Connection.Send(ControlSum, SizeOf(ControlSum)) = SizeOf(ControlSum) then
+ if Connection.Send(UserIdent, SizeOf(UserIdent)) = SizeOf(UserIdent) then
  if Connection.Recv(Verfication, SizeOf(Verfication)) = SizeOf(Verfication) then
  if Verfication = Byte(True) then
  begin
-  if Connection.Send(UserIdent, SizeOf(UserIdent)) = SizeOf(UserIdent) then
-  if Connection.Recv(Verfication, SizeOf(Verfication)) = SizeOf(Verfication) then
-  if Verfication = Byte(True) then
-  begin
-   LainClientData.Authorized := True;
-   Writeln(OutPut, Prefix_Out, MultiLanguageSupport.GetString('MsgAuthorized'), #13);
-  {$ifdef unix}
-   UnixThread := TUnixThread.Create(@UnixLainClientQueryLoopBind, nil);
-   UnixThread.CreateThread;
-   UnixThread.Free;
-  {$endif}
-  {$ifdef windows}
-   WindowsThread := TWindowsThread.Create(@WindowsLainClientQueryLoopBind, nil);
-   WindowsThread.CreateThread;
-   WindowsThread.Free;
-  {$endif}
-   Exit(CMD_Done);
-  end else
-  begin
-   LainClientData.Authorized := False;
-   Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgCantAuthorize'), #13);
-   Exit(CMD_Fail);
-  end;
+  LainClientData.Authorized := True;
+  Writeln(OutPut, Prefix_Out, MultiLanguageSupport.GetString('MsgAuthorized'), #13);
+ {$ifdef unix}
+  UnixThread := TUnixThread.Create(@UnixLainClientQueryLoopBind, nil);
+  UnixThread.CreateThread;
+  UnixThread.Free;
+ {$endif}
+ {$ifdef windows}
+  WindowsThread := TWindowsThread.Create(@WindowsLainClientQueryLoopBind, nil);
+  WindowsThread.CreateThread;
+  WindowsThread.Free;
+ {$endif}
+  Exit(CMD_Done);
+ end else
+ begin
+  LainClientData.Authorized := False;
+  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgCantAuthorize'), #13);
+  Exit(CMD_Fail);
  end;
  Result := CMD_Fail;
 end;
