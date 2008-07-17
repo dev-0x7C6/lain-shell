@@ -35,6 +35,13 @@ const
  AuthorizeFailed = 1;
  
 type
+ TQuery = packed record
+  Value :Word;
+  ReQuery :Boolean;
+  Empty :Byte;
+ end;
+ 
+type
  TUserIdent = packed record
   Username :TMD5Digest;
   Password :TMD5Digest;

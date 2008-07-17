@@ -112,10 +112,7 @@ begin
   ConsoleUser := LainClientData.Username;
 
  if Connection.Connected = True then
- begin
-  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgPreparAuthorize'), EndLineChar);
   Result := OnAuthorize;
- end;
 
  Exit;
 end;

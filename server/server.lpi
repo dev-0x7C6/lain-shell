@@ -66,8 +66,8 @@
         <Filename Value="src/authorize.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Authorize"/>
-        <CursorPos X="38" Y="32"/>
-        <TopLine Value="1"/>
+        <CursorPos X="15" Y="41"/>
+        <TopLine Value="12"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="192"/>
         <Loaded Value="True"/>
