@@ -48,7 +48,7 @@ end;
 function CMD_Clear(var Params :TParams) :Longint;
 begin
  DrawConsoleTitle;
- Exit(CMD_Done);
+ Result := CMD_Done;
 end;
 
 function CMD_Help(var Params :TParams) :Longint;
@@ -57,7 +57,7 @@ var
 begin
  for X := Low(HelpList) to High(HelpList) do
  begin
-  Write('  ', HelpList[X][0], ' -   ');
+  Write('  ', HelpList[X][0], ' - ');
   Writeln(HelpList[X][1], EndLineChar);
  end;
  Result := 0;
@@ -75,17 +75,7 @@ begin
   Writeln(Prefix_Out, MultiLanguageSupport.GetString('StatusPort') + ' = ', Connection.Port, EndLineChar);
  end;
  if LainClientData.Authorized = true then
- begin
   Writeln(Prefix_Out, MultiLanguageSupport.GetString('StatusUsername') + ' = ', ConsoleUser, EndLineChar);
-  Write(OutPut, Prefix_Out, MultiLanguageSupport.GetString('StatusPassword') + ' = ');
-  if LainClientData.Password = '' then
-   Writeln(MultiLanguageSupport.GetString('FieldEmpty'), EndLineChar) else
-   begin
-    for X := 1 to length(LainClientData.Password) do
-     Write('*');
-    Writeln(EndLineChar);
-   end;
- end;
  Result := CMD_Done;
 end;
 

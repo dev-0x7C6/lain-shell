@@ -86,7 +86,6 @@ begin
  Connection := TTcpIpCustomConnection.Create;
  Connection.SetConnection(AConnection);
  ControlSum := $F8D6;
- Writeln(ControlSum);
  if Connection.Send(ControlSum, SizeOf(ControlSum)) = SizeOf(ControlSum) then
  repeat
   ControlSum := $0;

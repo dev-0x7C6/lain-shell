@@ -25,6 +25,9 @@ interface
 uses
   Classes, SysUtils, NetUtils, Main, KeyBoard;
 
+Const
+ DefaultServerPort = 9896;
+  
 {$ifdef unix}
  type
   TUnixRCConnectThread = Class(TThread)
@@ -108,13 +111,12 @@ end;
 
 function CMD_Connect(var Params :TParams) :Longint;
 var
- X, Offset :Longint;
+ X :Longint;
  Key :TKeyEvent;
 begin
  if Connection.Connected = True then
  begin
   Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgAlreadyConnected'), EndLineChar);
-  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgDisconnectConnection'), EndLineChar);
   Exit(CMD_Fail);
  end;
  
@@ -125,28 +127,23 @@ begin
  end;
 
  LainClientData.Authorized := False;
- Offset := 0;
- for X := 1 to length(Params[1]) do if Params[1][X] = ':' then Offset := X;
- if Offset <> 0 then
- begin
-  LainClientData.Hostname := Copy(Params[1], 1, Offset - 1);
-  LainClientData.Port := Copy(Params[1], Offset + 1, Length(Params[1]) - Offset);
- end else
- begin
-  LainClientData.Hostname := Params[1];
-  LainClientData.Port := '9896';
- end;
+ 
+ LainClientData.Hostname := ExtractHostFromHostName(Params[1]);
+ LainClientData.Port     := IntToStr(ExtractPortFromHostName(Params[1]));
+ if LainClientData.Port = '-1' then
+  LainClientData.Port := IntToStr(DefaultServerPort);
+  
  Connection.Hostname := GetIpByHost(PChar(AnsiString(LainClientData.Hostname)));
-
+ Connection.Port     := StrToIntDef(LainClientData.Port, 9896);
+  
  if Connection.Hostname = '' then
  begin
   Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgCantFindHostname'), EndLineChar);
   Exit(CMD_Fail);
  end;
 
- Connection.Port := StrToIntDef(LainClientData.Port, 9896);
+
  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgCancelConnect'), EndLineChar);
- Writeln(Connection.Hostname, ':', Connection.Port);
  ThreadEvent := RTLEventCreate;
  ThreadFree := False;
  
@@ -167,12 +164,12 @@ begin
    Key := TranslateKeyEvent(Key);
    if GetKeyEventChar(Key) = kbdReturn then
    begin
-    EnterCriticalSection(CriticalSection);
+   EnterCriticalSection(CriticalSection);
     Write(Prefix_Out, MultiLanguageSupport.GetString('MsgCloseSocket') + ' ');
     if Main.Connection.Disconnect then
      Writeln(MultiLanguageSupport.GetString('FieldDone') + EndLineChar) else
      Writeln(MultiLanguageSupport.GetString('FieldFail') + EndLineChar);
-    LeaveCriticalSection(CriticalSection);
+   LeaveCriticalSection(CriticalSection);
     RTLEventWaitFor(ThreadEvent);
     Break;
    end;

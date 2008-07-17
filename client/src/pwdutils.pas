@@ -33,16 +33,16 @@ const
  Error_EmptyPassword  = 01;
  
  function SetPasswd(var Passwd :AnsiString; Error :Byte) :Boolean;
- function GetPasswd(var Passwd :AnsiString; Error :Byte) :Boolean;
+ function GetPasswd(var Passwd :AnsiString; Msg :AnsiString; Error :Byte) :Boolean;
  function CapturePassword(var Passwd :AnsiString) :Byte;
   
 implementation
 
-function GetPasswd(var Passwd :AnsiString; Error :Byte) :Boolean;
+function GetPasswd(var Passwd :AnsiString; Msg :AnsiString; Error :Byte) :Boolean;
 var
  Password :AnsiString;
 begin
- Write('Password: ');
+ Write(Msg);
  CapturePassword(Password);
 end;
 

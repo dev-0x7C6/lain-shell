@@ -23,7 +23,8 @@ unit NetUtils;
 interface
 
 uses
-  Classes, SysUtils, Sockets;
+{$ifdef unix} Unix, libC, {$endif}{$ifdef windows} WinSock, {$endif} Classes,
+ SysUtils, Sockets;
 
 const
  INVALID_SOCKET = -1;
@@ -110,14 +111,11 @@ type
   Addr :TInetSockAddr;
   Sock :Longint;
  protected
-
-  
   function GetLastError :Longint;
   procedure SetLastError(Value :Longint);
  public
   constructor Create;
   destructor Destroy; override;
-  
   property IsWorking :Boolean read FIsWorking write FIsWorking;
   property MaxConnections :Longint read FMaxConnections write FMaxConnections;
   property Port :Word read FPort write FPort;
@@ -125,7 +123,6 @@ type
   property OnError :TSocketEvent read FOnError write FOnError;
   property OnStartServer :TSocketEvent read FOnStartServer write FOnStartServer;
   property OnStopServer :TSocketEvent read FOnStopServer write FOnStopServer;
-
   procedure Start;
   procedure Shutdown;
   procedure CloseSocket;
@@ -133,9 +130,11 @@ type
  
  function GetIpByHost(host : PChar) : WideString;
 
-implementation
 
-uses {$ifdef unix} Unix, libC {$endif}{$ifdef windows} WinSock {$endif};
+ function ExtractHostFromHostName(const HostName :AnsiString) :AnsiString;
+ function ExtractPortFromHostName(const HostName :AnsiString) :Longint;
+ 
+implementation
 
  function GetIpByHost(Host : PChar) : WideString;
  var
@@ -152,6 +151,43 @@ uses {$ifdef unix} Unix, libC {$endif}{$ifdef windows} WinSock {$endif};
     GetIpByHost += IntToStr(Byte(p[i])) + '.';
    delete(getipbyhost, length(getipbyhost), 1);
   end;
+ end;
+ 
+ 
+ function ExtPos(Value :Char; Src :AnsiString) :Longint;
+ var
+  X :Longint;
+ begin
+  if Length(Src) > 0 then
+  begin
+   for X := 1 to Length(Src) do
+    if Src[X] = Value then
+    begin
+     Result := X;
+     Break;
+    end;
+  end else
+   Result := 0;
+ end;
+
+ function ExtractHostFromHostName(const HostName :AnsiString) :AnsiString;
+ var
+  Offset :Longint;
+ begin
+  Offset := ExtPos(':', HostName) - 1;
+  if Offset > -1 then
+   Result := Copy(HostName, 1, Offset) else
+   Result := Hostname;
+ end;
+ 
+ function ExtractPortFromHostName(const HostName :AnsiString) :Longint;
+ var
+  Offset :Longint;
+ begin
+  Offset := ExtPos(':', HostName) + 1;
+  if Offset > 1 then
+   Result := StrToIntDef(Copy(Hostname, Offset, Length(Hostname) - (Offset - 1)), -1) else
+   Result := -1;
  end;
  
  function Net_Connect(Sock: LongInt; const Addr; Addrlen: LongInt) :Boolean;
