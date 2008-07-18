@@ -47,8 +47,6 @@ HelpDisconnect: "Rozłącz wszystkie połączenia"
 HelpExecute: "Wywołaj zdalnie polecenie"
 HelpExit: "Zamknij aplikacje"
 HelpHelp: "Pokaż stronę pomocy"
-HelpLogin: "Logowanie"
-HelpLogout: "Wylogowywanie"
 HelpProcessList: "Pobierz list procesów z zdalnego hosta" ///// NEW
 HelpRConnect: "Połączenie odwrotne (oczekiwanie połączeń)"
 HelpSet: "Ustaw zmienną"

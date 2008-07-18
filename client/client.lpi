@@ -7,7 +7,7 @@
       <MainUnit Value="0"/>
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
-      <ActiveEditorIndexAtStart Value="5"/>
+      <ActiveEditorIndexAtStart Value="3"/>
     </General>
     <VersionInfo>
       <ProjectVersion Value=""/>
@@ -31,8 +31,8 @@
         <Filename Value="client.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uniclient"/>
-        <CursorPos X="1" Y="48"/>
-        <TopLine Value="1"/>
+        <CursorPos X="47" Y="92"/>
+        <TopLine Value="41"/>
         <UsageCount Value="229"/>
       </Unit0>
       <Unit1>
@@ -46,14 +46,14 @@
         <Filename Value="src/main.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Main"/>
-        <CursorPos X="33" Y="36"/>
-        <TopLine Value="148"/>
-        <EditorIndex Value="4"/>
+        <CursorPos X="1" Y="160"/>
+        <TopLine Value="145"/>
+        <EditorIndex Value="3"/>
         <UsageCount Value="229"/>
         <Bookmarks Count="3">
-          <Item0 X="2" Y="109" ID="0"/>
-          <Item1 X="2" Y="126" ID="2"/>
-          <Item2 X="1" Y="132" ID="3"/>
+          <Item0 X="1" Y="105" ID="0"/>
+          <Item1 X="2" Y="122" ID="2"/>
+          <Item2 X="1" Y="128" ID="3"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit2>
@@ -70,9 +70,7 @@
         <UnitName Value="Extensions"/>
         <CursorPos X="21" Y="266"/>
         <TopLine Value="244"/>
-        <EditorIndex Value="6"/>
         <UsageCount Value="220"/>
-        <Loaded Value="True"/>
       </Unit4>
       <Unit5>
         <Filename Value="src/cconnect.pas"/>
@@ -234,7 +232,7 @@
         <UnitName Value="Threads"/>
         <CursorPos X="22" Y="94"/>
         <TopLine Value="44"/>
-        <UsageCount Value="166"/>
+        <UsageCount Value="167"/>
       </Unit28>
       <Unit29>
         <Filename Value="C:/lazarus/fpc/2.2.1/source/rtl/win/wininc/redef.inc"/>
@@ -246,31 +244,29 @@
         <Filename Value="src/network.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Network"/>
-        <CursorPos X="38" Y="33"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="3"/>
-        <UsageCount Value="67"/>
+        <CursorPos X="50" Y="192"/>
+        <TopLine Value="92"/>
+        <EditorIndex Value="0"/>
+        <UsageCount Value="68"/>
         <Loaded Value="True"/>
       </Unit30>
       <Unit31>
         <Filename Value="src/engine.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Engine"/>
-        <CursorPos X="25" Y="115"/>
-        <TopLine Value="92"/>
-        <EditorIndex Value="5"/>
-        <UsageCount Value="66"/>
+        <CursorPos X="67" Y="58"/>
+        <TopLine Value="54"/>
+        <EditorIndex Value="1"/>
+        <UsageCount Value="67"/>
         <Loaded Value="True"/>
       </Unit31>
       <Unit32>
         <Filename Value="src/addons.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Addons"/>
-        <CursorPos X="40" Y="50"/>
-        <TopLine Value="33"/>
-        <EditorIndex Value="0"/>
-        <UsageCount Value="66"/>
-        <Loaded Value="True"/>
+        <CursorPos X="27" Y="27"/>
+        <TopLine Value="34"/>
+        <UsageCount Value="67"/>
       </Unit32>
       <Unit33>
         <Filename Value="src/execute.pas"/>
@@ -278,7 +274,7 @@
         <UnitName Value="Execute"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <UsageCount Value="61"/>
+        <UsageCount Value="62"/>
       </Unit33>
       <Unit34>
         <Filename Value="src/sysinfo.pas"/>
@@ -286,7 +282,7 @@
         <UnitName Value="Sysinfo"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <UsageCount Value="60"/>
+        <UsageCount Value="61"/>
       </Unit34>
       <Unit35>
         <Filename Value="usr/src/fpc/rtl/unix/crt.pp"/>
@@ -307,7 +303,7 @@
         <UnitName Value="Process"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <UsageCount Value="54"/>
+        <UsageCount Value="55"/>
       </Unit37>
       <Unit38>
         <Filename Value="usr/src/fpc/packages/hash/src/md5.pp"/>
@@ -322,9 +318,7 @@
         <UnitName Value="NetUtils"/>
         <CursorPos X="21" Y="196"/>
         <TopLine Value="169"/>
-        <EditorIndex Value="1"/>
-        <UsageCount Value="51"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="52"/>
       </Unit39>
       <Unit40>
         <Filename Value="src/diskmanager.pas"/>
@@ -332,15 +326,15 @@
         <UnitName Value="DiskManager"/>
         <CursorPos X="80" Y="31"/>
         <TopLine Value="1"/>
-        <UsageCount Value="41"/>
+        <UsageCount Value="42"/>
       </Unit40>
       <Unit41>
         <Filename Value="src/users.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Users"/>
-        <CursorPos X="87" Y="161"/>
-        <TopLine Value="149"/>
-        <UsageCount Value="41"/>
+        <CursorPos X="66" Y="165"/>
+        <TopLine Value="146"/>
+        <UsageCount Value="42"/>
       </Unit41>
       <Unit42>
         <Filename Value="src/pwdutils.pas"/>
@@ -348,60 +342,32 @@
         <UnitName Value="pwdutils"/>
         <CursorPos X="19" Y="52"/>
         <TopLine Value="48"/>
-        <EditorIndex Value="2"/>
-        <UsageCount Value="36"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="37"/>
       </Unit42>
       <Unit43>
         <Filename Value="src/nlang.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="nLang"/>
-        <CursorPos X="11" Y="90"/>
-        <TopLine Value="72"/>
-        <UsageCount Value="32"/>
+        <CursorPos X="30" Y="246"/>
+        <TopLine Value="224"/>
+        <EditorIndex Value="2"/>
+        <UsageCount Value="33"/>
+        <Loaded Value="True"/>
       </Unit43>
     </Units>
-    <JumpHistory Count="10" HistoryIndex="9">
+    <JumpHistory Count="3" HistoryIndex="2">
       <Position1>
-        <Filename Value="src/network.pas"/>
-        <Caret Line="141" Column="31" TopLine="118"/>
-      </Position1>
-      <Position2>
-        <Filename Value="src/network.pas"/>
-        <Caret Line="132" Column="58" TopLine="108"/>
-      </Position2>
-      <Position3>
-        <Filename Value="src/network.pas"/>
-        <Caret Line="133" Column="73" TopLine="109"/>
-      </Position3>
-      <Position4>
-        <Filename Value="src/network.pas"/>
-        <Caret Line="134" Column="31" TopLine="110"/>
-      </Position4>
-      <Position5>
-        <Filename Value="src/network.pas"/>
-        <Caret Line="101" Column="1" TopLine="78"/>
-      </Position5>
-      <Position6>
-        <Filename Value="src/main.pas"/>
-        <Caret Line="164" Column="34" TopLine="149"/>
-      </Position6>
-      <Position7>
         <Filename Value="src/engine.pas"/>
         <Caret Line="117" Column="23" TopLine="95"/>
-      </Position7>
-      <Position8>
+      </Position1>
+      <Position2>
         <Filename Value="src/engine.pas"/>
         <Caret Line="153" Column="4" TopLine="134"/>
-      </Position8>
-      <Position9>
-        <Filename Value="src/network.pas"/>
-        <Caret Line="264" Column="27" TopLine="240"/>
-      </Position9>
-      <Position10>
-        <Filename Value="src/network.pas"/>
-        <Caret Line="262" Column="42" TopLine="250"/>
-      </Position10>
+      </Position2>
+      <Position3>
+        <Filename Value="src/main.pas"/>
+        <Caret Line="87" Column="11" TopLine="58"/>
+      </Position3>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>

@@ -209,6 +209,14 @@ begin
   ConsoleHost := LainClientData.Hostname;
   Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgConnected') + ' ', ConsoleHost, EndLineChar);
   Result := CMD_Done;
+  if Length(Params) > 3 then
+  begin
+   if LowerCase(Params[2]) = '-l' then
+   begin
+    Writeln(EndLineChar);
+    Result := CMD_Login(Params, Params[3], '');
+   end;
+  end;
  end else
  begin
   Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgCantConnect'), EndLineChar);

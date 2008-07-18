@@ -47,8 +47,6 @@ HelpDisconnect: "Desconecta cualquier conexi¢n"
 HelpExecute: "Remote command execute" /// NEW
 HelpExit: "Al igual que Quit cierra la aplicaci¢n"
 HelpHelp: "Muestra la p gina de Ayuda"
-HelpLogin: "login"
-HelpLogout: "logout"
 HelpProcessList: "Show process list from remote host" ///// NEW
 HelpRConnect: "Modo de conexi¢n inversa (esperando por conexiones)"
 HelpSet: "Establece variables"

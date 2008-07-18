@@ -33,7 +33,7 @@ Type
  TCmdHint = Array[0..1] of WideString;
 
 var
- HelpList :Array[0..15] of TCmdHint =
+ HelpList :Array[0..13] of TCmdHint =
   (('About      ', ''),
    ('Connect    ', ''),
    ('Clear      ', ''),
@@ -41,8 +41,6 @@ var
    ('Execute    ', ''),
    ('Exit       ', ''),
    ('Help       ', ''),
-   ('Login      ', ''),
-   ('Logout     ', ''),
    ('ProcessList', ''),
    ('RConnect   ', ''),
    ('Set        ', ''),
@@ -241,15 +239,13 @@ begin
   HelpList[04][1] := MultiLanguageSupport.GetString('HelpExecute');
   HelpList[05][1] := MultiLanguageSupport.GetString('HelpExit');
   HelpList[06][1] := MultiLanguageSupport.GetString('HelpHelp');
-  HelpList[07][1] := MultiLanguageSupport.GetString('HelpLogin');
-  HelpList[08][1] := MultiLanguageSupport.GetString('HelpLogout');
-  HelpList[09][1] := MultiLanguageSupport.GetString('HelpProcessList');
-  HelpList[10][1] := MultiLanguageSupport.GetString('HelpRConnect');
-  HelpList[11][1] := MultiLanguageSupport.GetString('HelpSet');
-  HelpList[12][1] := MultiLanguageSupport.GetString('HelpStatus');
-  HelpList[13][1] := MultiLanguageSupport.GetString('HelpSysinfo');
-  HelpList[14][1] := MultiLanguageSupport.GetString('HelpQuit');
-  HelpList[15][1] := MultiLanguageSupport.GetString('HelpUsers');
+  HelpList[07][1] := MultiLanguageSupport.GetString('HelpProcessList');
+  HelpList[08][1] := MultiLanguageSupport.GetString('HelpRConnect');
+  HelpList[09][1] := MultiLanguageSupport.GetString('HelpSet');
+  HelpList[10][1] := MultiLanguageSupport.GetString('HelpStatus');
+  HelpList[11][1] := MultiLanguageSupport.GetString('HelpSysinfo');
+  HelpList[12][1] := MultiLanguageSupport.GetString('HelpQuit');
+  HelpList[13][1] := MultiLanguageSupport.GetString('HelpUsers');
   if ConsoleUser = '' then
    ConsoleUser := MultiLanguageSupport.GetString('FieldUsername');
   if ConsoleHost = '' then

@@ -29,21 +29,17 @@ uses
 
 
 Const
- ConsoleHost :WideString = '';
- ConsoleUser :WideString = '';
- EndLineChar = #13;
-
-Const
  ConsoleTitle :WideString = 'LainShell Client v0.00.70.0';
  Prefix_Out = ' >>> ';
  Prefix_In  = ' <<< ';
+ ConsoleHost :WideString = '';
+ ConsoleUser :WideString = '';
+ Variables :WideString = 'Lang';
+ EndLineChar = #13;
  
-Const
  CMD_Done = 0;
  CMD_Fail = 1;
- 
-var
- Variables :WideString = 'Lang';
+
 
 type
  TUserIdent = packed record
@@ -161,8 +157,6 @@ begin
  if (Cmd = 'disconnect') then Exit(CMD_Disconnect(Params));
  if (Cmd = 'execute') then Exit(CMD_Execute(Params));
  if (Cmd = 'help') then Exit(CMD_Help(Params));
- if (Cmd = 'login') then Exit(CMD_Login(Params));
- if (Cmd = 'logout') then Exit(CMD_Logout(Params));
  if (Cmd = 'processlist') then Exit(CMD_ProcessList(Params));
  if (Cmd = 'rconnect') then Exit(CMD_RCConnect(Params));
  if (Cmd = 'set') then Exit(CMDSetCase(Params));

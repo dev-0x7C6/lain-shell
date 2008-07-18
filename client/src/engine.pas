@@ -35,7 +35,7 @@ Const
  Lain_Disconnect = 0;
  Lain_Logoff = 1;
 
- function CMD_Login(var Params :TParams) :Longint;
+ function CMD_Login(var Params :TParams; Username, Password :AnsiString) :Longint;
  function CMD_Logout(var Params :TParams) :Longint;
  
  function OnAuthorize :Longint;
@@ -56,42 +56,31 @@ implementation
 
 uses Execute, Extensions, NLang, Process, SysInfo, Threads, Users;
 
-function CMD_Logout(var Params :TParams) :Longint;
-begin
- if ((LainClientData.Authorized = True) and (Connection.Connected = True)) then
- begin
-  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgLogoff'), EndLineChar);
-  if  LainClientSendQuery(Lain_Logoff) = SendQueryFail then
-  begin
-   Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgCantLogoff'), EndLineChar);
-   Connection.Disconnect;
-   LainClientData.Authorized := False;
-   Exit(CMD_Fail);
-  end else
-   LainClientData.Authorized := False;
-  LainClientWaitForQuery;
-  Result := CMD_Done;
- end else
-  Result := CMD_Done;
-end;
-
-function CMD_Login(var Params :TParams) :Longint;
+function CMD_Login(var Params :TParams; Username, Password :AnsiString) :Longint;
 var
  X :Longint;
 begin
- CMD_Logout(Params);
- 
- Write(Prefix_Out, MultiLanguageSupport.GetString('MsgSetUsername') + ' ');
- LainClientData.Username := Extensions.GetText;
- 
- if LainClientData.Username = '' then
-  Writeln(MultiLanguageSupport.GetString('FieldEmpty'), EndLineChar) else
-  Writeln(EndLineChar);
-  
- Write(Prefix_Out, MultiLanguageSupport.GetString('MsgSetPassword') + ' ');
- LainClientData.Password := GetPasswd('*');
- Writeln(EndLineChar);
 
+ if Username = '' then
+ begin
+  Write(Prefix_Out, MultiLanguageSupport.GetString('MsgSetUsername') + ' ');
+  LainClientData.Username := Extensions.GetText;
+
+  if LainClientData.Username = '' then
+   Writeln(MultiLanguageSupport.GetString('FieldEmpty'), EndLineChar) else
+   Writeln(EndLineChar);
+   
+ end else
+  LainClientData.Username := Username;
+
+ if Password = '' then
+ begin
+  Write(Prefix_Out, MultiLanguageSupport.GetString('MsgSetPassword') + ' ');
+  LainClientData.Password := GetPasswd('*');
+  Writeln(EndLineChar);
+ end else
+  LainClientData.Password := Password;
+  
  if (Length(LainClientData.Username) > SizeOf(UserIdent.Username)) then
  begin
   Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgLongUsername'), EndLineChar);
@@ -113,9 +102,28 @@ begin
 
  if Connection.Connected = True then
   Result := OnAuthorize;
-
- Exit;
 end;
+
+function CMD_Logout(var Params :TParams) :Longint;
+begin
+ if ((LainClientData.Authorized = True) and (Connection.Connected = True)) then
+ begin
+  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgLogoff'), EndLineChar);
+  if  LainClientSendQuery(Lain_Logoff) = SendQueryFail then
+  begin
+   Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgCantLogoff'), EndLineChar);
+   Connection.Disconnect;
+   LainClientData.Authorized := False;
+   Exit(CMD_Fail);
+  end else
+   LainClientData.Authorized := False;
+  LainClientWaitForQuery;
+  Result := CMD_Done;
+ end else
+  Result := CMD_Done;
+end;
+
+
 
 var
 {$ifdef unix}
