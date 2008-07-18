@@ -28,7 +28,7 @@ uses
  Windows,
 {$endif}
  Classes, SysUtils, CustApp, Main, Extensions, Threads, Network, Engine, Execute,
- Sysinfo, Process, NetUtils, Md5, DiskManager, Users, PwdUtils, NLang;
+ Sysinfo, Process, NetUtils, Md5, DiskManager, Users, PwdUtils, NLang, auth;
 
 type
  TLainShellClient = class(TCustomApplication)
@@ -61,16 +61,13 @@ begin
  
 
  if LainClientData.Authorized = True then
- begin
-  CMD_Logout(Main.Params);
- end;
+  AuthLExit;
+  
  LainClientDoneQueryEngine(1000);
  
  if Connection.Connected = True then
- begin
   CMD_Disconnect(Main.Params);
- end;
-
+ 
  Connection.Free;
  Writeln(EndLineChar);
  Terminate;

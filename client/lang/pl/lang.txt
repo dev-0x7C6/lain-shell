@@ -9,8 +9,6 @@ MsgCantLogoff: "Nie można ukończyć operacji wylogowywania, nastąpi rozłącz
 MsgCmdNotFound: "Polecenie '%s' jest nieznane"
 MsgSetUsername: "Podaj nazwę użytkownika:"
 MsgSetPassword: "Podaj hasło:"
-MsgLongUsername: "Nazwa użytkownika jest za długa"
-MsgLongPassword: "Hasło jest za długie"
 MsgCantAuthorize: "Nie można autoryzować połączenia"
 MsgAuthorized: "Połączenie zostało autoryzowane"
 MsgAlreadyConnected: "Jesteś już połączony"

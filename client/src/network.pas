@@ -60,7 +60,7 @@ var
 implementation
 
 uses
- {$ifdef windows} Windows, {$endif} Addons, Engine, Extensions, NLang, Sockets, Threads;
+ {$ifdef windows} Windows, {$endif} Addons, Engine, Extensions, NLang, Sockets, Threads, Auth;
 
 var
 {$ifdef unix}
@@ -214,7 +214,9 @@ begin
    if LowerCase(Params[2]) = '-l' then
    begin
     Writeln(EndLineChar);
-    Result := CMD_Login(Params, Params[3], '');
+    if AuthLogin(Params[3], 'root') = True then
+     Result := CMD_Done else
+     Result := CMD_Fail;
    end;
   end;
  end else
@@ -239,7 +241,7 @@ begin
   ConnectionClosedGracefullyErrorShow := False;
   if LainClientData.Authorized = True then
   begin
-   CMD_Logout(Params);
+   AuthLExit;
   end;
   Connection.Disconnect;
   LainClientData.Authorized := False;

@@ -9,8 +9,6 @@ MsgCantLogoff: "Nie mo¾na ukoäczy† operacji wylogowywania, nast¥pi rozˆ¥czenie..
 MsgCmdNotFound: "Polecenie '%s' jest nieznane"
 MsgSetUsername: "Podaj nazw© u¾ytkownika:"
 MsgSetPassword: "Podaj hasˆo:"
-MsgLongUsername: "Nazwa u¾ytkownika jest za dˆuga"
-MsgLongPassword: "Hasˆo jest za dˆugie"
 MsgCantAuthorize: "Nie mo¾na autoryzowa† poˆ¥czenia"
 MsgAuthorized: "Poˆ¥czenie zostaˆo autoryzowane"
 MsgAlreadyConnected: "Jeste˜ ju¾ poˆ¥czony"

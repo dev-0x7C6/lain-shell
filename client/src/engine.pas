@@ -26,7 +26,6 @@ uses Classes, SysUtils, Main, Md5;
 Var
  ConnectionClosedGracefullyErrorShow :Boolean = True;
 
-
 Const
  SendQueryDone = 0;
  SendQueryFail = 1;
@@ -34,12 +33,7 @@ Const
  Lain_Error = -1;
  Lain_Disconnect = 0;
  Lain_Logoff = 1;
-
- function CMD_Login(var Params :TParams; Username, Password :AnsiString) :Longint;
- function CMD_Logout(var Params :TParams) :Longint;
  
- function OnAuthorize :Longint;
-
  procedure LainClientInitQueryEngine;
  procedure LainClientResetQueryEngine;
  procedure LainClientDoneQueryEngine(TimeOut :Longint);
@@ -51,133 +45,32 @@ Const
  procedure LainClientEngineInit;
  procedure LainClientEngineDone;
 
+{$ifdef unix}
+ function UnixLainClientQueryLoopBind(P :Pointer) :Longint;
+{$endif}
+
+{$ifdef windows}
+ function WindowsLainClientQueryLoopBind(P :Pointer) :Longint; stdcall;
+{$endif}
 
 implementation
 
-uses Execute, Extensions, NLang, Process, SysInfo, Threads, Users;
+uses Execute, Extensions, NLang, Process, SysInfo, Threads, Users, auth;
 
-function CMD_Login(var Params :TParams; Username, Password :AnsiString) :Longint;
-var
- X :Longint;
-begin
-
- if Username = '' then
- begin
-  Write(Prefix_Out, MultiLanguageSupport.GetString('MsgSetUsername') + ' ');
-  LainClientData.Username := Extensions.GetText;
-
-  if LainClientData.Username = '' then
-   Writeln(MultiLanguageSupport.GetString('FieldEmpty'), EndLineChar) else
-   Writeln(EndLineChar);
-   
- end else
-  LainClientData.Username := Username;
-
- if Password = '' then
- begin
-  Write(Prefix_Out, MultiLanguageSupport.GetString('MsgSetPassword') + ' ');
-  LainClientData.Password := GetPasswd('*');
-  Writeln(EndLineChar);
- end else
-  LainClientData.Password := Password;
-  
- if (Length(LainClientData.Username) > SizeOf(UserIdent.Username)) then
- begin
-  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgLongUsername'), EndLineChar);
-  Exit(CMD_Fail);
- end;
-
- if (Length(LainClientData.Password) > SizeOf(UserIdent.Password)) then
- begin
-  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgLongPassword'), EndLineChar);
-  Exit(CMD_Fail);
- end;
-
- UserIdent.Username := MD5String(LainClientData.Username);
- UserIdent.Password := MD5String(LainClientData.Password);
-
- if LainClientData.Username = '' then
-  ConsoleUser := MultiLanguageSupport.GetString('FieldUsername') else
-  ConsoleUser := LainClientData.Username;
-
- if Connection.Connected = True then
-  Result := OnAuthorize;
-end;
-
-function CMD_Logout(var Params :TParams) :Longint;
-begin
- if ((LainClientData.Authorized = True) and (Connection.Connected = True)) then
- begin
-  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgLogoff'), EndLineChar);
-  if  LainClientSendQuery(Lain_Logoff) = SendQueryFail then
-  begin
-   Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgCantLogoff'), EndLineChar);
-   Connection.Disconnect;
-   LainClientData.Authorized := False;
-   Exit(CMD_Fail);
-  end else
-   LainClientData.Authorized := False;
-  LainClientWaitForQuery;
-  Result := CMD_Done;
- end else
-  Result := CMD_Done;
-end;
-
-
-
-var
-{$ifdef unix}
-UnixThread :TUnixThread;
-{$endif}
-{$ifdef windows}
-WindowsThread :TWindowsThread;
-{$endif}
 
 {$ifdef unix}
-function UnixLainClientQueryLoopBind(P :Pointer) :Longint;
-begin
- LainClientQueryLoop;
-end;
+ function UnixLainClientQueryLoopBind(P :Pointer) :Longint;
+ begin
+  LainClientQueryLoop;
+ end;
 {$endif}
 
 {$ifdef windows}
-function WindowsLainClientQueryLoopBind(P :Pointer) :Longint; stdcall;
-begin
- LainClientQueryLoop;
-end;
-{$endif}
-
-function OnAuthorize :Longint;
-var
- ControlSum :Longword;
- Verfication :Byte;
-begin
- LainClientResetQueryEngine;
- if Connection.Send(UserIdent, SizeOf(UserIdent)) = SizeOf(UserIdent) then
- if Connection.Recv(Verfication, SizeOf(Verfication)) = SizeOf(Verfication) then
- if Verfication = Byte(True) then
+ function WindowsLainClientQueryLoopBind(P :Pointer) :Longint; stdcall;
  begin
-  LainClientData.Authorized := True;
-  Writeln(OutPut, Prefix_Out, MultiLanguageSupport.GetString('MsgAuthorized'), #13);
- {$ifdef unix}
-  UnixThread := TUnixThread.Create(@UnixLainClientQueryLoopBind, nil);
-  UnixThread.CreateThread;
-  UnixThread.Free;
- {$endif}
- {$ifdef windows}
-  WindowsThread := TWindowsThread.Create(@WindowsLainClientQueryLoopBind, nil);
-  WindowsThread.CreateThread;
-  WindowsThread.Free;
- {$endif}
-  Exit(CMD_Done);
- end else
- begin
-  LainClientData.Authorized := False;
-  Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgCantAuthorize'), #13);
-  Exit(CMD_Fail);
+  LainClientQueryLoop;
  end;
- Result := CMD_Fail;
-end;
+{$endif}
 
 var
  QueryEvent :PRTLEvent;

@@ -48,15 +48,15 @@ type
  end;
 
 type
- TParams = Array of WideString;
+ TParams = Array of AnsiString;
  
 type
  TLainClientData = packed record
   Authorized :Boolean;
-  Hostname :WideString;
-  Port :WideString;
-  Username :WideString;
-  Password :WideString;
+  Hostname :AnsiString;
+  Port :AnsiString;
+  Username :AnsiString;
+  Password :AnsiString;
  end;
  
  function CMDCase(var Params :TParams) :Longint;
