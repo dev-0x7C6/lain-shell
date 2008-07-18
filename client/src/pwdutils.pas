@@ -39,11 +39,9 @@ const
 implementation
 
 function GetPasswd(var Passwd :AnsiString; Msg :AnsiString; Error :Byte) :Boolean;
-var
- Password :AnsiString;
 begin
  Write(Msg);
- CapturePassword(Password);
+ Error := CapturePassword(Passwd);
 end;
 
 function SetPasswd(var Passwd :AnsiString; Error :Byte) :Boolean;

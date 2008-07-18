@@ -60,7 +60,8 @@ var
 implementation
 
 uses
- {$ifdef windows} Windows, {$endif} Addons, Engine, Extensions, NLang, Sockets, Threads, Auth;
+ {$ifdef windows} Windows, {$endif} Addons, Engine, Extensions, NLang, Sockets,
+  Threads, Auth, PwdUtils;
 
 var
 {$ifdef unix}
@@ -129,8 +130,9 @@ end;
 
 function CMD_Connect(var Params :TParams) :Longint;
 var
- X :Longint;
+ X, Error :Longint;
  Key :TKeyEvent;
+ Password :AnsiString;
 begin
  if Connection.Connected = True then
  begin
@@ -138,7 +140,13 @@ begin
   Exit(CMD_Fail);
  end;
  
- if Length(Params) < 2 then
+ if Length(Params) < 4 then
+ begin
+  Writeln(MultiLanguageSupport.GetString('UsingConnect'), EndLineChar);
+  Exit(CMD_Fail);
+ end;
+ 
+ if LowerCase(Params[2]) <> '-l' then
  begin
   Writeln(MultiLanguageSupport.GetString('UsingConnect'), EndLineChar);
   Exit(CMD_Fail);
@@ -151,7 +159,7 @@ begin
  if LainClientData.Port = '-1' then
   LainClientData.Port := IntToStr(DefaultServerPort);
   
- Connection.Hostname := GetIpByHost(PChar(AnsiString(LainClientData.Hostname)));
+ Connection.Hostname := GetIpByHost(PChar(LainClientData.Hostname));
  Connection.Port     := StrToIntDef(LainClientData.Port, 9896);
   
  if Connection.Hostname = '' then
@@ -208,17 +216,11 @@ begin
  begin
   ConsoleHost := LainClientData.Hostname;
   Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgConnected') + ' ', ConsoleHost, EndLineChar);
-  Result := CMD_Done;
-  if Length(Params) > 3 then
-  begin
-   if LowerCase(Params[2]) = '-l' then
-   begin
-    Writeln(EndLineChar);
-    if AuthLogin(Params[3], 'root') = True then
-     Result := CMD_Done else
-     Result := CMD_Fail;
-   end;
-  end;
+  Writeln(EndLineChar);
+  PwdUtils.GetPasswd(Password, Prefix_In + MultiLanguageSupport.GetString('MsgSetPassword') + ' ', Error);
+  if AuthLogin(Params[3], Password) = True then
+   Result := CMD_Done else
+   Result := CMD_Fail;
  end else
  begin
   Writeln(Prefix_Out, MultiLanguageSupport.GetString('MsgCantConnect'), EndLineChar);
